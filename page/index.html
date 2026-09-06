@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="author" content="Ryan Gabriel da Silva Sales">
     <title>Ryan's Portfolio</title>
     <link rel="stylesheet" href="style.css">
@@ -16,19 +16,22 @@
 
 <body>
     <div id="home"></div>
-    <br><br></r>
-    <header class="header"> 
-        <a href="#home" class="logo"><span>RGS</span> </a>
-        <i class="bx bx-menu" id="menu-icon"></i>
+    <br><br>
+    <header class="header">
+        <a href="#home" class="logo"><span>RGS</span></a>
+
+        <div id="menu-icon"><i class='bx bx-menu'></i></div>
 
         <nav class="navbar">
             <a href="#home">Início</a>
             <a href="#about">Sobre</a>
             <a href="#services">Skills</a>
-
+            <a href="#projects" class="mobile-only">Projetos</a>
+            <a href="#contact" class="mobile-only">Entre em Contato</a>
         </nav>
 
-        <a href="#contact" class="gradient-btn">Entre em Contato</a>
+        <!-- Botão visível apenas em telas grandes (Desktop) -->
+        <a href="#contact" class="gradient-btn desktop-only">Entre em Contato</a>
     </header>
     
     <main>
@@ -70,7 +73,7 @@
 
             <div class="about-content">
                 <h2 class="heading" >Sobre <span>Mim</span></h2>
-                <p> Sou estudante de <span>Engenharia de Computação</span> pela UFAL - Universidade Federal de Alagoas e estou em trajetória para me tornar um <span>Desenvolvedor Full Stack</span>. Minha base técnica é sólida em <span>C</span> , linguagem que me proporcionou um entendimento profundo sobre lógica de programação, estruturas de dados e eficiência computacional. Atualmente, atuo no desenvolvimento front-end com <span>HTML, CSS, Javascript e React</span>, criando interfaces intuitivas, responsivas e centradas na experiência do usuário. Paralelamente, estou ampliando minha expertise para o back-end e análise de dados com <span>Python</span> e <span>Node.js</span>. Mais do que dominar linguagens, meu objetivo é utilizar a tecnologia como uma ferramenta para <span>inovação e solução de problemas reais</span>. Acredito no poder da programação para automatizar tarefas cotidianas, aumentando a eficiência e reduzindo erros operacionais além de desenvolver softwares/aplicações web que simplifiquem processos complexos, conectem pessoas e gerem valor tangível para negócios e para a sociedade. Meu foco atual está no desenvolvimento de sites e softwares, com a ambição futura de expandir meus conhecimentos para o ecossistema mobile, integrando todas as camadas da tecnologia para criar soluções completas e inovadoras para o dia a dia. </p>
+                <p> Sou estudante de <span>Engenharia de Computação</span> pela UFAL - Universidade Federal de Alagoas e <span>Sistemas da Informação</span> em trajetória para me tornar um <span>Desenvolvedor Full Stack</span>. Minha base técnica é sólida em <span>C</span> , linguagem que me proporcionou um entendimento profundo sobre lógica de programação, estruturas de dados e eficiência computacional. Atualmente, atuo no desenvolvimento front-end com <span>HTML</span> , <span>CSS</span> , <span>Javascript</span> e <span>React</span> , criando interfaces intuitivas, responsivas e centradas na experiência do usuário. Paralelamente, estou ampliando minha expertise para o back-end e análise de dados com <span>Python</span> e <span>Node.js</span>. Mais do que dominar linguagens, meu objetivo é utilizar a tecnologia como uma ferramenta para <span>inovação e solução de problemas reais</span>. Acredito no poder da programação para automatizar tarefas cotidianas, aumentando a eficiência e reduzindo erros operacionais além de desenvolver softwares/aplicações web que simplifiquem processos complexos, conectem pessoas e gerem valor tangível para negócios e para a sociedade. Meu foco atual está no desenvolvimento de sites e softwares, com a ambição futura de expandir meus conhecimentos para o ecossistema mobile, integrando todas as camadas da tecnologia para criar soluções completas e inovadoras para o dia a dia. </p>
                 <a href="#projects" class="btn">Conheça meus Projetos</a>
             </div>
         </section>
@@ -123,23 +126,23 @@
                 <div class="project-card">
                     <img src="images/Ryan1.jpg" alt="">
                     <h3><span>Portfolio</span></h3>
-                    <p>Deploying...</p>
+                    <p>Aqui você verá um pouco sobre mim, meus projetos e minhas skills</p>
                     <a href="index.html" target="_blank" class="btn">Ir para o Site</a>
-                    <a href="github.com" target="_blank" class="btn">Ver Repositório</a>
+                    <a href="https://github.com/ryangs22/My-Portfolio" target="_blank" class="btn">Ver Repositório</a>
                 </div>
 
                 <div class="project-card">
                     <img src="images/Ryan1.jpg" alt="">
                     <h3><span>Criptografia RSA</span></h3>
                     <p>Projeto de Criptografia RSA com inverso modular (Encriptar e Desencriptar mensagens)</p>
-                    <a href="https://criptografia-rsa-xi.vercel.app/" target="_blank" class="btn">Ir para o Site</a>
+                    <a href="https://nexkeyrsa.vercel.app/" target="_blank" class="btn">Ir para o Site</a>
                     <a href="https://github.com/ryangs22/Criptografia-RSA" target="_blank" class="btn">Ver Repositório</a>
                 </div>
 
                 <div class="project-card">
                     <img src="images/Ryan1.jpg" alt="">
-                    <h3><span>Código de Huffman  </span></h3>
-                    <p> Compressão e Descompressão de arquivos válido para formatos PNG, TXT, MP3, MP4, Wav, Bin, etc.</p>
+                    <h3><span>Código de Huffman</span></h3>
+                    <p> Compressão e Descompressão de arquivos. Válido para formatos PNG, TXT, MP3, MP4, Wav, Bin, etc.</p>
                     <a href="https://github.com/ryangs22/Estrutura-de-Dados/tree/main/Huffman-Codification" target="_blank" class="btn">Ver Repositório</a>
                 </div>
 
@@ -147,7 +150,7 @@
                     <img src="images/Ryan1.jpg" alt="">
                     <h3><span>Sat-Solver</span></h3>
                     <p>Algoritmo de satisfativilidade booleana baseado em lógica computacional</p>
-                    <a href="github.com" target="_blank" class="btn">Ver Repositório</a>
+                    <a href="https://github.com/ryangs22/Estrutura-de-Dados/tree/main/Sat-Solver" target="_blank" class="btn">Ver Repositório</a>
                 </div>
 
                 <div class="project-card">
@@ -229,7 +232,7 @@
                 </li>
             </ul>
 
-            <p class="copyright">© Ryan Gabriel / All Rights Reserved </p>
+            <p class="copyright">© Ryan Gabriel 2026 - All Rights Reserved </p>
     </footer>
     
     <script src="script.js"></script>
