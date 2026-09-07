@@ -165,8 +165,11 @@ span {
     color: var(--text-color);
     margin-left: 3.5rem;
     font-weight: 500;
-    transition: 0.3s ease-in-out;
     border-bottom: 3px solid transparent;
+    transition: transform 0.3s ease-in-out,
+                opacity 0.3s ease-in-out,
+                color 0.15s linear,
+                border-color 0.15s linear;
 }
 
 .navbar a:hover {
@@ -558,7 +561,10 @@ section {
         color: var(--text-color);
         font-weight: 500;
         border-bottom: 3px solid transparent;
-        transition: 0.3s ease-in-out;
+        transition: transform 0.3s ease-in-out,
+                opacity 0.3s ease-in-out,
+                color 0.15s linear,
+                border-color 0.15s linear;
     }
 
     .navbar a:hover {
