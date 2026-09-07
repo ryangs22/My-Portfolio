@@ -16,7 +16,8 @@ function openMenu() {
     
     const links = navbar.querySelectorAll('a');
     links.forEach((link, index) => {
-        link.style.transitionDelay = `${0.1 * index}s`;
+        const delay = 0.1 * index;
+        link.style.transitionDelay = `${delay}s, ${delay}s, 0s, 0s`;
         link.style.transform = 'translateY(-20px)';
         link.style.opacity = '0';
     });
@@ -24,7 +25,8 @@ function openMenu() {
     
     setTimeout(() => {
         links.forEach((link, index) => {
-            link.style.transitionDelay = `${0.1 * index}s`;
+            const delay = 0.1 * index;
+            link.style.transitionDelay = `${delay}s, ${delay}s, 0s, 0s`;
             link.style.transform = 'translateY(0)';
             link.style.opacity = '1';
         });
@@ -40,7 +42,8 @@ function closeMenu() {
         
     const links = navbar.querySelectorAll('a');
     links.forEach((link, index) => {
-        link.style.transitionDelay = `${0.1 * (links.length -index - 1)}s`;
+        const delay = 0.1 * (links.length - index - 1);
+        link.style.transitionDelay = `${delay}s, ${delay}s, 0s, 0s`;
         link.style.transform = 'translateY(-20px)';
         link.style.opacity = '0';
     });
@@ -48,8 +51,8 @@ function closeMenu() {
         navbar.style.maxHeight = '0';
         navbar.style.opacity = '0';
             
-    setTimeout(() => {
-        navbar.classList.remove('active');
+        setTimeout(() => {
+            navbar.classList.remove('active');
             menuIcon.classList.remove('active');
             navbar.removeAttribute('style');
             links.forEach(link => {
@@ -59,7 +62,7 @@ function closeMenu() {
             document.body.style.overflow = '';
             isAnimating = false;
         }, 500);
-    }, 300);
+    }, 640);
 }
 
 document.addEventListener('click', (e) => {
