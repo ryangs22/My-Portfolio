@@ -1,4 +1,4 @@
-# 🐉 Ryan Gabriel | Personal Portfolio
+# 🐉 Ryan Gabriel | Portfolio Pessoal
 
 Seja bem-vindo(a) ao meu portfólio pessoal e interativo, desenvolvido para apresentar minha história, minhas habilidades e trajetória acadêmica, meus projetos que desenvolvi e meus canais de contato. O projeto foi construído do zero utilizando ***HTML5, CSS3 e JavaScript Puro***, focado em performance, design responsivo, animações fluídas e acessibilidade.
 
