@@ -131,7 +131,7 @@ function galleryHTML(project) {
       "</div>" +
       '<div class="profile-monitor-screen">' +
         '<div class="profile-gallery-slide">' +
-          '<img class="profile-gallery-img" src="' + project.photos[galleryIndex] + '" alt="' + project.title + '">' +
+          '<img class="profile-gallery-img" src="' + project.photos[galleryIndex] + '" alt="' + project.title + '" decoding="async" fetchpriority="high">' +
         "</div>" +
         arrows +
       "</div>" +
@@ -250,13 +250,19 @@ function initDrag() {
   });
 };
 
-/* ---------- Pré-carregamento das imagens ---------- */
+/* ---------- Pré-carregamento das imagens na memória RAM ---------- */
+var cacheImages = [];
+
 function preloadAllImages() {
   Object.keys(IMG).forEach(function (key) {
     var imgPath = IMG[key];
     if (imgPath) {
       var img = new Image();
       img.src = imgPath;
+      if (img.decode) {
+        img.decode().catch(function() {});
+      }
+      cacheImages.push(img);
     }
   });
 }
