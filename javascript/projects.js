@@ -250,4 +250,16 @@ function initDrag() {
   });
 };
 
+/* ---------- Pré-carregamento das imagens ---------- */
+function preloadAllImages() {
+  Object.keys(IMG).forEach(function (key) {
+    var imgPath = IMG[key];
+    if (imgPath) {
+      var img = new Image();
+      img.src = imgPath;
+    }
+  });
+}
+
+preloadAllImages();
 renderProject();
