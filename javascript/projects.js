@@ -47,7 +47,7 @@ var PROJECTS = [
     ],
   },
   {
-    title: "Criptografia RSA",
+    title: "NEXKEY",
     text: "Projeto de Criptografia RSA com inverso modular e números primos (Encriptar e Desencriptar mensagens). Projeto da matéria de Matemática Discreta (UFAL)",
     tags: ["HTML", "CSS", "JavaScript", "C (GMP)"],
     kanji: "RSA暗号",
