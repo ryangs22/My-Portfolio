@@ -47,7 +47,7 @@ var PROJECTS = [
     ],
   },
   {
-    title: "NEXKEY",
+    title: "Criptografia RSA",
     text: "Projeto de Criptografia RSA com inverso modular e números primos (Encriptar e Desencriptar mensagens). Projeto da matéria de Matemática Discreta (UFAL)",
     tags: ["HTML", "CSS", "JavaScript", "C (GMP)"],
     kanji: "RSA暗号",
@@ -74,20 +74,28 @@ var PROJECTS = [
     links: [{ label: "Ver Repositório", href: "https://github.com/ryangs22/Estrutura-de-Dados/tree/main/Sat-Solver" }],
   },
   {
-    title: "Novo Projeto em Breve",
+    title: "Site 6",
     text: "",
     tags: ["Em Breve"],
     kanji: "新プロジェクト近日公開",
     photos: [IMG.embreve],
-    links: [],
+    links: [{ label: "Site Em Desenvolvimento", href: "#projects"}],
   },
   {
-    title: "Novo Projeto em Breve",
+    title: "Site 7",
     text: "",
     tags: ["Em Breve"],
     kanji: "新プロジェクト近日公開",
     photos: [IMG.embreve],
-    links: [],
+    links: [{ label: "Site Em Desenvolvimento", href: "#projects"}],
+  },
+  {
+    title: "Site 8",
+    text: "",
+    tags: ["Em Breve"],
+    kanji: "新プロジェクト近日公開",
+    photos: [IMG.embreve],
+    links: [{ label: "Site Em Desenvolvimento", href: "#projects"}],
   },
 ];
 
@@ -305,14 +313,6 @@ function initMaintenanceModal() {
   }
 
   if (actionBtn) actionBtn.addEventListener("click", closeModal);
-
-  overlay.addEventListener("click", function (e) {
-    if (e.target === overlay) closeModal();
-  });
-
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && overlay.classList.contains("open")) closeModal();
-  });
 
   showcase.addEventListener("click", function (e) {
     var target = e.target.closest("a");
