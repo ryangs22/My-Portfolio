@@ -1291,3 +1291,194 @@ textarea.profile-input {
     font-size: clamp(30px, 4.5vw, 52px);
   }
 }
+
+/* ---------- Modal de Manutenção / Aviso ---------- */
+.profile-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(5, 10, 15, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease;
+  padding: 20px;
+  font-family: "MuseoModerno", sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.profile-modal-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.profile-modal-card {
+  position: relative;
+  background: rgba(11, 16, 22, 0.95);
+  border: 1px solid rgba(43, 255, 227, 0.3);
+  box-shadow: 0 0 35px rgba(0, 157, 134, 0.25), 0 20px 50px rgba(0, 0, 0, 0.85);
+  border-radius: 20px;
+  padding: 36px 30px;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  transform: scale(0.8) translateY(30px);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.profile-modal-card:hover {
+  border-color: rgba(43, 255, 227, 0.6);
+  box-shadow: 0 0 45px rgba(43, 255, 227, 0.35), 0 20px 50px rgba(0, 0, 0, 0.9);
+}
+
+.profile-modal-overlay.open .profile-modal-card {
+  transform: scale(1) translateY(0);
+}
+
+.profile-modal-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: rgba(1, 206, 175, 0.1);
+  border: 1px solid rgba(43, 255, 227, 0.4);
+  box-shadow: 0 0 20px rgba(43, 255, 227, 0.2);
+  margin-bottom: 20px;
+  animation: modalPulse 2.5s infinite ease-in-out;
+  transition: transform 0.3s ease;
+}
+
+.profile-modal-card:hover .profile-modal-icon {
+  transform: scale(1.08) rotate(-5deg);
+}
+
+@keyframes modalPulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(43, 255, 227, 0.2);
+    border-color: rgba(43, 255, 227, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(43, 255, 227, 0.5);
+    border-color: rgba(43, 255, 227, 0.7);
+  }
+}
+
+.profile-modal-title-grad {
+  font-family: inherit;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+  letter-spacing: 0.5px;
+  background: var(--profile-gradient, linear-gradient(135deg, #ffffff 0%, #2bffe3 50%, #009d86 100%));
+  background-size: 250% 250%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: profile-gradient-move 6s ease infinite;
+  display: inline-block;
+}
+
+.profile-modal-highlight {
+  font-family: inherit;
+  font-weight: 800;
+  text-transform: uppercase;
+  background: var(--profile-gradient, linear-gradient(90deg, #2bffe3, #01ceaf));
+  background-size: 250% 250%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: profile-gradient-move 6s ease infinite;
+  display: inline-block;
+}
+
+.profile-modal-card p {
+  font-family: inherit;
+  color: #e2e8f0;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  margin-bottom: 26px;
+}
+
+.profile-modal-btn-main {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 48px;
+  background: var(--profile-cyan, #01ceaf) !important;
+  color: #05060f !important;
+  box-shadow: 0 0 25px rgba(0, 210, 180, 0.55);
+  border-radius: 30px;
+  font-size: 16px;
+  font-family: "MuseoModerno", sans-serif;
+  border: 2px solid transparent;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.profile-modal-btn-main::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -80%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transform: skewX(-20deg);
+  animation: profile-shine 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.profile-modal-btn-main .btn-text {
+  display: inline-block;
+  transform: scale(1);
+  opacity: 1;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+}
+
+.profile-modal-btn-main .btn-icon {
+  position: absolute;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0;
+  transform: scale(0) rotate(-180deg);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+}
+
+.profile-modal-btn-main:hover {
+  transform: scale(1.03);
+  background: var(--profile-cyan-bright, #2bffe3) !important;
+  box-shadow: 0 0 25px rgba(0, 210, 180, 0.8), 0 0 50px rgba(0, 242, 209, 0.5);
+}
+
+.profile-modal-btn-main:hover .btn-text {
+  opacity: 0;
+  transform: scale(0);
+}
+
+.profile-modal-btn-main:hover .btn-icon {
+  opacity: 1;
+  transform: scale(1) rotate(0deg); 
+}
+
+.profile-modal-btn-main:active {
+  transform: scale(0.98);
+}
