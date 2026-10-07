@@ -267,5 +267,67 @@ function preloadAllImages() {
   });
 }
 
+/* ---------- Modal Dinâmico de Avisos ---------- */
+function initMaintenanceModal() {
+  var overlay = document.getElementById("profile-modal-overlay");
+  var actionBtn = document.getElementById("profile-modal-btn");
+  var titleEl = document.getElementById("profile-modal-title");
+  var messageEl = document.getElementById("profile-modal-message");
+
+  if (!overlay) return;
+
+  function openModal(projectName, statusType) {
+    var isDev = statusType.toLowerCase().indexOf("desenvolvimento") !== -1;
+
+    if (titleEl) {
+      titleEl.textContent = isDev ? "Ops! Projeto Em Desenvolvimento" : "Ops! Site Em Manutenção";
+    }
+
+    if (messageEl) {
+      var highlightName = '<strong class="profile-modal-highlight">' + projectName + '</strong>';
+      
+      if (isDev) {
+        messageEl.innerHTML = "O projeto " + highlightName + " ainda está sendo construído e estará disponível em breve!";
+      } else {
+        messageEl.innerHTML = "O projeto " + highlightName + " está em manutenção no momento e não poderá ser acessado agora. Tente novamente mais tarde ou acesse o repositório!";
+      }
+    }
+
+    overlay.classList.add("open");
+    overlay.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal() {
+    overlay.classList.remove("open");
+    overlay.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+
+  if (actionBtn) actionBtn.addEventListener("click", closeModal);
+
+  overlay.addEventListener("click", function (e) {
+    if (e.target === overlay) closeModal();
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && overlay.classList.contains("open")) closeModal();
+  });
+
+  showcase.addEventListener("click", function (e) {
+    var target = e.target.closest("a");
+    if (!target) return;
+
+    var label = target.textContent.trim();
+    if (label.indexOf("Manutenção") !== -1 || label.indexOf("Desenvolvimento") !== -1) {
+      e.preventDefault();
+      var activeProject = PROJECTS[current];
+      openModal(activeProject.title, label);
+    }
+  });
+}
+
+initMaintenanceModal();
+
 preloadAllImages();
 renderProject();
