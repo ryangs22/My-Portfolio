@@ -20,7 +20,8 @@ var IMG = {
   satsolver1: "public/images/satsolver/SatSolver1.png",
   satsolver2: "public/images/satsolver/SatSolver2.png",
   satsolver3: "public/images/satsolver/SatSolver3.png",
-  embreve: "public/ProjetoEmBreveCYAN.jpg"
+  embreve: "public/ProjetoEmBreveCYAN.jpg",
+  nodeJS: "public/nodejs.png",
 };
 
 var PROJECTS = [
@@ -47,7 +48,7 @@ var PROJECTS = [
     ],
   },
   {
-    title: "Criptografia RSA",
+    title: "NEXKEY",
     text: "Projeto de Criptografia RSA com inverso modular e números primos (Encriptar e Desencriptar mensagens). Projeto da matéria de Matemática Discreta (UFAL)",
     tags: ["HTML", "CSS", "JavaScript", "C (GMP)"],
     kanji: "RSA暗号",
@@ -56,6 +57,14 @@ var PROJECTS = [
       { label: "Ir para o Site", href: "https://nexkeyrsa.vercel.app/" },
       { label: "Ver Repositório", href: "https://github.com/ryangs22/Criptografia-RSA" },
     ],
+  },
+  {
+    title: "Aplicação Node.JS",
+    text: "Projeto de Aprendizado com Node.JS e banco de dados",
+    tags: ["Node.JS", "Express", "Banco de Dados"],
+    kanji: "Node.Jsプロジェクト",
+    photos: [IMG.nodeJS],
+    links: [{ label: "Projeto Em Desenvolvimento", href: "#projects"}],
   },
   {
     title: "Código de Huffman",
@@ -72,14 +81,6 @@ var PROJECTS = [
     kanji: "SATソルバー",
     photos: [IMG.satsolver1, IMG.satsolver2, IMG.satsolver3],
     links: [{ label: "Ver Repositório", href: "https://github.com/ryangs22/Estrutura-de-Dados/tree/main/Sat-Solver" }],
-  },
-  {
-    title: "Site 6",
-    text: "",
-    tags: ["Em Breve"],
-    kanji: "新プロジェクト近日公開",
-    photos: [IMG.embreve],
-    links: [{ label: "Site Em Desenvolvimento", href: "#projects"}],
   },
   {
     title: "Site 7",
