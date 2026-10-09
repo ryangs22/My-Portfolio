@@ -4,13 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="Ryan Gabriel da Silva Sales" />
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2305060f'/%3E%3Ctext x='50' y='68' font-size='58' text-anchor='middle' fill='%2300D2B4'%3E%E9%BE%8D%3C/text%3E%3C/svg%3E" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%2305060f'/%3E%3Ctext x='50' y='68' font-size='58' text-anchor='middle' fill='%2300D2B4'%3E%E9%BE%8D%3C/text%3E%3C/svg%3E" />    
     <title>Ryan Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=MuseoModerno:ital,wght@0,100..900;1,100..900&family=Shippori+Mincho:wght@600;800&display=swap" rel="stylesheet" />
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/@icon/devicons/devicons.css">
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/layout.css" />
   </head>
@@ -206,37 +207,98 @@
           </div>
 
           <div class="profile-skills-list">
+            <!-- 01 Front-End Skills -->
             <div class="reveal profile-skill-row" data-delay="0">
               <span class="profile-skill-index">01</span>
               <div class="profile-skill-mid">
                 <h3 class="profile-skill-title">Front-End Skills</h3>
                 <div class="profile-skill-icons">
                   <i class="devicon-html5-plain" style="animation-delay: 0s"></i>
-                  <i class="devicon-css3-plain" style="animation-delay: 0.4s"></i>
+
+                  <!-- SVG CSS3 -->
+                  <svg class="profile-svg-icon profile-svg-css" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 600 600" style="animation-delay: 0.4s">
+                    <g clip-path="url(#devicon-css-1-a)">
+                      <path fill="#639" d="M0 0h504a96 96 0 0 1 96 96v408a96 96 0 0 1-96 96H96a96 96 0 0 1-96-96z"/>
+                      <path fill="#fff" d="M214.9 552c-38.6 0-62.4-21.7-61.9-61.7v-101q0-30.4 17.8-46.2c21.3-20.5 70.7-21.7 91.5.3 12.9 11.4 17.7 34.5 16.6 56.1h-44.2c.3-8.5-.2-21.3-5.2-26.2-6.4-8.7-23.6-7.7-28.1 1.4a46 46 0 0 0-4.2 22v87.7q0 27.6 19.2 28 9 0 13.6-6.6c4.3-5.1 5-16.5 4.6-24.8H279c3 42-21.8 71.5-64 71m140.4 0c-42.7.6-61.8-29.8-60.6-71h41.7c-1.1 18 5 34.3 19.8 33.2q9.9 0 14-6.2c5-7.6 6-29.4-1.3-37.8-5.1-8.2-23.4-15.3-33.1-20.2a72 72 0 0 1-29.9-23.5c-13.7-20.2-12.4-64.5 6.9-82.5 18.7-22.1 67.5-23.1 86.2-.4 11.6 11.7 16.6 34.7 15.7 56h-40.3c.4-8.8-.4-22.9-3.8-28q-3.6-6.5-13.5-6.5-17.6 0-17.6 21c.1 15 6 21.1 19.5 27.4 17.5 6.8 39.8 18.4 48 32.5 24 43 7.5 108.5-51.7 106m134.8 0c-42.7.6-61.8-29.8-60.6-71h41.8c-1.2 18 5 34.3 19.8 33.2q9.9 0 13.9-6.2c5-7.6 6-29.4-1.3-37.8-5-8.2-23.4-15.3-33-20.2a72 72 0 0 1-29.9-23.5c-13.7-20.2-12.4-64.5 6.8-82.5 18.7-22.1 67.6-23.1 86.3-.4 11.5 11.7 16.6 34.7 15.6 56h-40.2c.3-8.8-.5-22.9-3.9-28q-3.5-6.5-13.4-6.5-17.7 0-17.6 21c0 15 5.9 21.1 19.4 27.4 17.6 6.8 39.9 18.4 48 32.5 24.1 43 7.6 108.5-51.7 106"/>
+                    </g>
+                    <defs>
+                      <clipPath id="devicon-css-1-a">
+                        <path fill="#fff" d="M0 0h600v600H0z"/>
+                      </clipPath>
+                    </defs>
+                  </svg>
+
                   <i class="devicon-javascript-plain" style="animation-delay: 0.8s"></i>
                   <i class="devicon-react-plain" style="animation-delay: 1.2s"></i>
+                  <!-- <svg class="profile-svg-icon profile-svg-ts" viewBox="0 0 128 128" style="animation-delay: 1.6s">
+                    <path fill="#fff" d="M22.67 47h99.67v73.67H22.67z"></path>
+                    <path data-name="original" fill="#007acc" d="M1.5 63.91v62.5h125v-125H1.5zm100.73-5a15.56 15.56 0 017.82 4.5 20.58 20.58 0 013 4c0 .16-5.4 3.81-8.69 5.85-.12.08-.6-.44-1.13-1.23a7.09 7.09 0 00-5.87-3.53c-3.79-.26-6.23 1.73-6.21 5a4.58 4.58 0 00.54 2.34c.83 1.73 2.38 2.76 7.24 4.86 8.95 3.85 12.78 6.39 15.16 10 2.66 4 3.25 10.46 1.45 15.24-2 5.2-6.9 8.73-13.83 9.9a38.32 38.32 0 01-9.52-.1 23 23 0 01-12.72-6.63c-1.15-1.27-3.39-4.58-3.25-4.82a9.34 9.34 0 011.15-.73L82 101l3.59-2.08.75 1.11a16.78 16.78 0 004.74 4.54c4 2.1 9.46 1.81 12.16-.62a5.43 5.43 0 00.69-6.92c-1-1.39-3-2.56-8.59-5-6.45-2.78-9.23-4.5-11.77-7.24a16.48 16.48 0 01-3.43-6.25 25 25 0 01-.22-8c1.33-6.23 6-10.58 12.82-11.87a31.66 31.66 0 019.49.26zm-29.34 5.24v5.12H56.66v46.23H45.15V69.26H28.88v-5a49.19 49.19 0 01.12-5.17C29.08 59 39 59 51 59h21.83z"></path>
+                  </svg> -->
+                  <!-- SVG WebStorm -->
+                  <svg class="profile-svg-icon profile-svg-webstorm" viewBox="0 0 128 128" style="animation-delay: 1.6s">
+                    <defs>
+                      <linearGradient id="a" x1="38.88" x2="63.72" y1="6.5" y2="95.94" gradientTransform="rotate(.104) scale(1.21905)" gradientUnits="userSpaceOnUse">
+                        <stop offset=".28" stop-color="#07c3f2"></stop>
+                        <stop offset=".94" stop-color="#087cfa"></stop>
+                      </linearGradient>
+                      <linearGradient id="b" x1="46.63" x2="88.66" y1="17.85" y2="79.48" gradientTransform="rotate(.104) scale(1.21905)" gradientUnits="userSpaceOnUse">
+                        <stop offset=".14" stop-color="#fcf84a"></stop>
+                        <stop offset=".37" stop-color="#07c3f2"></stop>
+                      </linearGradient>
+                      <linearGradient id="c" x1="88.27" x2="93.79" y1="25.47" y2="45.02" gradientTransform="rotate(.104) scale(1.21905)" gradientUnits="userSpaceOnUse">
+                        <stop offset=".28" stop-color="#07c3f2"></stop>
+                        <stop offset=".94" stop-color="#087cfa"></stop>
+                      </linearGradient>
+                    </defs>
+                    <path fill="url(#a)" d="M21.262 111.25 5.484 17.75 34.656 5.645l18.63 11.07 17.066-9.207 35.558 13.656-19.94 101.352Zm0 0"></path>
+                    <path fill="url(#b)" d="M122.516 45.117 107.41 7.813l-27.402-2.33L37.707 46.13 49.09 98.512l21.262 14.91 52.164-30.953-12.801-24.004Zm0 0"></path>
+                    <path fill="url(#c)" d="m99.07 39.559 10.645 18.906 12.8-13.348-9.398-23.234Zm0 0"></path>
+                    <path d="M27.43 27.43h73.14v73.14H27.43Zm0 0"></path>
+                    <path fill="#fff" d="M36.547 86.746h27.43v4.574h-27.43Zm25.965-50.21L58.43 52.538l-4.668-16.004h-4.645L44.434 52.54l-4.07-16.004H33.96l7.84 27.442h5.144L51.43 48.09l4.437 15.887h5.207l7.828-27.442Zm7.535 23.526 3.57-4.277a12.625 12.625 0 0 0 8.219 3.34c2.437 0 3.973-.977 3.973-2.598v-.074c0-1.535-.95-2.316-5.547-3.496-5.547-1.414-9.117-2.953-9.117-8.414v-.086c0-4.984 4.007-8.289 9.628-8.289a15.85 15.85 0 0 1 10.215 3.5l-3.144 4.559a12.877 12.877 0 0 0-7.156-2.707c-2.317 0-3.536 1.062-3.536 2.437v.086c0 1.805 1.22 2.437 5.938 3.66 5.582 1.461 8.73 3.461 8.73 8.262v.074c0 5.461-4.172 8.535-10.11 8.535a17.48 17.48 0 0 1-11.663-4.402"></path>
+                  </svg>
                 </div>
               </div>
               <p class="profile-skill-text">
-                Atualmente, atuo com HTML5, CSS3, JavaScript e React, desenvolvendo interfaces modernas, responsivas e centradas na experiência do usuário. Futuramente, pretendo expandir meus conhecimentos com Vue, Next.JS e TypeScript, aprofundando-me no desenvolvimento de interfaces componentizadas e altamente interativas
+                Atualmente, atuo com HTML, CSS, JavaScript e React, desenvolvendo interfaces modernas, responsivas e centradas na experiência do usuário. Futuramente, pretendo expandir meus conhecimentos com TypeScript, Vue e Next.Js, aprofundando-me no desenvolvimento de interfaces componentizadas e altamente interativas.
               </p>
             </div>
 
+            <!-- 02 Back-End Skills -->
             <div class="reveal profile-skill-row" data-delay="0.12">
               <span class="profile-skill-index">02</span>
               <div class="profile-skill-mid">
                 <h3 class="profile-skill-title">Back-End Skills</h3>
                 <div class="profile-skill-icons">
-                  <i class="devicon-c-plain" style="animation-delay: 0s"></i>
-                  <i class="devicon-python-plain" style="animation-delay: 0.4s"></i>
-                  <i class="bx bxl-nodejs" style="animation-delay: 0.8s"></i>
+                  <i class="devicon-c-plain"></i>
+
+                  <!-- SVG Python -->
+                  <svg class="profile-svg-icon profile-svg-python" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 600 600" style="animation-delay: 0.4s">
+                    <path fill="url(#devicon-python-2-a)" d="M297.8 1.6c-152.3 0-142.8 66-142.8 66l.2 68.4h145.4v20.6H97.5S0 145.6 0 299.2s85 148.3 85 148.3h50.8v-71.3s-2.7-85.1 83.8-85.1h144.1s81 1.3 81-78.3V81.2S457 1.6 297.8 1.6m-80.1 46a26.1 26.1 0 1 1 0 52.2 26.1 26.1 0 0 1 0-52.2"/>
+                    <path fill="url(#devicon-python-3-b)" d="M302.2 598.4c152.3 0 142.8-66 142.8-66l-.2-68.4H299.4v-20.6h203.1s97.5 11 97.5-142.6-85-148.3-85-148.3h-50.8V224s2.7 85-83.8 85H236.3s-81-1.3-81 78.3v131.6s-12.3 79.6 146.9 79.6m80.1-46a26.1 26.1 0 1 1 0-52.2 26.1 26.1 0 0 1 0 52.2"/>
+                    <defs>
+                      <linearGradient id="devicon-python-2-a" x1="5766.1" x2="35500.2" y1="5370.3" y2="34807.5" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#387EB8"/>
+                        <stop offset="1" stop-color="#366994"/>
+                      </linearGradient>
+                      <linearGradient id="devicon-python-3-b" x1="8665.6" x2="40596.9" y1="9329.5" y2="39514.8" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#FFE052"/>
+                        <stop offset="1" stop-color="#FFC331"/>
+                      </linearGradient>
+                    </defs>
+                  </svg>
+
+                  <!-- SVG NodeJS -->
+                  <svg class="profile-svg-icon profile-svg-node" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 600 600" style="animation-delay: 0.8s">
+                    <path fill="#539E43" d="M300 600q-12.4-.2-23.2-6l-73.3-43.6c-11-6-5.5-8.3-2.2-9.4 15-5 17.7-6 33.1-14.9 1.7-1 3.9-.5 5.5.6l56.2 33.6c2.2 1.1 5 1.1 6.7 0L522.7 433q3.3-1.8 3.3-6V172.7c0-2.7-1.1-5-3.3-6L302.7 40c-2.1-1.1-4.9-1.1-6.6 0L76.2 166.7c-2.2 1.1-3.3 3.9-3.3 6.1V427c0 2.2 1.1 5 3.3 6l60 34.8c32.6 16.5 53-2.7 53-22V194.9c0-3.4 2.8-6.7 6.6-6.7H224c3.3 0 6.6 2.8 6.6 6.7v250.8c0 43.5-23.7 68.9-65 68.9-12.7 0-22.6 0-50.7-13.8l-57.9-33a47 47 0 0 1-23.1-40.3V173.4c0-16.6 8.8-32 23.1-40.3L277 5.8a49 49 0 0 1 46.3 0L543 133a47 47 0 0 1 23.1 40.3v254c0 16.6-8.8 32-23.1 40.3L323 595c-7.1 3.3-15.4 5-23.1 5m67.8-174.7c-96.5 0-116.3-44.1-116.3-81.6 0-3.3 2.7-6.6 6.6-6.6h28.7c3.3 0 6 2.2 6 5.5 4.4 29.2 17.1 43.5 75.6 43.5 46.3 0 66.1-10.4 66.1-35.2 0-14.4-5.5-24.9-77.7-32-60.1-6-97.6-19.3-97.6-67.3 0-44.6 37.5-71 100.3-71 70.6 0 105.3 24.2 109.7 77q0 2.6-1.6 5c-1.1 1.2-2.8 2.3-4.4 2.3h-28.7a6.5 6.5 0 0 1-6-5c-6.7-30.3-23.8-40.2-69-40.2-50.7 0-56.7 17.6-56.7 30.8 0 16 7.1 21 75.5 29.8C446 289 478 301.8 478 349.2c-.5 48.5-40.2 76-110.2 76"/>
+                  </svg>
                 </div>
               </div>
               <p class="profile-skill-text">
-                Possuo uma base sólida em linguagem C que vão desde conhecimentos básicos até alocação dinâmica, ponteiros, algoritmos, manipulação de estruturas de dados e conhecimento intermediário em Python, desde os conceitos básicos até Programação Orientada a Objetos (POO). No momento, estou ampliando meus conhecimentos em Análise de Dados e ferramentas de automação em Python, além de criação de servidores e APIs Rest com NodeJs
+                Possuo uma base sólida em linguagem C que vão desde conhecimentos básicos até alocação dinâmica, ponteiros, algoritmos, manipulação de estruturas de dados e conhecimento intermediário em Python, desde os conceitos básicos até Programação Orientada a Objetos (POO). No momento, estou ampliando meus conhecimentos em Análise de Dados e ferramentas de automação em Python, além de criação de servidores e APIs Rest com NodeJs.
               </p>
             </div>
 
+            <!-- 03 Outras Ferramentas -->
             <div class="reveal profile-skill-row" data-delay="0.24">
               <span class="profile-skill-index">03</span>
               <div class="profile-skill-mid">
@@ -250,7 +312,7 @@
                 </div>
               </div>
               <p class="profile-skill-text">
-                Tenho noções de controle de versão com Git, manipulação de banco de dados com PostgreSQL e SQLite (Python), deploy de sites dinâmicos no Vercel e Render, além de noções básicas de design com Canva. Além disso, quero dominar todo o conjunto de tecnologias necessárias para entregar aplicações bem estruturadas e de alta qualidade
+                Tenho noções de controle de versão com Git, manipulação de banco de dados com PostgreSQL e SQLite (Python), deploy de sites dinâmicos no Vercel e Render, além de noções básicas de design com Canva. Além disso, quero dominar todo o conjunto de tecnologias necessárias para entregar aplicações bem estruturadas e de alta qualidade.
               </p>
             </div>
           </div>
