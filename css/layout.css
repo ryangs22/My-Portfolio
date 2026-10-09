@@ -817,20 +817,137 @@
   color: var(--profile-cyan-soft);
 }
 
+/* ---------- Estilo Base dos Ícones de Skills ---------- */
 .profile-skill-icons {
   display: flex;
   flex-wrap: wrap;
   gap: 18px;
 }
+
 .profile-skill-icons i {
   font-size: 40px;
-  color: var(--profile-cyan);
   animation: profile-float 4s ease-in-out infinite;
   transition: color 0.4s ease, filter 0.4s ease, transform 0.4s ease;
 }
+
 .profile-skill-row:hover .profile-skill-icons i {
-  color: var(--profile-cyan-soft);
-  filter: drop-shadow(0 0 8px var(--profile-cyan));
+  color: inherit;
+}
+
+/* ---------- Cores por Tecnologia/Linguagem ---------- */
+
+/* HTML5 */
+.profile-skill-icons .devicon-html5-plain {
+  color: #E34F26 !important;
+}
+.profile-skill-icons .devicon-html5-plain:hover,
+.profile-skill-row:hover .devicon-html5-plain {
+  filter: drop-shadow(0 0 10px rgba(227, 79, 38, 0.75));
+}
+
+/* JavaScript */
+.profile-skill-icons .devicon-javascript-plain {
+  color: #F7DF1E !important;
+}
+.profile-skill-icons .devicon-javascript-plain:hover,
+.profile-skill-row:hover .devicon-javascript-plain {
+  filter: drop-shadow(0 0 10px rgba(247, 223, 30, 0.75));
+}
+
+/* React */
+.profile-skill-icons .devicon-react-plain {
+  color: #61DAFB !important;
+}
+.profile-skill-icons .devicon-react-plain:hover,
+.profile-skill-row:hover .devicon-react-plain {
+  filter: drop-shadow(0 0 10px rgba(97, 218, 251, 0.75));
+}
+
+/* C (Ajustado) */
+.profile-skill-icons .devicon-c-plain {
+  color: #1779e2 !important;
+}
+.profile-skill-icons .devicon-c-plain:hover,
+.profile-skill-row:hover .devicon-c-plain {
+  filter: drop-shadow(0 0 12px rgba(0, 90, 186, 0.985));
+}
+
+/* Git */
+.profile-skill-icons .devicon-git-plain {
+  color: #F05032 !important;
+}
+.profile-skill-icons .devicon-git-plain:hover,
+.profile-skill-row:hover .devicon-git-plain {
+  filter: drop-shadow(0 0 10px rgba(240, 80, 50, 0.75));
+}
+
+/* GitHub */
+.profile-skill-icons .devicon-github-plain {
+  color: #FFFFFF !important;
+}
+.profile-skill-icons .devicon-github-plain:hover,
+.profile-skill-row:hover .devicon-github-plain {
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.75));
+}
+
+/* PostgreSQL */
+.profile-skill-icons .bxl-postgresql {
+  color: #4169E1 !important;
+}
+.profile-skill-icons .bxl-postgresql:hover,
+.profile-skill-row:hover .bxl-postgresql {
+  filter: drop-shadow(0 0 10px rgba(65, 105, 225, 0.75));
+}
+
+/* Vercel */
+.profile-skill-icons .devicon-vercel-original {
+  color: #FFFFFF !important;
+}
+.profile-skill-icons .devicon-vercel-original:hover,
+.profile-skill-row:hover .devicon-vercel-original {
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.75));
+}
+
+/* Canva */
+.profile-skill-icons .devicon-canva-original {
+  color: #00C4CC !important;
+}
+.profile-skill-icons .devicon-canva-original:hover,
+.profile-skill-row:hover .devicon-canva-original {
+  filter: drop-shadow(0 0 10px rgba(0, 196, 204, 0.75));
+}
+
+/* ---------- Padronização de SVGs de Skills ---------- */
+.profile-svg-icon {
+  width: 40px;
+  height: 40px;
+  display: inline-block;
+  vertical-align: middle;
+  animation: profile-float 4s ease-in-out infinite;
+  transition: transform 0.4s ease, filter 0.4s ease;
+  cursor: auto;
+}
+
+/* Brilho Neon (Drop-Shadow) por tecnologia no SVG */
+.profile-skill-row:hover .profile-svg-css,
+.profile-svg-css:hover {
+  filter: drop-shadow(0 0 12px rgba(102, 51, 153, 0.9));
+}
+
+.profile-skill-row:hover .profile-svg-python,
+.profile-svg-python:hover {
+  filter: drop-shadow(0 0 12px rgba(56, 126, 184, 0.9));
+}
+
+.profile-skill-row:hover .profile-svg-node,
+.profile-svg-node:hover {
+  filter: drop-shadow(0 0 12px rgba(83, 158, 67, 0.9));
+}
+
+/* Brilho Neon no Hover para WebStorm */
+.profile-skill-row:hover .profile-svg-webstorm,
+.profile-svg-webstorm:hover {
+  filter: drop-shadow(0 0 12px rgba(7, 195, 242, 0.9));
 }
 
 .profile-skill-text {
@@ -1319,6 +1436,7 @@ textarea.profile-input {
   visibility: visible;
 }
 
+/* Card Principal */
 .profile-modal-card {
   position: relative;
   background: rgba(11, 16, 22, 0.95);
