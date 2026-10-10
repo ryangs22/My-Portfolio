@@ -872,6 +872,15 @@
   filter: drop-shadow(0 0 12px rgba(0, 90, 186, 0.985));
 }
 
+/* Express */
+.profile-skill-icons .devicon-express-original {
+  color: #f0f2f5 !important;
+}
+.profile-skill-icons .devicon-express-original:hover,
+.profile-skill-row:hover .devicon-express-original {
+  filter: drop-shadow(0 0 12px rgba(251, 252, 252, 0.985));
+}
+
 /* Git */
 .profile-skill-icons .devicon-git-plain {
   color: #F05032 !important;
