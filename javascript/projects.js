@@ -61,7 +61,7 @@ var PROJECTS = [
   {
     title: "Aplicação Node.JS",
     text: "Projeto de Aprendizado com Node.JS e banco de dados",
-    tags: ["Node.JS", "Express", "Banco de Dados"],
+    tags: ["Node.JS", "Express", "Sequelize", "Banco de Dados"],
     kanji: "Node.Jsプロジェクト",
     photos: [IMG.nodeJS],
     links: [{ label: "Projeto Em Desenvolvimento", href: "#projects"}],
