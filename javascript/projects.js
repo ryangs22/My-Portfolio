@@ -64,7 +64,7 @@ var PROJECTS = [
     tags: ["Node.JS", "Express", "Sequelize", "PostgreSQL"],
     kanji: "Node.Jsプロジェクト",
     photos: [IMG.nodeJS],
-    links: [{ label: "Projeto Em Desenvolvimento", href: "#projects"}],
+    links: [{ label: "Ver Repositório", href: "https://github.com/ryangs22/NodeJS"}],
   },
   {
     title: "Código de Huffman",
