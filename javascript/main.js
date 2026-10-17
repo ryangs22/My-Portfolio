@@ -171,7 +171,38 @@ function initBackToTop() {
   });
 };
 
+/* ---------- Função de perspectiva 3d com o cursor ---------- */ 
+function initTilt() { 
+  const targets = document.querySelectorAll(".profile-ryan-bento, .input-areas, .profile-about-card"); 
+  
+  const MAX = 5; 
+
+  targets.forEach(function(element) { 
+    element.addEventListener("animationend", function () { 
+      element.classList.remove("h-anim"); 
+    }, { once: true }); 
+
+    element.addEventListener("mousemove", function(e) { 
+      const r = element.getBoundingClientRect(); 
+      const px = (e.clientX - r.left) / r.width; 
+      const py = (e.clientY - r.top) / r.height; 
+      const ry = (px - 0.5) * 2 * MAX; 
+      const rx = (0.5 - py) * 2 * MAX; 
+
+      element.style.transition = "transform 0.2s ease-out"; 
+      element.style.transform = "perspective(1000px) rotateX(" + rx.toFixed(2) + "deg) rotateY(" + ry.toFixed(2) + "deg) translateZ(8px)"; 
+    }); 
+
+    element.addEventListener("mouseleave", function() { 
+      element.style.transition = "transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)"; 
+      element.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0)"; 
+    }); 
+  }); 
+};
+
+
 document.addEventListener("DOMContentLoaded", function () {
+  initTilt();
   createParticles();
   initProgress();
   initCursorGlow();
