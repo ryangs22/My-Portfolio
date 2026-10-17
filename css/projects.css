@@ -1,1 +1,123 @@
+.profile-projects-stage {
+    position: relative;
+}
 
+.profile-deck {
+    position: relative;
+    width: 100%;
+    min-height: 420px;
+    perspective: 1700px;
+    perspective-origin: 50% 42%;
+    transform-style: preserve-3d;
+    touch-action: pan-y;
+}
+
+.profile-deck-card {
+    position: absolute;
+    overflow: hidden;
+    top: 50%;
+    left: 50%;
+    width: min(640px, 78%);
+    padding: 16px 16px 22px;
+    border-radius: 26px;
+    background: rgba(10, 14, 30, 0.92);
+    border: 1px solid rgba(0, 210, 180, 0.25);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
+    transform: translate(-50%, -50%);
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    cursor: pointer;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, opacity, filter;
+}
+
+.profile-deck-card.is-active {
+    cursor: grab;
+    box-shadow: 0 40px 90px rgba(0, 0, 0, 0.65), 0 0 45px rgba(0, 210, 180, 0.15);
+}
+
+.profile-deck-card .profile-project-info {
+    padding: 18px 8px 0;
+}
+
+.profile-deck-card .profile-showcase-title {
+    margin-bottom: 10px;
+}
+
+.profile-deck-card .profile-project-info p {
+    margin-bottom: 18px;
+}
+
+.profile-deck-card .profile-monitor {
+    box-shadow: none;
+}
+
+.profile-showcase-kanji {
+  position: absolute;
+  text-align: center;
+  z-index: -1;
+  right: -24px;
+  bottom: -50px;
+  font-family: "Shippori Mincho", serif;
+  font-weight: 800;
+  font-size: 200px;
+  line-height: 1;
+  color: rgba(0, 210, 180, 0.06);
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (max-width: 760px) {
+    .profile-deck {
+        perspective: 1100px;
+    }
+    .profile-deck-card {
+        width: 82%;
+        padding: 12px 12px 18px;
+        border-radius: 20px;
+    }
+    .profile-deck-card .profile-project-info {
+        padding: 14px 4px 0;
+    }
+}
+
+@keyframes profile-flip-out-next {
+    from { transform: perspective(900px) rotateY(0deg);}
+    to { transform: perspective(900px) rotateY(-90deg);}
+}
+
+@keyframes profile-flip-in-next {
+    from { transform: perspective(900px) rotateY(90deg);}
+    to { transform: perspective(900px) rotateY(0deg);}
+}
+
+@keyframes profile-flip-out-prev {
+    from { transform: perspective(900px) rotateY(0deg);}
+    to { transform: perspective(900px) rotateY(90deg);}
+}
+
+@keyframes profile-flip-in-prev {
+    from { transform: perspective(900px) rotateY(-90deg);}
+    to { transform: perspective(900px) rotateY(0deg);}
+}
+
+.profile-monitor-screen.flip-out-next {
+    animation: profile-flip-out-next 0.2s ease-in forwards;
+}
+.profile-monitor-screen.flip-in-next {
+    animation: profile-flip-in-next 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.profile-monitor-screen.flip-out-prev {
+    animation: profile-flip-out-prev 0.2s ease-in forwards;
+}
+.profile-monitor-screen.flip-in-prev {
+    animation: profile-flip-in-prev 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.profile-bento-card,
+.profile-input {
+    transform-style:preserve-3d;
+    will-change: transform;
+}
