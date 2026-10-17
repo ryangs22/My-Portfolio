@@ -2,10 +2,10 @@
   position: relative;
 }
 
-.profile-deck {
-  --deck-step-x: 46%; /* Afastamento horizontal dos cards laterais */
-  --deck-step-rotate-y: 34deg; /* Quanto cada card gira de lado (eixo vertical) */
-  --deck-step-depth-z: 210px; /* Quanto cada card recua em profundidade */
+.profile-deck { 
+  --deck-step-x: 46%;  /* deslocamento horizontal (% da largura do card) */
+  --deck-step-rotate-y: 34deg; /* giro em torno do eixo vertical (graus) */
+  --deck-step-depth-z: 210px; /* recuo em profundidade, para trás (px) */
 
   position: relative;
   width: 100%;
@@ -14,6 +14,8 @@
   perspective-origin: 50% 42%;
   touch-action: pan-y;
   contain: layout style;
+  /* sem transform-style: preserve-3d — cada card já tem sua própria
+     perspectiva herdada e preserve-3d aqui só cria camadas extras */
 }
 
 .profile-deck-card {
@@ -26,26 +28,26 @@
   overflow: hidden;
   background: rgb(10, 14, 30);
   border: 1px solid rgba(0, 210, 180, 0.25);
+  /* sombra estática e menor: sombras gigantes aumentam muito a textura da camada */
   box-shadow: 0 18px 36px rgba(0, 0, 0, 0.45);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
-
   /* estado inicial (escondido) */
   transform: translate3d(-50%, -50%, calc(var(--deck-step-depth-z) * -2.5)) scale(0.7);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
   z-index: 0;
-
   transition:
     transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
     opacity 0.45s ease,
     visibility 0s linear 0.55s;
 }
 
+/* Escurece os cards laterais com uma camada de opacidade no lugar de filter: blur */
 .profile-deck-card::after {
   content: "";
   position: absolute;
@@ -57,7 +59,7 @@
   transition: opacity 0.45s ease;
 }
 
-/* Posições (offset em relação ao card ativo) */
+/* ---------- Posições (offset em relação ao card ativo) ---------- */
 .profile-deck-card[data-pos="0"],
 .profile-deck-card[data-pos="-1"],
 .profile-deck-card[data-pos="1"],
@@ -115,7 +117,7 @@
   will-change: transform, opacity;
 }
 
-/* Conteúdo do card */
+/* ---------- Conteúdo do card ---------- */
 .profile-deck-card .profile-project-info {
   padding: 18px 8px 0;
 }
@@ -158,6 +160,11 @@
   z-index: 1;
 }
 
+/* ---------- Blur leve nos cards laterais ----------
+   o filter está no wrapper INTERNO (que não é uma camada
+   composta própria), então o blur é rasterizado UMA vez quando o data-pos
+   muda.O que travava antes era filter no próprio card + transition de filter:
+   o blur era recalculado a cada frame. */
 .profile-deck {
   --blur-near: 4px;
   --blur-far: 7px;
@@ -171,13 +178,13 @@
   filter: blur(var(--blur-far));
 }
 
-/* Cards laterais não são interativos */
+/* ---------- Cards laterais não são interativos ---------- */
 .profile-deck-card:not([data-pos="0"]) .profile-card-inner,
 .profile-deck-card:not([data-pos="0"]) .profile-card-inner * {
   pointer-events: none;
 }
 
-/* Mobile */
+/* ---------- Mobile ---------- */
 @media (max-width: 760px) {
   .profile-deck {
     --deck-step-x: 62%;
@@ -201,7 +208,7 @@
   }
 }
 
-/* Acessibilidade */
+/* ---------- Acessibilidade ---------- */
 @media (prefers-reduced-motion: reduce) {
   .profile-deck-card,
   .profile-deck-card::after {
@@ -209,6 +216,7 @@
   }
 }
 
+/* ---------- will-change permanente REMOVIDO daqui ---------- */
 .profile-bento-card,
 .profile-input {
   transform-style: preserve-3d;
@@ -216,4 +224,76 @@
 .profile-bento-card:hover,
 .profile-input:focus {
   will-change: transform;
+}
+
+ 
+/* ---------- PERFORMANCE — animações que repintam / re-rasterizam 
+(corrige a trava no celular) ----------*/
+ 
+/* 1) "Brilho espelhado" (shine): antes animava `left` (layout + paint a
+      cada frame). Agora anima só `transform` (compositor/GPU).
+      Vale para as pílulas de tecnologia e para TODOS os .profile-button. */
+
+@keyframes profile-shine-x {
+  0%       { transform: translateX(-150%) skewX(-20deg); }
+  55%, 100% { transform: translateX(300%)  skewX(-20deg); }
+}
+.profile-tech-pill::after,
+.profile-button::after {
+  left: 0;
+  animation-name: profile-shine-x;
+}
+
+/* 2) backdrop-filter dentro de cards 3D é extremamente pesado no mobile.
+      O fundo translúcido já dá o visual de vidro. */
+
+.profile-deck-card .profile-tech-pill {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  transition: color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+}
+
+/* 3) Só o card central anima. Cards laterais ficam estáticos. */
+
+.profile-deck-card:not([data-pos="0"]),
+.profile-deck-card:not([data-pos="0"]) *,
+.profile-deck-card:not([data-pos="0"]) *::before,
+.profile-deck-card:not([data-pos="0"]) *::after {
+  animation: none !important;
+}
+
+/* 4) Fundo: blob com `filter: blur(90px)` -> radial-gradient (mesmo visual,
+      sem filtro). Remove também o mix-blend-mode do brilho do cursor. */
+
+.profile-blob {
+  filter: none;
+  opacity: 0.22;
+}
+.profile-blob-1 { background: radial-gradient(circle, var(--profile-cyan-deep) 0%, transparent 68%); }
+.profile-blob-2 { background: radial-gradient(circle, var(--profile-cyan) 0%, transparent 68%); }
+.profile-blob-3 { background: radial-gradient(circle, var(--profile-cyan-soft) 0%, transparent 68%); opacity: 0.14; }
+.profile-cursor-glow { mix-blend-mode: normal; }
+
+/* 5) will-change do .reveal só enquanto anima (depois vira camada à toa) */
+.reveal.in { will-change: auto; }
+
+/* 6) Celular / touch: corta animações que repintam em loop */
+@media (hover: none), (max-width: 760px) {
+  .profile-gradient-text {
+    animation: none;
+    background-size: 100% 100%;
+  }
+  .profile-progress,
+  .profile-back-top,
+  .profile-heading-seal,
+  .profile-blob {
+    animation: none;
+  }
+  .profile-particle:nth-of-type(n + 7) { display: none; }
+
+  /* enquanto a seção de projetos está na tela, congela o fundo animado */
+  body.projects-in-view .profile-background-layer *,
+  body.projects-in-view .profile-social a {
+    animation-play-state: paused;
+  }
 }
