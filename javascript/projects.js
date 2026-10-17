@@ -309,7 +309,9 @@ function scheduleDeckHeight() {
 function observeVisibility() {
   if (!("IntersectionObserver" in window)) return;
   new IntersectionObserver(function (entries) {
-    profileDeckElement.classList.toggle("is-paused", !entries[0].isIntersecting);
+    var visible = entries[0].isIntersecting;
+    profileDeckElement.classList.toggle("is-paused", !visible);
+    document.body.classList.toggle("projects-in-view", visible); // pausa o fundo animado no mobile
   }, { rootMargin: "200px 0px" }).observe(profileDeckElement);
 }
 
@@ -427,7 +429,7 @@ if (nextButtonElement) {
   nextButtonElement.addEventListener("click", function () { navigateProjects(1); });
 }
 
-/* ---------- Arraste (swipe) ---------- */
+/* ---------- Arraste (Drag) ---------- */
 function initializeDragSystem() {
   if (!profileDeckElement) return;
 
