@@ -620,5 +620,4 @@ function initializeMaintenanceModal() {
     }
   });
 }
-
 initializeMaintenanceModal();
