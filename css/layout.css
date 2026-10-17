@@ -1039,7 +1039,7 @@
   overflow: hidden;
 }
 
-.profile-showcase-kanji {
+/* .profile-showcase-kanji {
   position: absolute;
   text-align: center;
   z-index: -1;
@@ -1052,7 +1052,7 @@
   color: rgba(0, 210, 180, 0.06);
   pointer-events: none;
   user-select: none;
-}
+} */
 
 .profile-showcase {
   display: grid;
