@@ -227,57 +227,49 @@
 }
 
  
-/* ---------- PERFORMANCE — animações que repintam / re-rasterizam 
-(corrige a trava no celular) ----------*/
+/* MELHORIA DE PERFORMANCE — Correção de animações das tags e efeito dos blobs do plano de fundo */
  
-/* 1) "Brilho espelhado" (shine): antes animava `left` (layout + paint a
-      cada frame). Agora anima só `transform` (compositor/GPU).
-      Vale para as pílulas de tecnologia e para TODOS os .profile-button. */
-
-@keyframes profile-shine-x {
-  0%       { transform: translateX(-150%) skewX(-20deg); }
-  55%, 100% { transform: translateX(300%)  skewX(-20deg); }
-}
-.profile-tech-pill::after,
-.profile-button::after {
-  left: 0;
-  animation-name: profile-shine-x;
-}
-
-/* 2) backdrop-filter dentro de cards 3D é extremamente pesado no mobile.
-      O fundo translúcido já dá o visual de vidro. */
-
+/* 1) Pílulas: sem backdrop-filter (pesado em cards 3D no mobile) */
 .profile-deck-card .profile-tech-pill {
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
   transition: color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
 }
-
-/* 3) Só o card central anima. Cards laterais ficam estáticos. */
-
+ 
+/* 2) Correção do Brilho espelhado nas tags (pílulas e botões dos cards) */
+@keyframes profile-card-shine {
+  0%        { transform: translateX(-120%) skewX(-20deg); opacity: 1; }
+  55%       { transform: translateX(230%)  skewX(-20deg); opacity: 1; }
+  55.1%,
+  100%      { transform: translateX(230%)  skewX(-20deg); opacity: 0; }
+}
+.profile-deck-card .profile-tech-pill::after,
+.profile-deck-card .profile-button::after {
+  left: 0;
+  width: 50%;
+  opacity: 0;
+  transform: translateX(-120%) skewX(-20deg);
+  animation: profile-card-shine 3s ease-in-out infinite;
+}
+.profile-deck-card .profile-tech-pill::after {
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+}
+ 
+/* 3) Cards laterais ficam sem NENHUMA animação. */
 .profile-deck-card:not([data-pos="0"]),
 .profile-deck-card:not([data-pos="0"]) *,
 .profile-deck-card:not([data-pos="0"]) *::before,
 .profile-deck-card:not([data-pos="0"]) *::after {
   animation: none !important;
 }
-
-/* 4) Fundo: blob com `filter: blur(90px)` -> radial-gradient (mesmo visual,
-      sem filtro). Remove também o mix-blend-mode do brilho do cursor. */
-
-.profile-blob {
-  filter: none;
-  opacity: 0.22;
+ 
+/* 4) Engasgo na 1ª passada do brilho quando um card vira o central */
+.profile-deck-card:not(.is-settled) .profile-tech-pill::after,
+.profile-deck-card:not(.is-settled) .profile-button::after {
+  animation: none !important;
 }
-.profile-blob-1 { background: radial-gradient(circle, var(--profile-cyan-deep) 0%, transparent 68%); }
-.profile-blob-2 { background: radial-gradient(circle, var(--profile-cyan) 0%, transparent 68%); }
-.profile-blob-3 { background: radial-gradient(circle, var(--profile-cyan-soft) 0%, transparent 68%); opacity: 0.14; }
-.profile-cursor-glow { mix-blend-mode: normal; }
-
-/* 5) will-change do .reveal só enquanto anima (depois vira camada à toa) */
-.reveal.in { will-change: auto; }
-
-/* 6) Celular / touch: corta animações que repintam em loop */
+ 
+/* 5) Celular / touch: corta animações que repintam em loop */
 @media (hover: none), (max-width: 760px) {
   .profile-gradient-text {
     animation: none;
@@ -285,15 +277,8 @@
   }
   .profile-progress,
   .profile-back-top,
-  .profile-heading-seal,
-  .profile-blob {
+  .profile-back-top.show,
+  .profile-heading-seal {
     animation: none;
-  }
-  .profile-particle:nth-of-type(n + 7) { display: none; }
-
-  /* enquanto a seção de projetos está na tela, congela o fundo animado */
-  body.projects-in-view .profile-background-layer *,
-  body.projects-in-view .profile-social a {
-    animation-play-state: paused;
   }
 }
