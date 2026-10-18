@@ -123,6 +123,7 @@ var galleryIndexes = PROJECTS.map(function () { return 0; }); // foto atual de c
 var cardHeights = [];                                          // cache de alturas
 var deckBuilt = false;
 var layoutRaf = 0;
+var settleTimer = 0;
 
 var isDragActive = false;
 var blockClickAfterDrag = false;
@@ -268,6 +269,7 @@ function applyLayout() {
 
     if (card.dataset.pos !== pos) card.dataset.pos = pos;
     card.classList.toggle("is-active", offset === 0);
+    card.classList.remove("is-settled");
     card.setAttribute("aria-hidden", pos === "hidden" ? "true" : "false");
 
     // Só o card central tem botões/setas/dots interativos.
@@ -275,6 +277,16 @@ function applyLayout() {
     var inner = card.firstElementChild && card.querySelector(".profile-card-inner");
     if (inner) inner.toggleAttribute("inert", offset !== 0);
   }
+
+  // Só libera o brilho das tags depois que o card central assentou
+  // (evita o engasgo na 1ª passada, que coincidia com a transição).
+  clearTimeout(settleTimer);
+  settleTimer = setTimeout(function () {
+    requestAnimationFrame(function () {
+      var activeCard = cardElementsList[currentProjectIndex];
+      if (activeCard) activeCard.classList.add("is-settled");
+    });
+  }, 800);
 
   scheduleDeckHeight();
 }
@@ -309,9 +321,7 @@ function scheduleDeckHeight() {
 function observeVisibility() {
   if (!("IntersectionObserver" in window)) return;
   new IntersectionObserver(function (entries) {
-    var visible = entries[0].isIntersecting;
-    profileDeckElement.classList.toggle("is-paused", !visible);
-    document.body.classList.toggle("projects-in-view", visible); // pausa o fundo animado no mobile
+    profileDeckElement.classList.toggle("is-paused", !entries[0].isIntersecting);
   }, { rootMargin: "200px 0px" }).observe(profileDeckElement);
 }
 
@@ -429,7 +439,7 @@ if (nextButtonElement) {
   nextButtonElement.addEventListener("click", function () { navigateProjects(1); });
 }
 
-/* ---------- Arraste (Drag) ---------- */
+/* ---------- Arraste (swipe) ---------- */
 function initializeDragSystem() {
   if (!profileDeckElement) return;
 
