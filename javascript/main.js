@@ -210,7 +210,6 @@ document.addEventListener("DOMContentLoaded", function () {
   initMobileMenu();
   initActiveLinks();
   initReveal();
-  initDrag();
   initTypewriter();
   initBackToTop();
 });
