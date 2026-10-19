@@ -207,6 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initProgress();
   initCursorGlow();
   initPill();
+  initDrag();
   initMobileMenu();
   initActiveLinks();
   initReveal();
