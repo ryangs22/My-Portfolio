@@ -1286,7 +1286,7 @@
 .profile-drag-hint {
   text-align: center;
   margin-top: 26px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-family: "Shippori Mincho", serif;
   font-size: 13px;
   letter-spacing: 2px;
   color: var(--profile-muted);
