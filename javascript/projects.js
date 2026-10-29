@@ -91,12 +91,15 @@ var PROJECTS = [
     ],
   },
   {
-    title: "Site 7",
-    text: "",
-    tags: ["Em Breve"],
-    kanji: "新",
+    title: "SYNAPSE",
+    text: "Plataforma SaaS Full Stack com agentes de IA integrados em um workspace colaborativo, utilizando canvas interativo (tldraw), edição de documentos estilo Notion, IA com Gemini e Vercel AI SDK, autenticação, billing e tempo real.",
+    tags: ["Next.js", "TypeScript", "React", "Tailwind CSS", "Supabase", "Prisma", "Shadcn UI", "Vercel AI SDK"],
+    kanji: "脳", 
     photos: [PROJECT_IMAGES.embreve],
-    links: [{ label: "Site Em Desenvolvimento", href: "#projects" }],
+    links: [
+      { label: "Site Em Desenvolvimento", href: "#projects" },
+      { label: "Ver Repositório", href: "https://github.com/ryangs22" },
+    ],
   },
   {
     title: "Site 8",
