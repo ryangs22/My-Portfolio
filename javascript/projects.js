@@ -22,6 +22,7 @@ var PROJECT_IMAGES = {
   satsolver3: "public/images/satsolver/SatSolver3.png",
   embreve: "public/ProjetoEmBreveCYAN.jpg",
   nodeJS: "public/nodejs.png",
+  sentient1: "public/images/sentient/Sentient.png",
 };
 
 var PROJECTS = [
@@ -48,11 +49,11 @@ var PROJECTS = [
     ],
   },
   {
-    title: "SYNAPSE",
+    title: "Sentient",
     text: "Plataforma SaaS Full Stack com agentes de IA integrados em um workspace colaborativo, utilizando canvas interativo (tldraw), edição de documentos estilo Notion, IA com Gemini e Vercel AI SDK, autenticação, billing e tempo real.",
     tags: ["SAAS", "React", "TypeScript", "Next.js", "Tailwind CSS", "Supabase", "Prisma", "Shadcn UI", "Vercel AI SDK"],
     kanji: "脳",
-    photos: [PROJECT_IMAGES.embreve],
+    photos: [PROJECT_IMAGES.sentient1],
     links: [
       { label: "Site Em Desenvolvimento", href: "#projects" },
       { label: "Ver Repositório", href: "https://github.com/ryangs22" }
