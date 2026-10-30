@@ -33,7 +33,7 @@ var PROJECTS = [
     photos: [PROJECT_IMAGES.portfolio1, PROJECT_IMAGES.portfolio2],
     links: [
       { label: "Ir para o Site", href: "#home" },
-      { label: "Ver Repositório", href: "https://github.com/ryangs22/My-Portfolio" },
+      { label: "Ver Repositório", href: "https://github.com/ryangs22/My-Portfolio" }
     ],
   },
   {
@@ -41,14 +41,21 @@ var PROJECTS = [
     text: "GameTracker moderno de fácil utilização, estilizado com tema espacial e dinâmico utilizando Front/Back-End, RAWG API e Banco de Dados. Projeto da matéria de Projeto de Software (UFAL)",
     tags: ["HTML", "Tailwind CSS", "JavaScript", "React", "Python", "PostgreSQL", "RAWG API"],
     kanji: "星",
-    photos: [
-      PROJECT_IMAGES.noctis1, PROJECT_IMAGES.noctis2, PROJECT_IMAGES.noctis3,
-      PROJECT_IMAGES.noctis4, PROJECT_IMAGES.noctis5, PROJECT_IMAGES.noctis6,
-      PROJECT_IMAGES.noctis7, PROJECT_IMAGES.noctis8, PROJECT_IMAGES.noctis9,
-    ],
+    photos: [PROJECT_IMAGES.noctis1, PROJECT_IMAGES.noctis2, PROJECT_IMAGES.noctis3, PROJECT_IMAGES.noctis4, PROJECT_IMAGES.noctis5, PROJECT_IMAGES.noctis6, PROJECT_IMAGES.noctis7, PROJECT_IMAGES.noctis8, PROJECT_IMAGES.noctis9],
     links: [
       { label: "Site Em Manutenção", href: "#projects" },
-      { label: "Ver Repositório", href: "https://github.com/ryangs22/Noctis-Gametracker" },
+      { label: "Ver Repositório", href: "https://github.com/ryangs22/Noctis-Gametracker" }
+    ],
+  },
+  {
+    title: "SYNAPSE",
+    text: "Plataforma SaaS Full Stack com agentes de IA integrados em um workspace colaborativo, utilizando canvas interativo (tldraw), edição de documentos estilo Notion, IA com Gemini e Vercel AI SDK, autenticação, billing e tempo real.",
+    tags: ["SAAS", "React", "TypeScript", "Next.js", "Tailwind CSS", "Supabase", "Prisma", "Shadcn UI", "Vercel AI SDK"],
+    kanji: "脳",
+    photos: [PROJECT_IMAGES.embreve],
+    links: [
+      { label: "Site Em Desenvolvimento", href: "#projects" },
+      { label: "Ver Repositório", href: "https://github.com/ryangs22" }
     ],
   },
   {
@@ -59,7 +66,7 @@ var PROJECTS = [
     photos: [PROJECT_IMAGES.rsa1, PROJECT_IMAGES.rsa2, PROJECT_IMAGES.rsa3],
     links: [
       { label: "Ir para o Site", href: "https://nexkeyrsa.vercel.app/" },
-      { label: "Ver Repositório", href: "https://github.com/ryangs22/Criptografia-RSA" },
+      { label: "Ver Repositório", href: "https://github.com/ryangs22/Criptografia-RSA" }
     ],
   },
   {
@@ -68,7 +75,9 @@ var PROJECTS = [
     tags: ["Node.JS", "Express", "Sequelize", "PostgreSQL"],
     kanji: "Node",
     photos: [PROJECT_IMAGES.nodeJS],
-    links: [{ label: "Ver Repositório", href: "https://github.com/ryangs22/NodeJS" }],
+    links: [
+      { label: "Ver Repositório", href: "https://github.com/ryangs22/NodeJS" }
+    ],
   },
   {
     title: "Código de Huffman",
@@ -77,7 +86,7 @@ var PROJECTS = [
     kanji: "符",
     photos: [PROJECT_IMAGES.huffman1, PROJECT_IMAGES.huffman2, PROJECT_IMAGES.huffman3, PROJECT_IMAGES.huffman4],
     links: [
-      { label: "Ver Repositório", href: "https://github.com/ryangs22/Estrutura-de-Dados/tree/main/Huffman-Codification" },
+      { label: "Ver Repositório", href: "https://github.com/ryangs22/Estrutura-de-Dados/tree/main/Huffman-Codification" }
     ],
   },
   {
@@ -87,18 +96,7 @@ var PROJECTS = [
     kanji: "論",
     photos: [PROJECT_IMAGES.satsolver1, PROJECT_IMAGES.satsolver2, PROJECT_IMAGES.satsolver3],
     links: [
-      { label: "Ver Repositório", href: "https://github.com/ryangs22/Estrutura-de-Dados/tree/main/Sat-Solver" },
-    ],
-  },
-  {
-    title: "SYNAPSE",
-    text: "Plataforma SaaS Full Stack com agentes de IA integrados em um workspace colaborativo, utilizando canvas interativo (tldraw), edição de documentos estilo Notion, IA com Gemini e Vercel AI SDK, autenticação, billing e tempo real.",
-    tags: ["Next.js", "TypeScript", "React", "Tailwind CSS", "Supabase", "Prisma", "Shadcn UI", "Vercel AI SDK"],
-    kanji: "脳", 
-    photos: [PROJECT_IMAGES.embreve],
-    links: [
-      { label: "Site Em Desenvolvimento", href: "#projects" },
-      { label: "Ver Repositório", href: "https://github.com/ryangs22" },
+      { label: "Ver Repositório", href: "https://github.com/ryangs22/Estrutura-de-Dados/tree/main/Sat-Solver" }
     ],
   },
   {
@@ -107,45 +105,174 @@ var PROJECTS = [
     tags: ["Em Breve"],
     kanji: "開",
     photos: [PROJECT_IMAGES.embreve],
-    links: [{ label: "Site Em Desenvolvimento", href: "#projects" }],
-  },
+    links: [
+      { label: "Site Em Desenvolvimento", href: "#projects" }
+    ],
+  }
 ];
 
-var CHEVRON_LEFT_ICON =
-  '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>';
-var CHEVRON_RIGHT_ICON =
-  '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>';
+var CHEVRON_LEFT_ICON = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>';
+var CHEVRON_RIGHT_ICON = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>';
 
-var profileDeckElement = document.getElementById("profile-deck");
+var globalProjectIndex = 0;
+
+// Elementos da UI
+var profileDeckElement = document.getElementById("profile-deck");  // Wrapper Desktop
+var showcaseElement = document.getElementById("profile-showcase"); // Wrapper Mobile
 var counterElement = document.getElementById("profile-counter");
-var sectionProjectsElement = document.getElementById("projects");
 
-var currentProjectIndex = 0;
+function padZero(n) { 
+  return String(n).padStart(2, "0"); 
+}
+
+function updateCounterDisplay() {
+  if (!counterElement) return;
+  counterElement.innerHTML = 
+    '<span class="profile-gradient-text">' + padZero(globalProjectIndex + 1) + '</span>' +
+    '<span> / ' + padZero(PROJECTS.length) + '</span>';
+}
+
+// LÓGICA DO MOBILE (CARD ÚNICO)
+
+var mobileDirection = 1;
+var mobileGalleryIndex = 0;
+
+function generateMobileGalleryHTML(project) {
+  var total = project.photos.length;
+  var arrows = total > 1
+    ? '<button class="profile-screen-arrow left" data-g="prev" aria-label="Foto anterior">' + CHEVRON_LEFT_ICON + '</button>' +
+      '<button class="profile-screen-arrow right" data-g="next" aria-label="Próxima foto">' + CHEVRON_RIGHT_ICON + '</button>'
+    : '';
+    
+  var dots = project.photos.map(function (_, i) {
+    return '<button class="profile-dot' + (i === mobileGalleryIndex ? " active" : "") + '" data-i="' + i + '"></button>';
+  }).join("");
+
+  return (
+    '<div class="profile-monitor">' +
+      '<div class="profile-monitor-bar">' +
+        '<div class="profile-monitor-dots"><i></i><i></i><i></i></div>' +
+        '<span class="profile-monitor-count">' + (mobileGalleryIndex + 1) + " / " + total + "</span>" +
+      '</div>' +
+      '<div class="profile-monitor-screen">' +
+        '<div class="profile-gallery-slide">' +
+          '<img class="profile-gallery-img" src="' + project.photos[mobileGalleryIndex] + '" alt="' + project.title + '">' +
+        '</div>' + 
+        arrows +
+      '</div>' +
+    '</div>' +
+    '<div class="profile-gallery-dots">' + dots + '</div>'
+  );
+}
+
+function renderMobileMedia(animDirection) {
+  if (!showcaseElement) return;
+  
+  var media = showcaseElement.querySelector(".profile-showcase-media");
+  if (!media) return;
+  
+  media.innerHTML = generateMobileGalleryHTML(PROJECTS[globalProjectIndex]);
+
+  if (animDirection !== 0) {
+    media.classList.remove("gal-left", "gal-right");
+    void media.offsetWidth; // Force reflow
+    media.classList.add(animDirection > 0 ? "gal-right" : "gal-left");
+  }
+  
+  // Wire eventos da galeria mobile
+  media.querySelectorAll("[data-g]").forEach(function(btn) {
+    btn.addEventListener("click", function(e) {
+      e.stopPropagation();
+      stepMobileGallery(btn.dataset.g === "next" ? 1 : -1);
+    });
+  });
+  
+  media.querySelectorAll(".profile-dot").forEach(function(dot) {
+    dot.addEventListener("click", function(e) {
+      e.stopPropagation();
+      mobileGalleryIndex = Number(dot.dataset.i);
+      renderMobileMedia(0);
+    });
+  });
+}
+
+function stepMobileGallery(d) {
+  var total = PROJECTS[globalProjectIndex].photos.length;
+  mobileGalleryIndex = (mobileGalleryIndex + d + total) % total;
+  renderMobileMedia(d);
+}
+
+function renderMobileProject() {
+  if (!showcaseElement) return;
+  
+  var project = PROJECTS[globalProjectIndex];
+  
+  var buttons = project.links.map(function(l, i) {
+    var ext = l.href.indexOf("#") === 0 ? "" : ' target="_blank" rel="noreferrer"';
+    return '<a href="' + l.href + '"' + ext + ' class="' + (i === 0 ? "profile-button" : "profile-button-outline") + '">' + l.label + '</a>';
+  }).join("");
+  
+  var tagsHTML = (project.tags || []).map(function(t) { 
+    return '<span class="profile-tech-pill">' + t + '</span>'; 
+  }).join("");
+
+  showcaseElement.innerHTML =
+    '<div class="profile-showcase-media"></div>' +
+    '<div class="profile-project-info">' +
+      '<h3 class="profile-grad-text profile-showcase-title">' + project.title + '</h3>' +
+      '<p>' + project.text + '</p>' +
+      '<div class="profile-project-tags">' + tagsHTML + '</div>' +
+      '<div class="profile-project-buttons">' + buttons + '</div>' +
+    '</div>' +
+    '<span class="profile-showcase-kanji" aria-hidden="true">' + project.kanji + '</span>';
+
+  renderMobileMedia(0);
+  
+  showcaseElement.classList.remove("from-left", "from-right");
+  void showcaseElement.offsetWidth; // Force reflow
+  showcaseElement.classList.add(mobileDirection > 0 ? "from-right" : "from-left");
+}
+
+/* Drag Mobile */
+if (showcaseElement) {
+  var mobStartX = null;
+  showcaseElement.addEventListener("pointerdown", function (e) { 
+    mobStartX = e.clientX; 
+  });
+  
+  showcaseElement.addEventListener("pointerup", function (e) {
+    if (mobStartX === null) return;
+    var dx = e.clientX - mobStartX;
+    mobStartX = null;
+    
+    if (Math.abs(dx) < 60) return;
+    navigateGlobal(dx < 0 ? 1 : -1);
+  });
+  
+  showcaseElement.addEventListener("pointercancel", function () { 
+    mobStartX = null; 
+  });
+}
+
+// LÓGICA DO DESKTOP (CARROSSEL 3D)
+
 var cardElementsList = [];
-var galleryIndexes = PROJECTS.map(function () { return 0; }); // foto atual de cada card
-var cardHeights = [];                                          // cache de alturas
+var desktopGalleryIndexes = PROJECTS.map(function () { return 0; });
+var cardHeights = [];
 var deckBuilt = false;
 var layoutRaf = 0;
 var settleTimer = 0;
-
 var isDragActive = false;
 var blockClickAfterDrag = false;
 
-var IMG_STYLE =
-  "position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;" +
-  "transition:opacity .3s ease-in-out;";
+var IMG_STYLE = "position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;transition:opacity .3s ease-in-out;";
 
-function padZero(n) {
-  return String(n).padStart(2, "0");
-}
-
-/* ---------- Imagens sob demanda ---------- */
 function createPhotoElement(project, photoIndex, visible) {
   var img = document.createElement("img");
-  img.className = "profile-gallery-img";
-  img.alt = project.title;
-  img.decoding = "async";
-  img.draggable = false;
+  img.className = "profile-gallery-img"; 
+  img.alt = project.title; 
+  img.decoding = "async"; 
+  img.draggable = false; 
   img.dataset.p = photoIndex;
   img.style.cssText = IMG_STYLE + "opacity:" + (visible ? 1 : 0) + ";pointer-events:" + (visible ? "auto" : "none") + ";";
   img.src = project.photos[photoIndex];
@@ -155,206 +282,171 @@ function createPhotoElement(project, photoIndex, visible) {
 function ensurePhoto(cardIndex, photoIndex) {
   var card = cardElementsList[cardIndex];
   if (!card) return null;
+  
   var slide = card.querySelector(".profile-gallery-slide");
-  if (!slide) return null;
   var existing = slide.querySelector('[data-p="' + photoIndex + '"]');
   if (existing) return existing;
+  
   var img = createPhotoElement(PROJECTS[cardIndex], photoIndex, false);
   slide.appendChild(img);
+  
+  void img.offsetWidth;
+  
   return img;
 }
 
-/* ---------- HTML do monitor (só a 1ª foto é renderizada) ---------- */
-function generateMonitorHTML(project, cardIndex) {
+function generateDesktopMonitorHTML(project, cardIndex) {
   var total = project.photos.length;
-
-  var arrows =
-    total > 1
-      ? '<button class="profile-screen-arrow left" data-g="prev" aria-label="Foto anterior">' + CHEVRON_LEFT_ICON + "</button>" +
-        '<button class="profile-screen-arrow right" data-g="next" aria-label="Próxima foto">' + CHEVRON_RIGHT_ICON + "</button>"
-      : "";
-
-  var dots =
-    total > 1
-      ? '<div class="profile-gallery-dots">' +
-        project.photos
-          .map(function (_, i) {
-            return '<button class="profile-dot' + (i === 0 ? " active" : "") + '" data-i="' + i + '" aria-label="Foto ' + (i + 1) + '"></button>';
-          })
-          .join("") +
-        "</div>"
-      : "";
-
-  var firstImg =
-    '<img class="profile-gallery-img" data-p="0" src="' + project.photos[0] + '" alt="' + project.title +
-    '" decoding="async" draggable="false"' + (cardIndex === 0 ? "" : ' loading="lazy"') +
-    ' style="' + IMG_STYLE + 'opacity:1;pointer-events:auto;"/>';
+  
+  var arrows = total > 1 
+    ? '<button class="profile-screen-arrow left" data-g="prev">' + CHEVRON_LEFT_ICON + '</button>' + 
+      '<button class="profile-screen-arrow right" data-g="next">' + CHEVRON_RIGHT_ICON + '</button>' 
+    : "";
+    
+  var dots = total > 1 
+    ? '<div class="profile-gallery-dots">' + project.photos.map(function (_, i) { 
+        return '<button class="profile-dot' + (i === 0 ? " active" : "") + '" data-i="' + i + '"></button>'; 
+      }).join("") + "</div>" 
+    : "";
+    
+  var firstImg = '<img class="profile-gallery-img" data-p="0" src="' + project.photos[0] + '" alt="' + project.title + '" decoding="async" draggable="false" style="' + IMG_STYLE + 'opacity:1;pointer-events:auto;"/>';
 
   return (
     '<div class="profile-monitor">' +
       '<div class="profile-monitor-bar">' +
         '<div class="profile-monitor-dots"><i></i><i></i><i></i></div>' +
-        '<span class="profile-monitor-count">1 / ' + total + "</span>" +
-      "</div>" +
+        '<span class="profile-monitor-count">1 / ' + total + '</span>' +
+      '</div>' +
       '<div class="profile-monitor-screen" style="position:relative;overflow:hidden;">' +
-        '<div class="profile-gallery-slide" style="position:relative;width:100%;height:100%;">' + firstImg + "</div>" +
+        '<div class="profile-gallery-slide" style="position:relative;width:100%;height:100%;">' + 
+          firstImg + 
+        '</div>' + 
         arrows +
-      "</div>" +
-    "</div>" +
+      '</div>' +
+    '</div>' + 
     dots
   );
 }
 
-function generateCardHTML(project, cardIndex) {
-  var tags = (project.tags || [])
-    .map(function (t) { return '<span class="profile-tech-pill">' + t + "</span>"; })
-    .join("");
-
-  var buttons = project.links
-    .map(function (link, i) {
-      var ext = link.href.indexOf("#") === 0 ? "" : ' target="_blank" rel="noreferrer"';
-      var cls = i === 0 ? "profile-button" : "profile-button-outline";
-      return '<a href="' + link.href + '"' + ext + ' class="' + cls + '">' + link.label + "</a>";
-    })
-    .join("");
-
-  return (
-    '<span class="profile-showcase-kanji" aria-hidden="true">' + (project.kanji || "") + "</span>" +
-    '<div class="profile-card-inner">' +
-      generateMonitorHTML(project, cardIndex) +
-      '<div class="profile-project-info" style="text-align:center;display:flex;flex-direction:column;align-items:center;">' +
-        '<h3 class="profile-gradient-text profile-showcase-title">' + project.title + "</h3>" +
-        '<div class="profile-project-tags" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:16px 0 14px 0;">' + tags + "</div>" +
-        "<p>" + project.text + "</p>" +
-        '<div class="profile-project-buttons" style="display:flex;justify-content:center;gap:10px;width:100%;margin-top:14px;">' + buttons + "</div>" +
-      "</div>" +
-    "</div>"
-  );
-}
-
-/* ---------- Contador ---------- */
-function updateCounterDisplay() {
-  if (!counterElement) return;
-  counterElement.innerHTML =
-    '<span class="profile-gradient-text">' + padZero(currentProjectIndex + 1) +
-    "</span><span> / " + padZero(PROJECTS.length) + "</span>";
-}
-
-/* ---------- Montagem (roda UMA vez) ---------- */
-function buildDeck() {
+function buildDesktopDeck() {
   if (deckBuilt || !profileDeckElement) return;
   deckBuilt = true;
-
   var html = "";
+  
   for (var i = 0; i < PROJECTS.length; i++) {
-    html += '<article class="profile-deck-card" data-i="' + i + '">' + generateCardHTML(PROJECTS[i], i) + "</article>";
+    var p = PROJECTS[i];
+    
+    var tags = (p.tags || []).map(function (t) { 
+      return '<span class="profile-tech-pill">' + t + "</span>"; 
+    }).join("");
+    
+    var btns = p.links.map(function (l, idx) { 
+      var ext = l.href.indexOf("#") === 0 ? "" : ' target="_blank" rel="noreferrer"';
+      var btnClass = idx === 0 ? "profile-button" : "profile-button-outline";
+      return '<a href="' + l.href + '"' + ext + ' class="' + btnClass + '">' + l.label + "</a>"; 
+    }).join("");
+    
+    html += 
+      '<article class="profile-deck-card" data-i="' + i + '">' +
+        '<span class="profile-showcase-kanji" aria-hidden="true">' + (p.kanji || "") + '</span>' +
+        '<div class="profile-card-inner">' +
+          generateDesktopMonitorHTML(p, i) +
+          '<div class="profile-project-info" style="text-align:center;display:flex;flex-direction:column;align-items:center;">' +
+            '<h3 class="profile-gradient-text profile-showcase-title">' + p.title + '</h3>' +
+            '<div class="profile-project-tags" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:16px 0 14px 0;">' + tags + '</div>' +
+            '<p>' + p.text + '</p>' +
+            '<div class="profile-project-buttons" style="display:flex;justify-content:center;gap:10px;width:100%;margin-top:14px;">' + btns + '</div>' +
+          '</div>' +
+        '</div>' +
+      '</article>';
   }
+  
   profileDeckElement.innerHTML = html;
   cardElementsList = Array.prototype.slice.call(profileDeckElement.children);
-
-  observeCardSizes();
-  observeVisibility();
-  updateCounterDisplay();
-  applyLayout();
+  
+  if ("ResizeObserver" in window) {
+    var ro = new ResizeObserver(function (entries) {
+      entries.forEach(function (e) { 
+        cardHeights[Number(e.target.dataset.i)] = e.borderBoxSize ? e.borderBoxSize[0].blockSize : e.target.offsetHeight; 
+      });
+      scheduleDeckHeight();
+    });
+    cardElementsList.forEach(function (c) { ro.observe(c); });
+  }
+  
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (entries) { 
+      profileDeckElement.classList.toggle("is-paused", !entries[0].isIntersecting); 
+    }, { rootMargin: "200px 0px" }).observe(profileDeckElement);
+  }
 }
 
-/* ---------- Layout 3D: só escreve data-pos (CSS cuida da transformação) ---------- */
-function applyLayout() {
+function applyDesktopLayout() {
+  if (!profileDeckElement) return;
   var total = PROJECTS.length;
-
+  
   for (var i = 0; i < total; i++) {
-    var offset = i - currentProjectIndex;
+    var offset = i - globalProjectIndex;
+    
     if (offset > total / 2) offset -= total;
     if (offset < -total / 2) offset += total;
-
+    
     var pos = Math.abs(offset) > 2 ? "hidden" : String(offset);
     var card = cardElementsList[i];
-
+    
     if (card.dataset.pos !== pos) card.dataset.pos = pos;
     card.classList.toggle("is-active", offset === 0);
     card.classList.remove("is-settled");
-    card.setAttribute("aria-hidden", pos === "hidden" ? "true" : "false");
-
-    // Só o card central tem botões/setas/dots interativos.
-    // `inert` bloqueia clique e foco por teclado; o clique cai no card e navega.
-    var inner = card.firstElementChild && card.querySelector(".profile-card-inner");
+    
+    var inner = card.querySelector(".profile-card-inner");
     if (inner) inner.toggleAttribute("inert", offset !== 0);
   }
-
-  // Só libera o brilho das tags depois que o card central assentou
-  // (evita o engasgo na 1ª passada, que coincidia com a transição).
+  
   clearTimeout(settleTimer);
   settleTimer = setTimeout(function () {
     requestAnimationFrame(function () {
-      var activeCard = cardElementsList[currentProjectIndex];
+      var activeCard = cardElementsList[globalProjectIndex];
       if (activeCard) activeCard.classList.add("is-settled");
     });
   }, 800);
-
+  
   scheduleDeckHeight();
 }
 
-/* ---------- Altura do deck sem forced reflow ---------- */
-function observeCardSizes() {
-  if (!("ResizeObserver" in window)) {
-    cardHeights = cardElementsList.map(function (c) { return c.offsetHeight; });
-    return;
-  }
-  var ro = new ResizeObserver(function (entries) {
-    entries.forEach(function (entry) {
-      var idx = Number(entry.target.dataset.i);
-      var box = entry.borderBoxSize && entry.borderBoxSize[0];
-      cardHeights[idx] = box ? box.blockSize : entry.target.offsetHeight;
-    });
-    scheduleDeckHeight();
-  });
-  cardElementsList.forEach(function (c) { ro.observe(c); });
-}
-
 function scheduleDeckHeight() {
-  if (layoutRaf) return;
+  if (layoutRaf || !profileDeckElement) return;
+  
   layoutRaf = requestAnimationFrame(function () {
     layoutRaf = 0;
-    var h = cardHeights[currentProjectIndex];
+    var h = cardHeights[globalProjectIndex];
     if (h) profileDeckElement.style.minHeight = h + 60 + "px";
   });
 }
 
-/* ---------- Pausa will-change quando a seção sai da tela ---------- */
-function observeVisibility() {
-  if (!("IntersectionObserver" in window)) return;
-  new IntersectionObserver(function (entries) {
-    profileDeckElement.classList.toggle("is-paused", !entries[0].isIntersecting);
-  }, { rootMargin: "200px 0px" }).observe(profileDeckElement);
-}
-
-/* ---------- Galeria interna ---------- */
-function renderGallery(cardIndex) {
+function renderDesktopGallery(cardIndex) {
   var card = cardElementsList[cardIndex];
   if (!card) return;
-
+  
   var project = PROJECTS[cardIndex];
-  var active = galleryIndexes[cardIndex];
+  var active = desktopGalleryIndexes[cardIndex];
   var total = project.photos.length;
-
+  
   ensurePhoto(cardIndex, active);
-
-  var count = card.querySelector(".profile-monitor-count");
-  if (count) count.textContent = active + 1 + " / " + total;
-
+  
+  card.querySelector(".profile-monitor-count").textContent = active + 1 + " / " + total;
+  
   var imgs = card.querySelectorAll(".profile-gallery-img");
   for (var i = 0; i < imgs.length; i++) {
     var on = Number(imgs[i].dataset.p) === active;
     imgs[i].style.opacity = on ? "1" : "0";
     imgs[i].style.pointerEvents = on ? "auto" : "none";
   }
-
+  
   var dots = card.querySelectorAll(".profile-dot");
   for (var d = 0; d < dots.length; d++) {
     dots[d].classList.toggle("active", d === active);
   }
-
-  // pré-carrega a próxima foto quando o navegador estiver ocioso
+  
   if (total > 1) {
     var next = (active + 1) % total;
     var idle = window.requestIdleCallback || function (fn) { return setTimeout(fn, 200); };
@@ -362,179 +454,163 @@ function renderGallery(cardIndex) {
   }
 }
 
-function stepGalleryPhoto(delta) {
-  var total = PROJECTS[currentProjectIndex].photos.length;
-  if (total < 2) return;
-  galleryIndexes[currentProjectIndex] = (galleryIndexes[currentProjectIndex] + delta + total) % total;
-  renderGallery(currentProjectIndex);
-}
-
-function jumpToGalleryPhoto(target) {
-  var total = PROJECTS[currentProjectIndex].photos.length;
-  if (total < 2 || target === galleryIndexes[currentProjectIndex]) return;
-  galleryIndexes[currentProjectIndex] = target;
-  renderGallery(currentProjectIndex);
-}
-
-/* ---------- Navegação ---------- */
-function navigateProjects(delta) {
-  var total = PROJECTS.length;
-  var previous = currentProjectIndex;
-
-  currentProjectIndex = (currentProjectIndex + delta + total) % total;
-
-  // o card que saiu volta para a 1ª foto
-  if (galleryIndexes[previous] !== 0) {
-    galleryIndexes[previous] = 0;
-    renderGallery(previous);
-  }
-
-  updateCounterDisplay();
-  applyLayout();
-}
-
-function calculateShortestDirection(target) {
-  var total = PROJECTS.length;
-  var offset = target - currentProjectIndex;
-  if (offset > total / 2) offset -= total;
-  if (offset < -total / 2) offset += total;
-  return offset > 0 ? 1 : -1;
-}
-
-/* ---------- Cliques ---------- */
+/* Eventos do Desktop */
 if (profileDeckElement) {
   profileDeckElement.addEventListener("click", function (event) {
     if (isDragActive || blockClickAfterDrag) return;
-
+    
     var arrow = event.target.closest("[data-g]");
     if (arrow) {
       event.stopPropagation();
-      stepGalleryPhoto(arrow.dataset.g === "next" ? 1 : -1);
+      var d = arrow.dataset.g === "next" ? 1 : -1;
+      var tot = PROJECTS[globalProjectIndex].photos.length;
+      desktopGalleryIndexes[globalProjectIndex] = (desktopGalleryIndexes[globalProjectIndex] + d + tot) % tot;
+      renderDesktopGallery(globalProjectIndex);
       return;
     }
-
+    
     var dot = event.target.closest(".profile-dot");
     if (dot) {
       event.stopPropagation();
-      jumpToGalleryPhoto(Number(dot.dataset.i));
+      desktopGalleryIndexes[globalProjectIndex] = Number(dot.dataset.i);
+      renderDesktopGallery(globalProjectIndex);
       return;
     }
-
+    
     if (event.target.closest("a")) return;
-
+    
     var card = event.target.closest(".profile-deck-card");
     if (!card) return;
-
+    
     var idx = Number(card.dataset.i);
-    if (idx !== currentProjectIndex) {
-      navigateProjects(calculateShortestDirection(idx));
+    if (idx !== globalProjectIndex) {
+      var offset = idx - globalProjectIndex;
+      var total = PROJECTS.length;
+      if (offset > total / 2) offset -= total;
+      if (offset < -total / 2) offset += total;
+      navigateGlobal(offset);
     }
   });
-}
 
-var previousButtonElement = document.getElementById("profile-prev");
-var nextButtonElement = document.getElementById("profile-next");
-
-if (previousButtonElement) {
-  previousButtonElement.addEventListener("click", function () { navigateProjects(-1); });
-}
-if (nextButtonElement) {
-  nextButtonElement.addEventListener("click", function () { navigateProjects(1); });
-}
-
-/* ---------- Arraste (swipe) ---------- */
-function initializeDragSystem() {
-  if (!profileDeckElement) return;
-
-  var startX = null;
-  var startY = null;
-  var onActivePhoto = false;
-
-  profileDeckElement.addEventListener("pointerdown", function (event) {
-    startX = event.clientX;
-    startY = event.clientY;
+  var startX = null, startY = null, onActivePhoto = false;
+  
+  profileDeckElement.addEventListener("pointerdown", function (e) {
+    startX = e.clientX; 
+    startY = e.clientY; 
     isDragActive = false;
-    onActivePhoto = !!(
-      event.target.closest(".profile-monitor-screen") &&
-      event.target.closest(".profile-deck-card.is-active")
-    );
+    onActivePhoto = !!(e.target.closest(".profile-monitor-screen") && e.target.closest(".profile-deck-card.is-active"));
   }, { passive: true });
-
-  profileDeckElement.addEventListener("pointermove", function (event) {
-    if (startX === null || isDragActive) return; // para de calcular depois de detectar
-    if (Math.abs(event.clientX - startX) > 10 || Math.abs(event.clientY - startY) > 10) {
+  
+  profileDeckElement.addEventListener("pointermove", function (e) {
+    if (startX === null || isDragActive) return;
+    if (Math.abs(e.clientX - startX) > 10 || Math.abs(e.clientY - startY) > 10) {
       isDragActive = true;
     }
   }, { passive: true });
-
-  profileDeckElement.addEventListener("pointerup", function (event) {
+  
+  profileDeckElement.addEventListener("pointerup", function (e) {
     if (startX === null) return;
-
-    var deltaX = event.clientX - startX;
+    var deltaX = e.clientX - startX;
     var wasDragging = isDragActive;
-    startX = null;
+    startX = null; 
     startY = null;
-
-    if (!wasDragging) {
-      isDragActive = false;
-      onActivePhoto = false;
-      return;
+    
+    if (!wasDragging) { 
+      isDragActive = false; 
+      onActivePhoto = false; 
+      return; 
     }
-
+    
     blockClickAfterDrag = true;
-    setTimeout(function () {
-      blockClickAfterDrag = false;
-      isDragActive = false;
+    setTimeout(function () { 
+      blockClickAfterDrag = false; 
+      isDragActive = false; 
     }, 350);
-
+    
     if (onActivePhoto) {
       onActivePhoto = false;
-      if (Math.abs(deltaX) >= 45) stepGalleryPhoto(deltaX < 0 ? 1 : -1);
+      if (Math.abs(deltaX) >= 45) {
+        var d = deltaX < 0 ? 1 : -1;
+        var tot = PROJECTS[globalProjectIndex].photos.length;
+        desktopGalleryIndexes[globalProjectIndex] = (desktopGalleryIndexes[globalProjectIndex] + d + tot) % tot;
+        renderDesktopGallery(globalProjectIndex);
+      }
       return;
     }
-
-    if (Math.abs(deltaX) >= 55) navigateProjects(deltaX < 0 ? 1 : -1);
+    
+    if (Math.abs(deltaX) >= 55) {
+      navigateGlobal(deltaX < 0 ? 1 : -1);
+    }
   }, { passive: true });
-
-  profileDeckElement.addEventListener("pointercancel", function () {
-    startX = null;
-    startY = null;
-    isDragActive = false;
-    onActivePhoto = false;
+  
+  profileDeckElement.addEventListener("pointercancel", function () { 
+    startX = startY = null; 
+    isDragActive = onActivePhoto = false; 
   }, { passive: true });
 }
-initializeDragSystem();
 
-/* ---------- Inicialização (uma única vez) ---------- */
+// CONTROLADOR GLOBAL E NAVEGAÇÃO
+
+function navigateGlobal(delta) {
+  var total = PROJECTS.length;
+  globalProjectIndex = (globalProjectIndex + delta + total) % total;
+  
+  // Define direção apenas para a animação do Mobile
+  mobileDirection = delta > 0 ? 1 : -1;
+  mobileGalleryIndex = 0; // reseta foto interna do mobile (comportamento antigo mantido)
+
+  // Atualiza ambos (assim a responsividade funciona na hora de girar/redimensionar)
+  renderMobileProject();
+  applyDesktopLayout();
+  updateCounterDisplay();
+}
+
+var btnPrev = document.getElementById("profile-prev");
+var btnNext = document.getElementById("profile-next");
+
+if (btnPrev) btnPrev.addEventListener("click", function () { navigateGlobal(-1); });
+if (btnNext) btnNext.addEventListener("click", function () { navigateGlobal(1); });
+
+// INICIALIZAÇÃO
+
+function initProjects() {
+  buildDesktopDeck();
+  applyDesktopLayout();
+  renderMobileProject();
+  updateCounterDisplay();
+}
+
 if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", buildDeck);
+  document.addEventListener("DOMContentLoaded", initProjects);
 } else {
-  buildDeck();
+  initProjects();
 }
 
-/* ---------- Modal de manutenção ---------- */
+// MODAL DE MANUTENÇÃO
+
 function initializeMaintenanceModal() {
   var overlay = document.getElementById("profile-modal-overlay");
   var actionButton = document.getElementById("profile-modal-btn");
   var titleEl = document.getElementById("profile-modal-title");
   var messageEl = document.getElementById("profile-modal-message");
-
+  var sectionProjectsElement = document.getElementById("projects");
+  
   if (!overlay || !sectionProjectsElement) return;
 
   function openModal(projectName, statusType) {
     var isDev = statusType.toLowerCase().indexOf("desenvolvimento") !== -1;
-
+    
     if (titleEl) {
       titleEl.textContent = isDev ? "Ops! Projeto Em Desenvolvimento" : "Ops! Site Em Manutenção";
     }
-
+    
     if (messageEl) {
       var name = '<strong class="profile-modal-highlight">' + projectName + "</strong>";
       messageEl.innerHTML = isDev
         ? "O projeto " + name + " ainda está sendo construído e estará disponível em breve!"
         : "O projeto " + name + " está em manutenção no momento e não poderá ser acessado agora. Tente novamente mais tarde ou acesse o repositório!";
     }
-
+    
     overlay.classList.add("open");
     overlay.setAttribute("aria-hidden", "false");
   }
@@ -545,16 +621,17 @@ function initializeMaintenanceModal() {
   }
 
   if (actionButton) actionButton.addEventListener("click", closeModal);
-
+  
   sectionProjectsElement.addEventListener("click", function (event) {
     var link = event.target.closest("a");
     if (!link) return;
-
+    
     var label = link.textContent.trim();
     if (label.indexOf("Manutenção") !== -1 || label.indexOf("Desenvolvimento") !== -1) {
       event.preventDefault();
-      openModal(PROJECTS[currentProjectIndex].title, label);
+      openModal(PROJECTS[globalProjectIndex].title, label);
     }
   });
 }
+
 initializeMaintenanceModal();
