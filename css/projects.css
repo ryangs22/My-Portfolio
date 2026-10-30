@@ -1,244 +1,5 @@
-.profile-projects-stage {
-  position: relative;
-}
-
-.profile-deck { 
-  --deck-step-x: 46%;  /* deslocamento horizontal (% da largura do card) */
-  --deck-step-rotate-y: 34deg; /* giro em torno do eixo vertical (graus) */
-  --deck-step-depth-z: 210px; /* recuo em profundidade, para trás (px) */
-
-  position: relative;
-  width: 100%;
-  min-height: 420px;
-  perspective: 1700px;
-  perspective-origin: 50% 42%;
-  touch-action: pan-y;
-  contain: layout style;
-  /* sem transform-style: preserve-3d — cada card já tem sua própria perspectiva herdada*/
-}
-
-.profile-deck-card {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: min(640px, 78%);
-  padding: 16px 16px 22px;
-  border-radius: 26px;
-  overflow: hidden;
-  background: rgb(10, 14, 30);
-  border: 1px solid rgba(0, 210, 180, 0.25);
-  /* sombra estática e menor: sombras gigantes aumentam muito a textura da camada */
-  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.45);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  cursor: pointer;
-  user-select: none;
-  -webkit-user-select: none;
-  /* estado inicial (escondido) */
-  transform: translate3d(-50%, -50%, calc(var(--deck-step-depth-z) * -2.5)) scale(0.7);
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  z-index: 0;
-  transition:
-    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 0.45s ease,
-    visibility 0s linear 0.55s;
-}
-
-/* Escurece os cards laterais com uma camada de opacidade no lugar de filter: blur */
-.profile-deck-card::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: #04060f;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.45s ease;
-}
-
-/* ---------- Posições (offset em relação ao card ativo) ---------- */
-.profile-deck-card[data-pos="0"],
-.profile-deck-card[data-pos="-1"],
-.profile-deck-card[data-pos="1"],
-.profile-deck-card[data-pos="-2"],
-.profile-deck-card[data-pos="2"] {
-  visibility: visible;
-  pointer-events: auto;
-  opacity: 1;
-  transition:
-    transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 0.45s ease,
-    visibility 0s;
-}
-
-.profile-deck-card[data-pos="0"] {
-  z-index: 10;
-  transform: translate3d(-50%, -50%, 0) rotateY(0deg) scale(1);
-  border-color: rgba(0, 210, 180, 0.45);
-  cursor: grab;
-}
-.profile-deck-card[data-pos="0"]:active {
-  cursor: grabbing;
-}
-
-.profile-deck-card[data-pos="1"] {
-  z-index: 9;
-  transform: translate3d(calc(-50% + var(--deck-step-x)), -50%, calc(var(--deck-step-depth-z) * -1))
-             rotateY(calc(var(--deck-step-rotate-y) * -1)) scale(0.88);
-}
-.profile-deck-card[data-pos="-1"] {
-  z-index: 9;
-  transform: translate3d(calc(-50% - var(--deck-step-x)), -50%, calc(var(--deck-step-depth-z) * -1))
-             rotateY(var(--deck-step-rotate-y)) scale(0.88);
-}
-.profile-deck-card[data-pos="2"] {
-  z-index: 8;
-  transform: translate3d(calc(-50% + var(--deck-step-x) * 2), -50%, calc(var(--deck-step-depth-z) * -2))
-             rotateY(calc(var(--deck-step-rotate-y) * -2)) scale(0.76);
-}
-.profile-deck-card[data-pos="-2"] {
-  z-index: 8;
-  transform: translate3d(calc(-50% - var(--deck-step-x) * 2), -50%, calc(var(--deck-step-depth-z) * -2))
-             rotateY(calc(var(--deck-step-rotate-y) * 2)) scale(0.76);
-}
-
-.profile-deck-card[data-pos="1"]::after,
-.profile-deck-card[data-pos="-1"]::after { opacity: 0.45; }
-.profile-deck-card[data-pos="2"]::after,
-.profile-deck-card[data-pos="-2"]::after { opacity: 0.72; }
-
-/* will-change só nos 3 cards que realmente se movem, e só enquanto a seção está visível */
-.profile-deck:not(.is-paused) .profile-deck-card[data-pos="0"],
-.profile-deck:not(.is-paused) .profile-deck-card[data-pos="1"],
-.profile-deck:not(.is-paused) .profile-deck-card[data-pos="-1"] {
-  will-change: transform, opacity;
-}
-
-/* ---------- Conteúdo do card ---------- */
-.profile-deck-card .profile-project-info {
-  padding: 18px 8px 0;
-}
-
-.profile-deck-card .profile-showcase-title {
-  margin-bottom: 10px;
-}
-
-.profile-deck-card .profile-project-info p {
-  margin-bottom: 18px;
-}
-
-.profile-deck-card .profile-monitor {
-  box-shadow: none;
-}
-
-.profile-deck-card .profile-gallery-img {
-  -webkit-user-drag: none;
-  user-select: none;
-}
-
-.profile-showcase-kanji {
-  position: absolute;
-  text-align: center;
-  z-index: 0;
-  right: -24px;
-  bottom: -50px;
-  font-family: "Shippori Mincho", serif;
-  font-weight: 800;
-  font-size: 200px;
-  line-height: 1;
-  color: rgba(0, 210, 180, 0.06);
-  pointer-events: none;
-  user-select: none;
-}
-
-/* Wrapper do conteúdo: fica acima do kanji e recebe o blur dos cards laterais */
-.profile-card-inner {
-  position: relative;
-  z-index: 1;
-}
-
-/* ---------- Blur leve nos cards laterais ----------
-   o filter está no wrapper INTERNO (que não é uma camada
-   composta própria), então o blur é rasterizado UMA vez quando o data-pos
-   muda. */
-.profile-deck {
-  --blur-near: 4px;
-  --blur-far: 7px;
-}
-.profile-deck-card[data-pos="1"] .profile-card-inner,
-.profile-deck-card[data-pos="-1"] .profile-card-inner {
-  filter: blur(var(--blur-near));
-}
-.profile-deck-card[data-pos="2"] .profile-card-inner,
-.profile-deck-card[data-pos="-2"] .profile-card-inner {
-  filter: blur(var(--blur-far));
-}
-
-/* ---------- Cards laterais não são interativos ---------- */
-.profile-deck-card:not([data-pos="0"]) .profile-card-inner,
-.profile-deck-card:not([data-pos="0"]) .profile-card-inner * {
-  pointer-events: none;
-}
-
-/* ---------- Mobile ---------- */
-@media (max-width: 760px) {
-  .profile-deck {
-    --deck-step-x: 62%;
-    --deck-step-rotate-y: 24deg;
-    --deck-step-depth-z: 130px;
-    --blur-near: 3px;
-    --blur-far: 5px;
-    perspective: 1100px;
-  }
-  .profile-deck-card {
-    width: 82%;
-    padding: 12px 12px 18px;
-    border-radius: 20px;
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
-  }
-  .profile-deck-card .profile-project-info {
-    padding: 14px 4px 0;
-  }
-  .profile-showcase-kanji {
-    font-size: 140px;
-  }
-}
-
-/* ---------- Acessibilidade ---------- */
-@media (prefers-reduced-motion: reduce) {
-  .profile-deck-card,
-  .profile-deck-card::after {
-    transition-duration: 0.01s !important;
-  }
-}
-
-/* ---------- will-change permanente REMOVIDO daqui ---------- */
-.profile-bento-card,
-.profile-input {
-  transform-style: preserve-3d;
-}
-.profile-bento-card:hover,
-.profile-input:focus {
-  will-change: transform;
-}
-
-/* MELHORIA DE PERFORMANCE — Correção de animações das tags e efeito dos blobs do plano de fundo */
- 
-/* 1) Pílulas: sem backdrop-filter (pesado em cards 3D no mobile) */
-.profile-deck-card .profile-tech-pill {
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-  transition: color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
-}
- 
-/* 2) Correção do Brilho espelhado nas tags (pílulas e botões dos cards) */
-@keyframes profile-card-shine {
-  0%        { transform: translateX(-120%) skewX(-20deg); opacity: 1; }
-  55%       { transform: translateX(230%)  skewX(-20deg); opacity: 1; }
-  55.1%,
-  100%      { transform: translateX(230%)  skewX(-20deg); opacity: 0; }.profile-projects-stage { 
+/* PROJETOS - COMPONENTES COMPARTILHADOS E BASE */
+.profile-projects-stage { 
   position: relative; 
 }
 
@@ -305,7 +66,7 @@
   overflow: hidden;
 }
 
-/* --- Tags e Pílulas (Performance otimizada) --- */
+/* --- Tags e Pílulas --- */
 .profile-project-tags {
   display: flex;
   flex-wrap: wrap;
@@ -374,10 +135,9 @@
   line-height: 1.15;
 }
 
-
 /* DESKTOP E TABLET (>= 768px): CARROSSEL 3D */
 @media (min-width: 768px) {
-  /* Oculta layout antigo */
+  /* Oculta o layout antigo do mobile no desktop */
   .profile-showcase { display: none !important; }
   .profile-projects-shell { display: none !important; }
 
@@ -462,7 +222,7 @@
   
   .profile-deck-card[data-pos="-1"] { 
     z-index: 9; 
-    transform: translate3d(calc(-50% - var(--deck-step-x)), -50%, calc(var(--deck-step-depth-z) * -1)) rotateY(var(--deck-step-rotate-y)) scale(0.88); 
+    transform: translate3d(calc(-50% - var(--deck-step-x)), -50%, calc(var(--deck-step-depth-z) * -1)) rotateY(calc(var(--deck-step-rotate-y))) scale(0.88); 
   }
   
   .profile-deck-card[data-pos="2"] { 
@@ -570,12 +330,10 @@
   }
 }
 
-
 /* MOBILE (< 768px): CARD ÚNICO ANIMADO */
 @media (max-width: 767px) {
-  /* Oculta layout novo */
+  /* Oculta o deck 3D no mobile */
   .profile-deck { display: none !important; }
-  .profile-projects-stage { display: none !important; }
 
   .profile-projects-shell { padding: 22px; }
 
@@ -684,7 +442,7 @@
   }
 }
 
-/* COMPONENTES INTERNOS DA GALERIA (Funcionam em ambos os layouts) */
+/* COMPONENTES INTERNOS DA GALERIA (Compartilhados) */
 .profile-monitor-bar {
   display: flex; 
   justify-content: space-between; 
@@ -804,14 +562,7 @@
   transform: scale(1.3); 
 }
 
-/* Remove animações excessivas em mobile touch */
-@media (hover: none), (max-width: 760px) {
-  .profile-gradient-text { 
-    animation: none; 
-    background-size: 100% 100%; 
-  }
-}
-}
+/* ANIMAÇÕES E OTIMIZAÇÕES DE PERFORMANCE */
 .profile-deck-card .profile-tech-pill::after,
 .profile-deck-card .profile-button::after {
   left: 0;
@@ -820,29 +571,28 @@
   transform: translateX(-120%) skewX(-20deg);
   animation: profile-card-shine 3s ease-in-out infinite;
 }
+
 .profile-deck-card .profile-tech-pill::after {
   background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.3), transparent);
 }
- 
-/* 3) Cards laterais ficam sem NENHUMA animação. */
+
+/* Cards laterais sem animação para economizar processamento */
 .profile-deck-card:not([data-pos="0"]),
 .profile-deck-card:not([data-pos="0"]) *,
 .profile-deck-card:not([data-pos="0"]) *::before,
 .profile-deck-card:not([data-pos="0"]) *::after {
   animation: none !important;
 }
- 
-/* 4) Engasgo na 1ª passada do brilho quando um card vira o central */
+
 .profile-deck-card:not(.is-settled) .profile-tech-pill::after,
 .profile-deck-card:not(.is-settled) .profile-button::after {
   animation: none !important;
 }
- 
-/* 5) Celular / touch: corta animações que repintam em loop */
+
 @media (hover: none), (max-width: 760px) {
-  .profile-gradient-text {
-    animation: none;
-    background-size: 100% 100%;
+  .profile-gradient-text { 
+    animation: none; 
+    background-size: 100% 100%; 
   }
   .profile-progress,
   .profile-back-top,
