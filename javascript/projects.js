@@ -150,9 +150,9 @@ function generateMobileGalleryHTML(project) {
 
   var imgElements = project.photos.map(function(photoUrl, i) {
     var isVisible = (i === mobileGalleryIndex);
-    var displayVal = isVisible ? "block" : "none";
+    var opacityVal = isVisible ? "1" : "0";
     var pointerVal = isVisible ? "auto" : "none";
-    return '<img class="profile-gallery-img" data-p="' + i + '" src="' + photoUrl + '" alt="' + project.title + '" decoding="async" draggable="false" style="' + IMG_STYLE + 'display:' + displayVal + ';opacity:1;pointer-events:' + pointerVal + ';">';
+    return '<img class="profile-gallery-img" data-p="' + i + '" src="' + photoUrl + '" alt="' + project.title + '" decoding="async" draggable="false" style="' + IMG_STYLE + 'opacity:' + opacityVal + ';pointer-events:' + pointerVal + ';">';
   }).join("");
 
   return (
@@ -187,19 +187,13 @@ function renderMobileMedia(animDirection) {
   var imgs = media.querySelectorAll(".profile-gallery-img");
   for (var i = 0; i < imgs.length; i++) {
     var on = Number(imgs[i].dataset.p) === mobileGalleryIndex;
-    imgs[i].style.display = on ? "block" : "none";
+    imgs[i].style.opacity = on ? "1" : "0";
     imgs[i].style.pointerEvents = on ? "auto" : "none";
   }
 
   var dots = media.querySelectorAll(".profile-dot");
   for (var d = 0; d < dots.length; d++) {
     dots[d].classList.toggle("active", d === mobileGalleryIndex);
-  }
-
-  if (animDirection !== 0) {
-    media.classList.remove("gal-left", "gal-right");
-    void media.offsetWidth;
-    media.classList.add(animDirection > 0 ? "gal-right" : "gal-left");
   }
 }
 
