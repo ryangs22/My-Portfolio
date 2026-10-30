@@ -373,8 +373,9 @@
     -webkit-backdrop-filter: blur(8px); 
   }
   
+  /* Restaura o brilho/espelho nas pílulas do mobile */
   .profile-showcase .profile-tech-pill::after { 
-    animation: profile-shine 3s ease-in-out infinite; 
+    animation: profile-card-shine 3s ease-in-out infinite; 
   }
 
   @keyframes profile-show-next { 
