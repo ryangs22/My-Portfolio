@@ -229,7 +229,7 @@ function renderMobileProject() {
   }).join("");
 
   showcaseElement.innerHTML =
-    '<div class="profile-showcase-media"></div>' +
+    '<div class="profile-showcase-media">' + generateMobileGalleryHTML(project) + '</div>' +
     '<div class="profile-project-info">' +
       '<h3 class="profile-gradient-text profile-showcase-title">' + project.title + '</h3>' +
       '<p>' + project.text + '</p>' +
@@ -243,6 +243,23 @@ function renderMobileProject() {
   showcaseElement.classList.remove("from-left", "from-right");
   void showcaseElement.offsetWidth; // Força o reflow
   showcaseElement.classList.add(mobileDirection > 0 ? "from-right" : "from-left");
+
+  var media = showcaseElement.querySelector(".profile-showcase-media");
+  if (media) {
+    media.querySelectorAll("[data-g]").forEach(function(btn) {
+      btn.addEventListener("click", function(e) {
+        e.stopPropagation();
+        stepMobileGallery(btn.dataset.g === "next" ? 1 : -1);
+      });
+    });
+    media.querySelectorAll(".profile-dot").forEach(function(dot) {
+      dot.addEventListener("click", function(e) {
+        e.stopPropagation();
+        mobileGalleryIndex = Number(dot.dataset.i);
+        renderMobileMedia(0);
+      });
+    });
+  }
 }
 
 /* Drag Mobile (Gestos de arrastar) */
