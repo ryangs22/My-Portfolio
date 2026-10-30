@@ -148,15 +148,23 @@ function generateMobileGalleryHTML(project) {
     return '<button class="profile-dot' + (i === mobileGalleryIndex ? " active" : "") + '" data-i="' + i + '"></button>';
   }).join("");
 
+  // Renderiza TODAS as fotos já no HTML com opacidade controlada para permitir o fade suave
+  var imgElements = project.photos.map(function(photoUrl, i) {
+    var isVisible = (i === mobileGalleryIndex);
+    var opacityVal = isVisible ? "1" : "0";
+    var pointerVal = isVisible ? "auto" : "none";
+    return '<img class="profile-gallery-img" data-p="' + i + '" src="' + photoUrl + '" alt="' + project.title + '" decoding="async" draggable="false" style="' + IMG_STYLE + 'opacity:' + opacityVal + ';pointer-events:' + pointerVal + ';">';
+  }).join("");
+
   return (
     '<div class="profile-monitor">' +
       '<div class="profile-monitor-bar">' +
         '<div class="profile-monitor-dots"><i></i><i></i><i></i></div>' +
         '<span class="profile-monitor-count">' + (mobileGalleryIndex + 1) + " / " + total + "</span>" +
       '</div>' +
-      '<div class="profile-monitor-screen">' +
-        '<div class="profile-gallery-slide">' +
-          '<img class="profile-gallery-img" src="' + project.photos[mobileGalleryIndex] + '" alt="' + project.title + '">' +
+      '<div class="profile-monitor-screen" style="position:relative;overflow:hidden;">' +
+        '<div class="profile-gallery-slide" style="position:relative;width:100%;height:100%;">' +
+          imgElements +
         '</div>' + 
         arrows +
       '</div>' +
@@ -171,29 +179,32 @@ function renderMobileMedia(animDirection) {
   var media = showcaseElement.querySelector(".profile-showcase-media");
   if (!media) return;
   
-  media.innerHTML = generateMobileGalleryHTML(PROJECTS[globalProjectIndex]);
+  var project = PROJECTS[globalProjectIndex];
+  var total = project.photos.length;
+
+  // Atualiza o contador de fotos
+  var countEl = showcaseElement.querySelector(".profile-monitor-count");
+  if (countEl) countEl.textContent = (mobileGalleryIndex + 1) + " / " + total;
+
+  // Altera a opacidade das imagens suavemente via JS (aproveitando a transição do CSS)
+  var imgs = media.querySelectorAll(".profile-gallery-img");
+  for (var i = 0; i < imgs.length; i++) {
+    var on = Number(imgs[i].dataset.p) === mobileGalleryIndex;
+    imgs[i].style.opacity = on ? "1" : "0";
+    imgs[i].style.pointerEvents = on ? "auto" : "none";
+  }
+
+  // Atualiza os pontos (dots) da galeria
+  var dots = media.querySelectorAll(".profile-dot");
+  for (var d = 0; d < dots.length; d++) {
+    dots[d].classList.toggle("active", d === mobileGalleryIndex);
+  }
 
   if (animDirection !== 0) {
     media.classList.remove("gal-left", "gal-right");
-    void media.offsetWidth; // Force reflow
+    void media.offsetWidth; // Força o reflow para garantir a animação do container se necessário
     media.classList.add(animDirection > 0 ? "gal-right" : "gal-left");
   }
-  
-  // Wire eventos da galeria mobile
-  media.querySelectorAll("[data-g]").forEach(function(btn) {
-    btn.addEventListener("click", function(e) {
-      e.stopPropagation();
-      stepMobileGallery(btn.dataset.g === "next" ? 1 : -1);
-    });
-  });
-  
-  media.querySelectorAll(".profile-dot").forEach(function(dot) {
-    dot.addEventListener("click", function(e) {
-      e.stopPropagation();
-      mobileGalleryIndex = Number(dot.dataset.i);
-      renderMobileMedia(0);
-    });
-  });
 }
 
 function stepMobileGallery(d) {
@@ -206,6 +217,7 @@ function renderMobileProject() {
   if (!showcaseElement) return;
   
   var project = PROJECTS[globalProjectIndex];
+  mobileGalleryIndex = 0; // Reseta para a primeira foto ao trocar de projeto principal
   
   var buttons = project.links.map(function(l, i) {
     var ext = l.href.indexOf("#") === 0 ? "" : ' target="_blank" rel="noreferrer"';
@@ -219,7 +231,7 @@ function renderMobileProject() {
   showcaseElement.innerHTML =
     '<div class="profile-showcase-media"></div>' +
     '<div class="profile-project-info">' +
-      '<h3 class="profile-grad-text profile-showcase-title">' + project.title + '</h3>' +
+      '<h3 class="profile-gradient-text profile-showcase-title">' + project.title + '</h3>' +
       '<p>' + project.text + '</p>' +
       '<div class="profile-project-tags">' + tagsHTML + '</div>' +
       '<div class="profile-project-buttons">' + buttons + '</div>' +
@@ -229,11 +241,11 @@ function renderMobileProject() {
   renderMobileMedia(0);
   
   showcaseElement.classList.remove("from-left", "from-right");
-  void showcaseElement.offsetWidth; // Force reflow
+  void showcaseElement.offsetWidth; // Força o reflow
   showcaseElement.classList.add(mobileDirection > 0 ? "from-right" : "from-left");
 }
 
-/* Drag Mobile */
+/* Drag Mobile (Gestos de arrastar) */
 if (showcaseElement) {
   var mobStartX = null;
   showcaseElement.addEventListener("pointerdown", function (e) { 
