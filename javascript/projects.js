@@ -27,14 +27,14 @@ var PROJECT_IMAGES = {
 
 var PROJECTS = [
   {
-    title: "Meu Portfolio",
-    text: "Aqui você verá um pouco sobre mim, meus projetos, minhas skills, além de poder entrar em contato comigo.",
-    tags: ["HTML", "CSS", "JavaScript"],
-    kanji: "私",
-    photos: [PROJECT_IMAGES.portfolio1, PROJECT_IMAGES.portfolio2],
+    title: "Sentient",
+    text: "Plataforma SaaS Full Stack com agentes de IA integrados em um workspace colaborativo, utilizando canvas interativo (tldraw), edição de documentos estilo Notion, IA com Gemini e Vercel AI SDK, autenticação, billing e tempo real.",
+    tags: ["SAAS", "React", "TypeScript", "Next.js", "Tailwind CSS", "Supabase", "Prisma", "Shadcn UI", "Vercel AI SDK"],
+    kanji: "脳",
+    photos: [PROJECT_IMAGES.sentient1],
     links: [
-      { label: "Ir para o Site", href: "#home" },
-      { label: "Ver Repositório", href: "https://github.com/ryangs22/My-Portfolio" }
+      { label: "Site Em Desenvolvimento", href: "#projects" },
+      { label: "Ver Repositório", href: "https://github.com/ryangs22" }
     ],
   },
   {
@@ -49,14 +49,14 @@ var PROJECTS = [
     ],
   },
   {
-    title: "Sentient",
-    text: "Plataforma SaaS Full Stack com agentes de IA integrados em um workspace colaborativo, utilizando canvas interativo (tldraw), edição de documentos estilo Notion, IA com Gemini e Vercel AI SDK, autenticação, billing e tempo real.",
-    tags: ["SAAS", "React", "TypeScript", "Next.js", "Tailwind CSS", "Supabase", "Prisma", "Shadcn UI", "Vercel AI SDK"],
-    kanji: "脳",
-    photos: [PROJECT_IMAGES.sentient1],
+    title: "Meu Portfolio",
+    text: "Aqui você verá um pouco sobre mim, meus projetos, minhas skills, além de poder entrar em contato comigo.",
+    tags: ["HTML", "CSS", "JavaScript"],
+    kanji: "私",
+    photos: [PROJECT_IMAGES.portfolio1, PROJECT_IMAGES.portfolio2],
     links: [
-      { label: "Site Em Desenvolvimento", href: "#projects" },
-      { label: "Ver Repositório", href: "https://github.com/ryangs22" }
+      { label: "Ir para o Site", href: "#home" },
+      { label: "Ver Repositório", href: "https://github.com/ryangs22/My-Portfolio" }
     ],
   },
   {
