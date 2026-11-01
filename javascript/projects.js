@@ -29,7 +29,7 @@ var PROJECTS = [
   {
     title: "Sentient",
     text: "Plataforma SaaS Full Stack com agentes de IA integrados em um workspace colaborativo, utilizando canvas interativo (tldraw), edição de documentos estilo Notion, IA com Gemini e Vercel AI SDK, autenticação, billing e tempo real.",
-    tags: ["SAAS", "React", "TypeScript", "Next.js", "Tailwind CSS", "Supabase", "Prisma", "Shadcn UI", "Vercel AI SDK"],
+    tags: ["SAAS", "React", "TypeScript", "Next.js", "Tailwind CSS", "Supabase", "Prisma", "Shadcn UI", "Canvas (tldraw)", "Vercel AI SDK"],
     kanji: "脳",
     photos: [PROJECT_IMAGES.sentient1],
     links: [
