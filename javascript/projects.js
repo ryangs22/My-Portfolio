@@ -1,15 +1,15 @@
 var PROJECT_IMAGES = {
   portfolio1: "public/images/portfolio/Portfolio1.png",
   portfolio2: "public/images/portfolio/Portfolio2.png",
-  noctis1: "public/images/noctis/Noctis1.png",
-  noctis2: "public/images/noctis/Noctis2.png",
-  noctis3: "public/images/noctis/Noctis3.png",
-  noctis4: "public/images/noctis/Noctis4.png",
-  noctis5: "public/images/noctis/Noctis5.png",
-  noctis6: "public/images/noctis/Noctis6.png",
-  noctis7: "public/images/noctis/Noctis7.png",
-  noctis8: "public/images/noctis/Noctis8.png",
-  noctis9: "public/images/noctis/Noctis9.png",
+  aurora1: "public/images/aurora/Aurora1.png",
+  aurora2: "public/images/aurora/Aurora2.png",
+  aurora3: "public/images/aurora/Aurora3.png",
+  aurora4: "public/images/aurora/Aurora4.png",
+  aurora5: "public/images/aurora/Aurora5.png",
+  aurora6: "public/images/aurora/Aurora6.png",
+  aurora7: "public/images/aurora/Aurora7.png",
+  aurora8: "public/images/aurora/Aurora8.png",
+  aurora9: "public/images/aurora/Aurora9.png",
   rsa1: "public/images/rsa/Rsa1.png",
   rsa2: "public/images/rsa/Rsa2.png",
   rsa3: "public/images/rsa/Rsa3.png",
@@ -42,10 +42,10 @@ var PROJECTS = [
     text: "GameTracker moderno de fácil utilização, estilizado com tema espacial e dinâmico utilizando Front/Back-End, RAWG API e Banco de Dados. Projeto da matéria de Projeto de Software (UFAL)",
     tags: ["HTML", "Tailwind CSS", "JavaScript", "React", "Python", "PostgreSQL", "RAWG API"],
     kanji: "星",
-    photos: [PROJECT_IMAGES.noctis1, PROJECT_IMAGES.noctis2, PROJECT_IMAGES.noctis3, PROJECT_IMAGES.noctis4, PROJECT_IMAGES.noctis5, PROJECT_IMAGES.noctis6, PROJECT_IMAGES.noctis7, PROJECT_IMAGES.noctis8, PROJECT_IMAGES.noctis9],
+    photos: [PROJECT_IMAGES.aurora1, PROJECT_IMAGES.aurora2, PROJECT_IMAGES.aurora3, PROJECT_IMAGES.aurora4, PROJECT_IMAGES.aurora5, PROJECT_IMAGES.aurora6, PROJECT_IMAGES.aurora7, PROJECT_IMAGES.aurora8, PROJECT_IMAGES.aurora9],
     links: [
       { label: "Site Em Manutenção", href: "#projects" },
-      { label: "Ver Repositório", href: "https://github.com/ryangs22/Noctis-Gametracker" }
+      { label: "Ver Repositório", href: "https://github.com/ryangs22/aurora-Gametracker" }
     ],
   },
   {
