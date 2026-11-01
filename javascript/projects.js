@@ -38,7 +38,7 @@ var PROJECTS = [
     ],
   },
   {
-    title: "NOCTIS",
+    title: "AURORA",
     text: "GameTracker moderno de fácil utilização, estilizado com tema espacial e dinâmico utilizando Front/Back-End, RAWG API e Banco de Dados. Projeto da matéria de Projeto de Software (UFAL)",
     tags: ["HTML", "Tailwind CSS", "JavaScript", "React", "Python", "PostgreSQL", "RAWG API"],
     kanji: "星",
