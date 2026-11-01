@@ -122,6 +122,9 @@ var profileDeckElement = document.getElementById("profile-deck");  // Wrapper De
 var showcaseElement = document.getElementById("profile-showcase"); // Wrapper Mobile
 var counterElement = document.getElementById("profile-counter");
 
+// No desktop ele ficava reconstruindo o innerHTML e recarregando imagens a cada troca.
+var desktopMQ = window.matchMedia("(min-width: 768px)");
+
 function padZero(n) { 
   return String(n).padStart(2, "0"); 
 }
@@ -137,6 +140,8 @@ function updateCounterDisplay() {
 
 var mobileDirection = 1;
 var mobileGalleryIndex = 0;
+
+var IMG_STYLE = "position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;transition:opacity .3s ease-in-out;";
 
 function generateMobileGalleryHTML(project) {
   var total = project.photos.length;
@@ -205,7 +210,8 @@ function stepMobileGallery(d) {
 }
 
 function renderMobileProject() {
-  if (!showcaseElement) return;
+// No desktop/tablet o layout mobile fica oculto: não precisa renderizar.
+  if (!showcaseElement || desktopMQ.matches) return;
   
   var project = PROJECTS[globalProjectIndex];
   mobileGalleryIndex = 0; 
@@ -274,6 +280,17 @@ if (showcaseElement) {
   });
 }
 
+// Ao redimensionar/girar o aparelho para mobile, renderiza o card mobile na hora.
+if (desktopMQ.addEventListener) {
+  desktopMQ.addEventListener("change", function () {
+    if (!desktopMQ.matches) renderMobileProject();
+  });
+} else if (desktopMQ.addListener) {
+  desktopMQ.addListener(function () {
+    if (!desktopMQ.matches) renderMobileProject();
+  });
+}
+
 // LÓGICA DO DESKTOP (CARROSSEL 3D)
 
 var cardElementsList = [];
@@ -284,8 +301,6 @@ var layoutRaf = 0;
 var settleTimer = 0;
 var isDragActive = false;
 var blockClickAfterDrag = false;
-
-var IMG_STYLE = "position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;transition:opacity .3s ease-in-out;";
 
 function createPhotoElement(project, photoIndex, visible) {
   var img = document.createElement("img");
@@ -422,6 +437,7 @@ function applyDesktopLayout() {
     if (inner) inner.toggleAttribute("inert", offset !== 0);
   }
   
+  // Só depois de assentado, liga as animações infinitas (brilho/gradiente).
   clearTimeout(settleTimer);
   settleTimer = setTimeout(function () {
     requestAnimationFrame(function () {
@@ -579,7 +595,7 @@ function navigateGlobal(delta) {
   mobileDirection = delta > 0 ? 1 : -1;
   mobileGalleryIndex = 0; // reseta foto interna do mobile (comportamento antigo mantido)
 
-  // Atualiza ambos (assim a responsividade funciona na hora de girar/redimensionar)
+  // Mobile só renderiza se estiver em mobile (guard dentro da função)
   renderMobileProject();
   applyDesktopLayout();
   updateCounterDisplay();
