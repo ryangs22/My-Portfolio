@@ -34,7 +34,7 @@ var PROJECTS = [
     photos: [PROJECT_IMAGES.sentient1],
     links: [
       { label: "Site Em Desenvolvimento", href: "#projects" },
-      { label: "Ver Repositório", href: "https://github.com/ryangs22" }
+      { label: "Ver Repositório", href: "https://github.com/ryangs22/Sentient" }
     ],
   },
   {
