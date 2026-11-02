@@ -842,7 +842,16 @@
 }
 .profile-skill-icons .devicon-html5-plain:hover,
 .profile-skill-row:hover .devicon-html5-plain {
-  filter: drop-shadow(0 0 10px rgba(227, 79, 38, 0.75));
+  filter: drop-shadow(0 0 12px rgba(227, 79, 38, 0.75));
+}
+
+/* TailwindCSS */
+.profile-skill-icons .devicon-tailwindcss-original.colored {
+  color: #06B6D4 !important;
+}
+.profile-skill-icons .devicon-tailwindcss-original.colored:hover,
+.profile-skill-row:hover .devicon-tailwindcss-original.colored {
+  filter: drop-shadow(0 0 12px #06B6D4);
 }
 
 /* JavaScript */
@@ -851,7 +860,17 @@
 }
 .profile-skill-icons .devicon-javascript-plain:hover,
 .profile-skill-row:hover .devicon-javascript-plain {
-  filter: drop-shadow(0 0 10px rgba(247, 223, 30, 0.75));
+  filter: drop-shadow(0 0 12px rgba(247, 223, 30, 0.75));
+}
+
+/* TypeScript */
+.profile-skill-icons .devicon-typescript-plain.colored {
+  color: #1062f0 !important;
+}
+
+.profile-skill-icons .devicon-typescript-plain.colored:hover,
+.profile-skill-row:hover .devicon-typescript-plain.colored {
+  filter: drop-shadow(0 0 12px rgba(16, 98, 240, 0.75));
 }
 
 /* React */
@@ -860,7 +879,7 @@
 }
 .profile-skill-icons .devicon-react-plain:hover,
 .profile-skill-row:hover .devicon-react-plain {
-  filter: drop-shadow(0 0 10px rgba(97, 218, 251, 0.75));
+  filter: drop-shadow(0 0 12px rgba(97, 218, 251, 0.75));
 }
 
 /* C (Ajustado) */
@@ -873,12 +892,15 @@
 }
 
 /* Express */
-.profile-skill-icons .devicon-express-original {
-  color: #f0f2f5 !important;
-}
 .profile-skill-icons .devicon-express-original:hover,
 .profile-skill-row:hover .devicon-express-original {
-  filter: drop-shadow(0 0 12px rgba(251, 252, 252, 0.985));
+  filter: drop-shadow(0 0 14px rgba(251, 252, 252, 0.985));
+}
+
+/* Next.js */
+.profile-skill-row:hover .profile-svg-nextjs,
+.profile-svg-nextjs:hover {
+  filter: drop-shadow(0 0 12px rgba(162, 158, 158, 0.9));
 }
 
 /* Git */
@@ -887,7 +909,7 @@
 }
 .profile-skill-icons .devicon-git-plain:hover,
 .profile-skill-row:hover .devicon-git-plain {
-  filter: drop-shadow(0 0 10px rgba(240, 80, 50, 0.75));
+  filter: drop-shadow(0 0 12px rgba(240, 80, 50, 0.75));
 }
 
 /* GitHub */
@@ -896,7 +918,7 @@
 }
 .profile-skill-icons .devicon-github-plain:hover,
 .profile-skill-row:hover .devicon-github-plain {
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.75));
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.75));
 }
 
 /* PostgreSQL */
@@ -905,7 +927,7 @@
 }
 .profile-skill-icons .bxl-postgresql:hover,
 .profile-skill-row:hover .bxl-postgresql {
-  filter: drop-shadow(0 0 10px rgba(65, 105, 225, 0.75));
+  filter: drop-shadow(0 0 12px rgba(65, 105, 225, 0.75));
 }
 
 /* Vercel */
@@ -914,7 +936,7 @@
 }
 .profile-skill-icons .devicon-vercel-original:hover,
 .profile-skill-row:hover .devicon-vercel-original {
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.75));
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.75));
 }
 
 /* Canva */
@@ -923,7 +945,7 @@
 }
 .profile-skill-icons .devicon-canva-original:hover,
 .profile-skill-row:hover .devicon-canva-original {
-  filter: drop-shadow(0 0 10px rgba(0, 196, 204, 0.75));
+  filter: drop-shadow(0 0 16px rgba(0, 196, 204, 0.75));
 }
 
 /* ---------- Padronização de SVGs de Skills ---------- */
@@ -945,12 +967,12 @@
 
 .profile-skill-row:hover .profile-svg-python,
 .profile-svg-python:hover {
-  filter: drop-shadow(0 0 12px rgba(56, 126, 184, 0.9));
+  filter: drop-shadow(0 0 12px rgba(169, 166, 98, 0.9));
 }
 
 .profile-skill-row:hover .profile-svg-node,
 .profile-svg-node:hover {
-  filter: drop-shadow(0 0 12px rgba(83, 158, 67, 0.9));
+  filter: drop-shadow(0 0 14px rgba(47, 255, 0, 0.9));
 }
 
 /* Brilho Neon no Hover para WebStorm */
