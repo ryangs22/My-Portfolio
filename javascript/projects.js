@@ -654,17 +654,27 @@ function initializeMaintenanceModal() {
   if (!overlay || !sectionProjectsElement) return;
 
   function openModal(projectName, statusType) {
-    var isDev = statusType.toLowerCase().indexOf("desenvolvimento") !== -1;
+    var status = statusType.toLowerCase();
+    var isDev = status.indexOf("desenvolvimento") !== -1;
+    var isPlanning = status.indexOf("planejamento") !== -1 || status.indexOf("ideação") !== -1 || status.indexOf("ideacao") !== -1;
+
+    var name = '<strong class="profile-modal-highlight">' + projectName + "</strong>";
     
-    if (titleEl) {
-      titleEl.textContent = isDev ? "Ops! Projeto Em Desenvolvimento" : "Ops! Site Em Manutenção";
-    }
-    
-    if (messageEl) {
-      var name = '<strong class="profile-modal-highlight">' + projectName + "</strong>";
-      messageEl.innerHTML = isDev
-        ? "O projeto " + name + " ainda está sendo construído e estará disponível em breve!"
-        : "O projeto " + name + " está em manutenção no momento e não poderá ser acessado agora. Tente novamente mais tarde ou acesse o repositório!";
+    if (isPlanning) {
+      if (titleEl) titleEl.textContent = "Ops! Projeto Em Planejamento";
+      if (messageEl) {
+        messageEl.innerHTML = "O projeto " + name + " está na fase de ideação/planejamento e em breve começará a ser desenvolvido!";
+      }
+    } else if (isDev) {
+      if (titleEl) titleEl.textContent = "Ops! Projeto Em Desenvolvimento";
+      if (messageEl) {
+        messageEl.innerHTML = "O projeto " + name + " ainda está sendo construído e estará disponível em breve!";
+      }
+    } else {
+      if (titleEl) titleEl.textContent = "Ops! Site Em Manutenção";
+      if (messageEl) {
+        messageEl.innerHTML = "O projeto " + name + " está em manutenção no momento e não poderá ser acessado agora. Tente novamente mais tarde ou acesse o repositório!";
+      }
     }
     
     overlay.classList.add("open");
@@ -683,7 +693,14 @@ function initializeMaintenanceModal() {
     if (!link) return;
     
     var label = link.textContent.trim();
-    if (label.indexOf("Manutenção") !== -1 || label.indexOf("Desenvolvimento") !== -1) {
+    var isBlockedStatus = 
+      label.indexOf("Manutenção") !== -1 || 
+      label.indexOf("Desenvolvimento") !== -1 || 
+      label.indexOf("Planejamento") !== -1 || 
+      label.indexOf("IDEAÇÃO") !== -1 || 
+      label.indexOf("Ideação") !== -1;
+
+    if (isBlockedStatus) {
       event.preventDefault();
       openModal(PROJECTS[globalProjectIndex].title, label);
     }
