@@ -21,7 +21,7 @@ var PROJECT_IMAGES = {
   satsolver2: "public/images/satsolver/SatSolver2.png",
   satsolver3: "public/images/satsolver/SatSolver3.png",
   embreve: "public/ProjetoEmBreveCYAN.jpg",
-  nodeJS: "public/nodejs.png",
+  nodeJS1: "public/images/nodejs_project/NodeJS1.png",
   sentient1: "public/images/sentient/Sentient.png",
 };
 
@@ -71,11 +71,21 @@ var PROJECTS = [
     ],
   },
   {
+    title: "RELIC",
+    text: "Plataforma SaaS de E-Learning focada no ensino de programção com temática em pixel-art, dashboard personalizado com progresso e XP e Code Playground integrado",
+    tags: ["SaaS", "Next.Js", "React", "Tailwind CSS", "TypeScript", "Neon PostgreSQL", "Clerk", "Drizzle ORM", "CodeRabbit AI"],
+    kanji: "宝",
+    photos: [PROJECT_IMAGES.embreve],
+    links: [
+      { label: "Site Em Planejamento (IDEAÇÃO)", href: "#projects" }
+    ],
+  },
+  {
     title: "Aplicação Node.JS",
     text: "Projeto de Aprendizado com Node.JS e banco de dados",
     tags: ["Node.JS", "Express", "Sequelize", "PostgreSQL"],
     kanji: "Node",
-    photos: [PROJECT_IMAGES.nodeJS],
+    photos: [PROJECT_IMAGES.nodeJS1],
     links: [
       { label: "Ver Repositório", href: "https://github.com/ryangs22/NodeJS" }
     ],
@@ -98,16 +108,6 @@ var PROJECTS = [
     photos: [PROJECT_IMAGES.satsolver1, PROJECT_IMAGES.satsolver2, PROJECT_IMAGES.satsolver3],
     links: [
       { label: "Ver Repositório", href: "https://github.com/ryangs22/Estrutura-de-Dados/tree/main/Sat-Solver" }
-    ],
-  },
-  {
-    title: "RELIC",
-    text: "Plataforma SaaS de E-Learning focada no ensino de programção com temática em pixel-art, dashboard personalizado com progresso e XP e Code Playground integrado",
-    tags: ["SaaS", "Next.Js", "React", "Tailwind CSS", "TypeScript", "Neon PostgreSQL", "Clerk", "Drizzle ORM", "CodeRabbit AI"],
-    kanji: "宝",
-    photos: [PROJECT_IMAGES.embreve],
-    links: [
-      { label: "Site Em Planejamento (IDEAÇÃO)", href: "#projects" }
     ],
   },
   {
