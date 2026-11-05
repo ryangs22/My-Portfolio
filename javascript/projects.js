@@ -23,7 +23,7 @@ var PROJECT_IMAGES = {
   embreve: "public/ProjetoEmBreveCYAN.jpg",
   nodeJS1: "public/images/nodejs_project/NodeJS1.png",
   sentient1: "public/images/sentient/Sentient1.png",
-  sentientLogo: "public/images/sentient/SentientDark.png",
+  sentientLogo: "public/images/sentient/SentientLogoDark.png",
   relic1: "public/images/relic/RelicDark.png",
   eaurouge1: "public/images/eaurouge/EauRouge.png",
 };
