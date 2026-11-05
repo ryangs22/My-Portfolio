@@ -1,6 +1,7 @@
 var PROJECT_IMAGES = {
   portfolio1: "public/images/portfolio/Portfolio1.png",
   portfolio2: "public/images/portfolio/Portfolio2.png",
+  auroraLogo: "public/images/aurora/AuroraLogo.png",
   aurora1: "public/images/aurora/Aurora1.png",
   aurora2: "public/images/aurora/Aurora2.png",
   aurora3: "public/images/aurora/Aurora3.png",
@@ -9,7 +10,6 @@ var PROJECT_IMAGES = {
   aurora6: "public/images/aurora/Aurora6.png",
   aurora7: "public/images/aurora/Aurora7.png",
   aurora8: "public/images/aurora/Aurora8.png",
-  aurora9: "public/images/aurora/Aurora9.png",
   rsa1: "public/images/rsa/Rsa1.png",
   rsa2: "public/images/rsa/Rsa2.png",
   rsa3: "public/images/rsa/Rsa3.png",
@@ -22,7 +22,10 @@ var PROJECT_IMAGES = {
   satsolver3: "public/images/satsolver/SatSolver3.png",
   embreve: "public/ProjetoEmBreveCYAN.jpg",
   nodeJS1: "public/images/nodejs_project/NodeJS1.png",
-  sentient1: "public/images/sentient/Sentient.png",
+  sentient1: "public/images/sentient/Sentient1.png",
+  sentientLogo: "public/images/sentient/SentientDark.png",
+  relic1: "public/images/relic/RelicDark.png",
+  eaurouge1: "public/images/eaurouge/EauRouge.png",
 };
 
 var PROJECTS = [
@@ -31,7 +34,7 @@ var PROJECTS = [
     text: "Plataforma SaaS Full Stack com agentes de IA integrados em um workspace colaborativo, utilizando canvas interativo (tldraw), edição de documentos estilo Notion, IA com Gemini e Vercel AI SDK, autenticação, billing e tempo real.",
     tags: ["SAAS", "React", "TypeScript", "Next.js", "Tailwind CSS", "Supabase", "Prisma", "Shadcn UI", "Canvas (tldraw)", "Vercel AI SDK"],
     kanji: "脳",
-    photos: [PROJECT_IMAGES.sentient1],
+    photos: [PROJECT_IMAGES.sentientLogo, PROJECT_IMAGES.sentient1],
     links: [
       { label: "Site Em Desenvolvimento", href: "#projects" },
       { label: "Ver Repositório", href: "https://github.com/ryangs22/Sentient" }
@@ -42,21 +45,20 @@ var PROJECTS = [
     text: "GameTracker moderno de fácil utilização, estilizado com tema espacial e dinâmico utilizando Front/Back-End, RAWG API e Banco de Dados. Projeto da matéria de Projeto de Software (UFAL)",
     tags: ["HTML", "Tailwind CSS", "JavaScript", "React", "Python", "PostgreSQL", "RAWG API"],
     kanji: "星",
-    photos: [PROJECT_IMAGES.aurora1, PROJECT_IMAGES.aurora2, PROJECT_IMAGES.aurora3, PROJECT_IMAGES.aurora4, PROJECT_IMAGES.aurora5, PROJECT_IMAGES.aurora6, PROJECT_IMAGES.aurora7, PROJECT_IMAGES.aurora8, PROJECT_IMAGES.aurora9],
+    photos: [PROJECT_IMAGES.auroraLogo, PROJECT_IMAGES.aurora1, PROJECT_IMAGES.aurora2, PROJECT_IMAGES.aurora3, PROJECT_IMAGES.aurora4, PROJECT_IMAGES.aurora5, PROJECT_IMAGES.aurora6, PROJECT_IMAGES.aurora7, PROJECT_IMAGES.aurora8],
     links: [
       { label: "Site Em Manutenção", href: "#projects" },
       { label: "Ver Repositório", href: "https://github.com/ryangs22/aurora-Gametracker" }
     ],
   },
   {
-    title: "RGS Portfolio",
-    text: "Aqui você verá um pouco sobre mim, meus projetos, minhas skills, além de poder entrar em contato comigo.",
-    tags: ["HTML", "CSS", "JavaScript"],
-    kanji: "私",
-    photos: [PROJECT_IMAGES.portfolio1, PROJECT_IMAGES.portfolio2],
+    title: "RELIC",
+    text: "Plataforma SaaS de E-Learning focada no ensino de programção com temática em pixel-art, dashboard personalizado com progresso e XP e Code Playground integrado",
+    tags: ["SaaS", "Next.Js", "React", "Tailwind CSS", "TypeScript", "Neon PostgreSQL", "Clerk", "Drizzle ORM", "CodeRabbit AI"],
+    kanji: "宝",
+    photos: [PROJECT_IMAGES.relic1],
     links: [
-      { label: "Ir para o Site", href: "#home" },
-      { label: "Ver Repositório", href: "https://github.com/ryangs22/My-Portfolio" }
+      { label: "Site Em Planejamento (IDEAÇÃO)", href: "#projects" }
     ],
   },
   {
@@ -68,16 +70,6 @@ var PROJECTS = [
     links: [
       { label: "Ir para o Site", href: "https://nexkeyrsa.vercel.app/" },
       { label: "Ver Repositório", href: "https://github.com/ryangs22/Criptografia-RSA" }
-    ],
-  },
-  {
-    title: "RELIC",
-    text: "Plataforma SaaS de E-Learning focada no ensino de programção com temática em pixel-art, dashboard personalizado com progresso e XP e Code Playground integrado",
-    tags: ["SaaS", "Next.Js", "React", "Tailwind CSS", "TypeScript", "Neon PostgreSQL", "Clerk", "Drizzle ORM", "CodeRabbit AI"],
-    kanji: "宝",
-    photos: [PROJECT_IMAGES.embreve],
-    links: [
-      { label: "Site Em Planejamento (IDEAÇÃO)", href: "#projects" }
     ],
   },
   {
@@ -121,11 +113,22 @@ var PROJECTS = [
     ],
   },
   {
+    title: "RGS Portfolio",
+    text: "Aqui você verá um pouco sobre mim, meus projetos, minhas skills, além de poder entrar em contato comigo.",
+    tags: ["HTML", "CSS", "JavaScript"],
+    kanji: "私",
+    photos: [PROJECT_IMAGES.portfolio1, PROJECT_IMAGES.portfolio2],
+    links: [
+      { label: "Ir para o Site", href: "#home" },
+      { label: "Ver Repositório", href: "https://github.com/ryangs22/My-Portfolio" }
+    ],
+  },
+  {
     title: "EauRouge",
     text: "Hub Full Stack de Fórmula 1 com dados em tempo real de campeonatos, corridas, equipes e pilotos com painel interativo, mapa dos circuitos, comparador de pilotos e analisador de estratégias",
     tags: ["Next.Js", "Tailwind CSS", "React", "Python (FastAPI)", "FastF1 / OpenF1 API", "PostgreSQL"],
     kanji: "速",
-    photos: [PROJECT_IMAGES.embreve],
+    photos: [PROJECT_IMAGES.eaurouge1],
     links: [
       { label: "Site Em Planejamento (IDEAÇÃO)", href: "#projects" }
     ],
