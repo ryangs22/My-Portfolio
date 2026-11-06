@@ -1666,7 +1666,7 @@ textarea.profile-input {
   }
 }
 
-@media (max-width: 425px) {
+@media (max-width: 385px) {
   .profile-skill-row:last-child .profile-skill-icons{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
