@@ -1631,3 +1631,62 @@ textarea.profile-input {
 .profile-modal-btn-main:active {
   transform: scale(0.98);
 }
+
+/* ------ AJUSTE NOS ICONES DAS SKILLS NO MOBILE ------ */
+@media (max-width: 465px) {
+  .profile-skill-row:first-child .profile-skill-icons{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px 12px;
+    justify-items: center;
+    align-items: center;
+  }
+
+  .profile-skill-row:first-child .profile-skill-icons > *:nth-child(4) {
+    grid-column-start: 1;
+  }
+
+  .profile-skill-row:first-child .profile-skill-icons > *:nth-child(1), 
+  .profile-skill-row:first-child .profile-skill-icons > *:nth-child(4) {
+    animation-delay: 0s !important;
+  }
+
+  .profile-skill-row:first-child .profile-skill-icons > *:nth-child(2), 
+  .profile-skill-row:first-child .profile-skill-icons > *:nth-child(5) {
+    animation-delay: 0.4s !important;
+  }
+
+  .profile-skill-row:first-child .profile-skill-icons > *:nth-child(3), 
+  .profile-skill-row:first-child .profile-skill-icons > *:nth-child(6) {
+    animation-delay: 0.8s !important;
+  }
+
+  .profile-skill-row:first-child .profile-skill-icons > *:nth-child(7) {
+    animation-delay: 1.2s !important;
+  }
+}
+
+@media (max-width: 425px) {
+  .profile-skill-row:last-child .profile-skill-icons{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px 12px;
+    justify-items: center;
+    align-items: center;
+  }
+
+  .profile-skill-row:last-child .profile-skill-icons > *:nth-child(1), 
+  .profile-skill-row:last-child .profile-skill-icons > *:nth-child(4) {
+    animation-delay: 0s !important;
+  }
+
+  .profile-skill-row:last-child .profile-skill-icons > *:nth-child(2), 
+  .profile-skill-row:last-child .profile-skill-icons > *:nth-child(5) {
+    animation-delay: 0.4s !important;
+  }
+
+  .profile-skill-row:last-child .profile-skill-icons > *:nth-child(3), 
+  .profile-skill-row:last-child .profile-skill-icons > *:nth-child(6) {
+    animation-delay: 0.8s !important;
+  }
+}
