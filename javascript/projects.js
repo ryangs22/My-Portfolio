@@ -1,6 +1,9 @@
 var PROJECT_IMAGES = {
   portfolio1: "public/images/portfolio/Portfolio1.png",
   portfolio2: "public/images/portfolio/Portfolio2.png",
+  portfolio3: "public/images/portfolio/Portfolio3.png",
+  portfolio4: "public/images/portfolio/Portfolio4.png",
+  portfolio5: "public/images/portfolio/Portfolio5.png",
   auroraLogo: "public/images/aurora/AuroraLogo.png",
   aurora1: "public/images/aurora/Aurora1.png",
   aurora2: "public/images/aurora/Aurora2.png",
@@ -22,10 +25,13 @@ var PROJECT_IMAGES = {
   satsolver3: "public/images/satsolver/SatSolver3.png",
   embreve: "public/ProjetoEmBreveCYAN.jpg",
   nodeJS1: "public/images/nodejs_project/NodeJS1.png",
-  sentient1: "public/images/sentient/Sentient1.png",
   sentientLogo: "public/images/sentient/SentientLogoDark.png",
+  sentient1: "public/images/sentient/Sentient1.png",
+  sentient2: "public/images/sentient/Sentient2.png",
+  sentient3: "public/images/sentient/Sentient3.png",
+  sentient4: "public/images/sentient/Sentient4.png",
+  sentient5: "public/images/sentient/Sentient5.png",
   relic1: "public/images/relic/RelicLogoDark.png",
-  eaurouge1: "public/images/eaurouge/EauRouge.png",
 };
 
 var PROJECTS = [
@@ -34,7 +40,7 @@ var PROJECTS = [
     text: "Plataforma SaaS Full Stack com agentes de IA integrados em um workspace colaborativo, utilizando canvas interativo (tldraw), edição de documentos estilo Notion, IA com Gemini e Vercel AI SDK, autenticação, billing e tempo real.",
     tags: ["SAAS", "React", "TypeScript", "Next.js", "Tailwind CSS", "Supabase", "Prisma", "Shadcn UI", "Canvas (tldraw)", "Vercel AI SDK"],
     kanji: "脳",
-    photos: [PROJECT_IMAGES.sentientLogo, PROJECT_IMAGES.sentient1],
+    photos: [PROJECT_IMAGES.sentientLogo, PROJECT_IMAGES.sentient1, PROJECT_IMAGES.sentient2, PROJECT_IMAGES.sentient3, PROJECT_IMAGES.sentient4, PROJECT_IMAGES.sentient5],
     links: [
       { label: "Site Em Desenvolvimento", href: "#projects" },
       { label: "Ver Repositório", href: "https://github.com/ryangs22/Sentient" }
@@ -117,7 +123,7 @@ var PROJECTS = [
     text: "Aqui você verá um pouco sobre mim, meus projetos, minhas skills, além de poder entrar em contato comigo.",
     tags: ["HTML", "CSS", "JavaScript"],
     kanji: "私",
-    photos: [PROJECT_IMAGES.portfolio1, PROJECT_IMAGES.portfolio2],
+    photos: [PROJECT_IMAGES.portfolio1, PROJECT_IMAGES.portfolio2, PROJECT_IMAGES.portfolio3, PROJECT_IMAGES.portfolio4, PROJECT_IMAGES.portfolio5],
     links: [
       { label: "Ir para o Site", href: "#home" },
       { label: "Ver Repositório", href: "https://github.com/ryangs22/My-Portfolio" }
