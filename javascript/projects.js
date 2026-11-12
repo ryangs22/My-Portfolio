@@ -58,7 +58,7 @@ var PROJECTS = [
     kanji: "宝",
     photos: [PROJECT_IMAGES.relic1],
     links: [
-      { label: "Site Em Planejamento (IDEAÇÃO)", href: "#projects" }
+      { label: "Site Em Desenvolvimento", href: "#projects" }
     ],
   },
   {
@@ -124,6 +124,16 @@ var PROJECTS = [
     ],
   },
   {
+    title: "BRILLIANCE",
+    text: "",
+    tags: ["Em Breve"],
+    kanji: "輝",
+    photos: [PROJECT_IMAGES.embreve],
+    links: [
+      { label: "Site Em Planejamento (IDEAÇÃO)", href: "#projects" }
+    ],
+  },
+  /*{
     title: "EauRouge",
     text: "Hub Full Stack de Fórmula 1 com dados em tempo real de campeonatos, corridas, equipes e pilotos com painel interativo, mapa dos circuitos, comparador de pilotos e analisador de estratégias",
     tags: ["Next.Js", "Tailwind CSS", "React", "Python (FastAPI)", "FastF1 / OpenF1 API", "PostgreSQL"],
@@ -132,7 +142,7 @@ var PROJECTS = [
     links: [
       { label: "Site Em Planejamento (IDEAÇÃO)", href: "#projects" }
     ],
-  },
+  },*/
 ];
 
 var CHEVRON_LEFT_ICON = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>';
