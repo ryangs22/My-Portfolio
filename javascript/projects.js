@@ -51,7 +51,7 @@ var PROJECTS = [
     text: "GameTracker moderno de fácil utilização, estilizado com tema espacial e dinâmico utilizando Full Stack, IGDB API e Banco de Dados Neon. Projeto da matéria de Projeto de Software (UFAL)",
     tags: ["HTML", "Tailwind CSS", "JavaScript", "React", "Python", "Neon (PostgreSQL)", "IGDB API"],
     kanji: "星",
-    photos: [PROJECT_IMAGES.auroraLogo, PROJECT_IMAGES.aurora1, PROJECT_IMAGES.aurora2, PROJECT_IMAGES.aurora3, PROJECT_IMAGES.aurora4, PROJECT_IMAGES.aurora5, PROJECT_IMAGES.aurora6, PROJECT_IMAGES.aurora7, PROJECT_IMAGES.aurora8],
+    photos: [PROJECT_IMAGES.auroraLogo, PROJECT_IMAGES.aurora1, PROJECT_IMAGES.aurora2, PROJECT_IMAGES.aurora3, PROJECT_IMAGES.aurora4, PROJECT_IMAGES.aurora5, PROJECT_IMAGES.aurora6, PROJECT_IMAGES.aurora7, PROJECT_IMAGES.aurora8, PROJECT_IMAGES.aurora9, PROJECT_IMAGES.aurora10, PROJECT_IMAGES.aurora11],
     links: [
       { label: "Site Em Manutenção", href: "#projects" },
       { label: "Ver Repositório", href: "https://github.com/ryangs22/aurora-Gametracker" }
