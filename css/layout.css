@@ -1685,8 +1685,54 @@ textarea.profile-input {
 }
 
 /* ------ AJUSTE NOS ICONES DAS SKILLS NO MOBILE ------ */
+
+/* Blocos 02 e 03 (8 ícones -> Grid 4x2 abaixo de 526px) */
+@media (max-width: 526px) {
+  .profile-skill-row:nth-child(2) .profile-skill-icons,
+  .profile-skill-row:nth-child(3) .profile-skill-icons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px 12px;
+    justify-items: center;
+    align-items: center;
+  }
+
+  /* Coluna 1 (Ícones 1 e 5) */
+  .profile-skill-row:nth-child(2) .profile-skill-icons > *:nth-child(1),
+  .profile-skill-row:nth-child(2) .profile-skill-icons > *:nth-child(5),
+  .profile-skill-row:nth-child(3) .profile-skill-icons > *:nth-child(1),
+  .profile-skill-row:nth-child(3) .profile-skill-icons > *:nth-child(5) {
+    animation-delay: 0s !important;
+  }
+
+  /* Coluna 2 (Ícones 2 e 6) */
+  .profile-skill-row:nth-child(2) .profile-skill-icons > *:nth-child(2),
+  .profile-skill-row:nth-child(2) .profile-skill-icons > *:nth-child(6),
+  .profile-skill-row:nth-child(3) .profile-skill-icons > *:nth-child(2),
+  .profile-skill-row:nth-child(3) .profile-skill-icons > *:nth-child(6) {
+    animation-delay: 0.4s !important;
+  }
+
+  /* Coluna 3 (Ícones 3 e 7) */
+  .profile-skill-row:nth-child(2) .profile-skill-icons > *:nth-child(3),
+  .profile-skill-row:nth-child(2) .profile-skill-icons > *:nth-child(7),
+  .profile-skill-row:nth-child(3) .profile-skill-icons > *:nth-child(3),
+  .profile-skill-row:nth-child(3) .profile-skill-icons > *:nth-child(7) {
+    animation-delay: 0.8s !important;
+  }
+
+  /* Coluna 4 (Ícones 4 e 8) */
+  .profile-skill-row:nth-child(2) .profile-skill-icons > *:nth-child(4),
+  .profile-skill-row:nth-child(2) .profile-skill-icons > *:nth-child(8),
+  .profile-skill-row:nth-child(3) .profile-skill-icons > *:nth-child(4),
+  .profile-skill-row:nth-child(3) .profile-skill-icons > *:nth-child(8) {
+    animation-delay: 1.2s !important;
+  }
+}
+
+/* Bloco 01 (7 ícones -> Grid 3 em cima + 4 embaixo abaixo de 465px) */
 @media (max-width: 465px) {
-  .profile-skill-row:first-child .profile-skill-icons{
+  .profile-skill-row:first-child .profile-skill-icons {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px 12px;
@@ -1715,30 +1761,5 @@ textarea.profile-input {
 
   .profile-skill-row:first-child .profile-skill-icons > *:nth-child(7) {
     animation-delay: 1.2s !important;
-  }
-}
-
-@media (max-width: 385px) {
-  .profile-skill-row:last-child .profile-skill-icons{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px 12px;
-    justify-items: center;
-    align-items: center;
-  }
-
-  .profile-skill-row:last-child .profile-skill-icons > *:nth-child(1), 
-  .profile-skill-row:last-child .profile-skill-icons > *:nth-child(4) {
-    animation-delay: 0s !important;
-  }
-
-  .profile-skill-row:last-child .profile-skill-icons > *:nth-child(2), 
-  .profile-skill-row:last-child .profile-skill-icons > *:nth-child(5) {
-    animation-delay: 0.4s !important;
-  }
-
-  .profile-skill-row:last-child .profile-skill-icons > *:nth-child(3), 
-  .profile-skill-row:last-child .profile-skill-icons > *:nth-child(6) {
-    animation-delay: 0.8s !important;
   }
 }
