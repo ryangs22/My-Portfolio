@@ -948,6 +948,42 @@
   filter: drop-shadow(0 0 16px rgba(0, 196, 204, 0.75));
 }
 
+/* Prisma (Roxo padrão da marca + Brilho Neon Roxo) */
+.profile-skill-icons .devicon-prisma-original {
+  color: #5A67D8 !important;
+}
+.profile-skill-icons .devicon-prisma-original:hover,
+.profile-skill-row:hover .devicon-prisma-original {
+  filter: drop-shadow(0 0 14px rgba(90, 103, 216, 0.95));
+}
+
+/* FastAPI */
+.profile-skill-icons .devicon-fastapi-plain.colored {
+  color: #009688 !important;
+}
+.profile-skill-icons .devicon-fastapi-plain.colored:hover,
+.profile-skill-row:hover .devicon-fastapi-plain.colored {
+  filter: drop-shadow(0 0 12px rgba(0, 150, 136, 0.85));
+}
+
+/* Sequelize */
+.profile-skill-row:hover .profile-svg-sequelize,
+.profile-svg-sequelize:hover {
+  filter: drop-shadow(0 0 12px rgba(59, 118, 195, 0.85));
+}
+
+/* SQLite */
+.profile-skill-row:hover .profile-svg-sqlite,
+.profile-svg-sqlite:hover {
+  filter: drop-shadow(0 0 12px rgba(15, 128, 204, 0.85));
+}
+
+/* Supabase */
+.profile-skill-row:hover .profile-svg-supabase,
+.profile-svg-supabase:hover {
+  filter: drop-shadow(0 0 12px rgba(62, 207, 142, 0.85));
+}
+
 /* ---------- Padronização de SVGs de Skills ---------- */
 .profile-svg-icon {
   width: 40px;
@@ -957,6 +993,22 @@
   animation: profile-float 4s ease-in-out infinite;
   transition: transform 0.4s ease, filter 0.4s ease;
   cursor: auto;
+}
+
+/* SQLAlchemy */
+.profile-svg-icon.profile-svg-sqlalchemy {
+  width: 56px;
+  height: 56px;
+  margin: -8px -6px;
+  object-fit: contain;
+}
+
+.profile-skill-row:hover .profile-svg-sqlalchemy,
+.profile-svg-sqlalchemy:hover {
+  filter: brightness(1.6)
+          drop-shadow(0 0 3px rgba(255, 45, 55, 0.9))
+          drop-shadow(0 0 9px rgba(215, 25, 32, 0.75))
+          drop-shadow(0 0 18px rgba(215, 25, 32, 0.55));
 }
 
 /* Brilho Neon (Drop-Shadow) por tecnologia no SVG */
