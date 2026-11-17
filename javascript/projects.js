@@ -5,6 +5,7 @@ var PROJECT_IMAGES = {
   portfolio4: "public/images/portfolio/Portfolio4.png",
   portfolio5: "public/images/portfolio/Portfolio5.png",
   auroraLogo: "public/images/aurora/AuroraLogo.png",
+  auroraLoginPage: "public/images/aurora/AuroraLoginPage.png",
   aurora1: "public/images/aurora/Aurora1.png",
   aurora2: "public/images/aurora/Aurora2.png",
   aurora3: "public/images/aurora/Aurora3.png",
@@ -54,7 +55,7 @@ var PROJECTS = [
     text: "GameTracker moderno de fácil utilização, estilizado com tema espacial e dinâmico utilizando Full Stack, IGDB API e Banco de Dados Neon. Projeto da matéria de Projeto de Software (UFAL)",
     tags: ["HTML", "Tailwind CSS", "JavaScript", "React", "Python", "Neon (PostgreSQL)", "IGDB API"],
     kanji: "星",
-    photos: [PROJECT_IMAGES.auroraLogo, PROJECT_IMAGES.aurora1, PROJECT_IMAGES.aurora2, PROJECT_IMAGES.aurora3, PROJECT_IMAGES.aurora4, PROJECT_IMAGES.aurora5, PROJECT_IMAGES.aurora6, PROJECT_IMAGES.aurora7, PROJECT_IMAGES.aurora8, PROJECT_IMAGES.aurora9, PROJECT_IMAGES.aurora10, PROJECT_IMAGES.aurora11],
+    photos: [PROJECT_IMAGES.auroraLogo,PROJECT_IMAGES.auroraLoginPage ,PROJECT_IMAGES.aurora1, PROJECT_IMAGES.aurora2, PROJECT_IMAGES.aurora3, PROJECT_IMAGES.aurora4, PROJECT_IMAGES.aurora5, PROJECT_IMAGES.aurora6, PROJECT_IMAGES.aurora7, PROJECT_IMAGES.aurora8, PROJECT_IMAGES.aurora9, PROJECT_IMAGES.aurora10, PROJECT_IMAGES.aurora11],
     links: [
       { label: "Site Em Manutenção", href: "#projects" },
       { label: "Ver Repositório", href: "https://github.com/ryangs22/aurora-Gametracker" }
