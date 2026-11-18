@@ -27,7 +27,7 @@ var PROJECT_IMAGES = {
   satsolver1: "public/images/satsolver/SatSolver1.png",
   satsolver2: "public/images/satsolver/SatSolver2.png",
   satsolver3: "public/images/satsolver/SatSolver3.png",
-  embreve: "public/ProjetoEmBreveCYAN.jpg",
+  embreve: "public/ProjetoEmBreveRED.png",
   nodeJS1: "public/images/nodejs_project/NodeJS1.png",
   sentientLogo: "public/images/sentient/SentientLogoDark.png",
   sentient1: "public/images/sentient/Sentient1.png",
