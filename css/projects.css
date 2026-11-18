@@ -490,7 +490,7 @@
 }
 
 .profile-monitor-count { 
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace; 
+  font-family: inherit;
   font-size: 13px; 
   color: var(--profile-muted); 
   letter-spacing: 2px; 

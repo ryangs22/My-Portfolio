@@ -1252,7 +1252,7 @@
   box-shadow: 0 0 6px var(--profile-cyan);
 }
 .profile-monitor-count {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-family: inherit;
   font-size: 13px;
   color: var(--profile-muted);
   letter-spacing: 2px;
