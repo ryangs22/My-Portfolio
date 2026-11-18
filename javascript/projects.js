@@ -428,12 +428,12 @@ function buildDesktopDeck() {
       '<article class="profile-deck-card" data-i="' + i + '">' +
         '<span class="profile-showcase-kanji" aria-hidden="true">' + (p.kanji || "") + '</span>' +
         '<div class="profile-card-inner">' +
-          generateDesktopMonitorHTML(p, i) +
-          '<div class="profile-project-info" style="text-align:center;display:flex;flex-direction:column;align-items:center;">' +
+          '<div class="profile-card-media">' + generateDesktopMonitorHTML(p, i) + '</div>' +
+          '<div class="profile-project-info">' +
             '<h3 class="profile-gradient-text profile-showcase-title">' + p.title + '</h3>' +
-            '<div class="profile-project-tags" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:16px 0 14px 0;">' + tags + '</div>' +
+            '<div class="profile-project-tags">' + tags + '</div>' +
             '<p>' + p.text + '</p>' +
-            '<div class="profile-project-buttons" style="display:flex;justify-content:center;gap:10px;width:100%;margin-top:14px;">' + btns + '</div>' +
+            '<div class="profile-project-buttons">' + btns + '</div>' +
           '</div>' +
         '</div>' +
       '</article>';
@@ -494,11 +494,10 @@ function applyDesktopLayout() {
 
 function scheduleDeckHeight() {
   if (layoutRaf || !profileDeckElement) return;
-  
   layoutRaf = requestAnimationFrame(function () {
     layoutRaf = 0;
-    var h = cardHeights[globalProjectIndex];
-    if (h) profileDeckElement.style.minHeight = h + 60 + "px";
+    var h = Math.max.apply(null, cardHeights.filter(Boolean));
+    if (h > 0) profileDeckElement.style.minHeight = h + 80 + "px";
   });
 }
 

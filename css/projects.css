@@ -3,6 +3,12 @@
   position: relative; 
 }
 
+/* Corta os cards laterais do carrossel 3D na largura total da tela,
+   sem gerar scroll horizontal */
+#projects { 
+  overflow-x: clip; 
+}
+
 .profile-projects-head {
   display: flex;
   justify-content: space-between;
@@ -146,14 +152,14 @@
 
   /* Deck 3D */
   .profile-deck {
-    --deck-step-x: 46%;
+    --deck-step-x: 32%;
     --deck-step-rotate-y: 34deg;
     --deck-step-depth-z: 210px;
     --blur-near: 4px;
     --blur-far: 7px;
     position: relative;
     width: 100%;
-    min-height: 420px;
+    min-height: 515px;
     perspective: 1700px;
     perspective-origin: 50% 42%;
     touch-action: pan-y;
@@ -165,8 +171,8 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: min(640px, 78%);
-    padding: 16px 16px 22px;
+    width: min(1040px, 61vw);
+    padding: 24px;
     border-radius: 26px;
     overflow: hidden;
     background: rgb(12, 12, 16);
@@ -263,14 +269,54 @@
     pointer-events: none; 
   }
 
-  .profile-deck-card .profile-project-info { 
-    padding: 18px 8px 0; 
-    text-align: center; 
-    align-items: center; 
+  /* Layout horizontal do card: monitor à esquerda, infos à direita */
+  .profile-deck-card .profile-card-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.18fr) minmax(0, 1fr);
+    gap: 32px;
+    align-items: center;
   }
-  
-  .profile-deck-card .profile-project-info p { 
-    margin-bottom: 18px; 
+  .profile-deck-card .profile-card-media { min-width: 0; }
+  .profile-deck-card .profile-gallery-dots { margin-top: 12px; }
+
+  /* Monitor mais "quadrado" = card mais alto */
+  .profile-deck-card .profile-monitor-screen {
+    aspect-ratio: 16 / 10;
+  }
+
+  .profile-deck-card .profile-project-info {
+    padding: 4px 6px 4px 0;
+    text-align: left;
+    align-items: flex-start;
+  }
+  .profile-deck-card .profile-showcase-title {
+    font-size: clamp(26px, 2.5vw, 36px);
+    margin-bottom: 12px;
+  }
+  .profile-deck-card .profile-project-tags {
+    justify-content: flex-start;
+    gap: 6px;
+    margin: 0 0 14px;
+  }
+  .profile-deck-card .profile-project-tags .profile-tech-pill {
+    font-size: 12.5px;
+    padding: 5px 11px;
+  }
+  .profile-deck-card .profile-project-info p {
+    font-size: 14.5px;
+    line-height: 1.72;
+    margin-bottom: 18px;
+  }
+  .profile-deck-card .profile-project-buttons {
+    justify-content: flex-start;
+    width: 100%;
+    margin-top: 0;
+    gap: 10px;
+  }
+  .profile-deck-card .profile-project-buttons .profile-button,
+  .profile-deck-card .profile-project-buttons .profile-button-outline {
+    font-size: 13.5px;
+    padding: 10px 17px;
   }
   
   .profile-deck-card .profile-monitor { 
@@ -291,16 +337,6 @@
     animation: profile-card-shine 3s ease-in-out infinite;
   }
 
-  .profile-deck-card .profile-project-tags { 
-    justify-content: center; 
-    margin: 16px 0 14px 0; 
-  }
-  
-  .profile-deck-card .profile-project-buttons { 
-    width: 100%; 
-    margin-top: 14px; 
-  }
-
   .profile-showcase-kanji {
     position: absolute; 
     text-align: center; 
@@ -309,7 +345,7 @@
     bottom: -50px;
     font-family: "Shippori Mincho", serif; 
     font-weight: 800; 
-    font-size: 200px; 
+    font-size: 210px; 
     line-height: 1; 
     pointer-events: none; 
     user-select: none;
@@ -348,6 +384,14 @@
   .profile-deck.is-paused .profile-deck-card {
     will-change: auto;
   }
+}
+
+/* TABLET (768px - 991px): ajustes do carrossel 3D */
+@media (min-width: 768px) and (max-width: 991px) {
+  .profile-deck { --deck-step-x: 28%; }
+  .profile-deck-card { width: 66vw; padding: 20px; }
+  .profile-deck-card .profile-card-inner { gap: 20px; }
+  .profile-deck-card .profile-project-info p { font-size: 13px; }
 }
 
 /* MOBILE (< 768px): CARD ÚNICO ANIMADO */
