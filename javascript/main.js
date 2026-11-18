@@ -3,7 +3,7 @@ function createParticles() {
   const layer = document.querySelector(".profile-background-layer");
   if (!layer) return;
 
-  const colors = ["rgba(0, 157, 134, 0.35)", "rgba(1, 206, 175, 0.55)", "#2bffe3"];
+  const colors = ["rgba(157, 0, 26, 0.35)", "rgba(255, 23, 68, 0.55)", "#ff4d6d"];
 
   for (let i = 0; i < 18; i++) {
     const p = document.createElement("i");

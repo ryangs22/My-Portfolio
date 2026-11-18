@@ -25,9 +25,9 @@
   width: 46px;
   height: 46px;
   border-radius: 50%;
-  border: 2px solid var(--profile-cyan, #01ceaf);
-  background: rgba(10, 14, 30, 0.75);
-  color: var(--profile-cyan, #01ceaf);
+  border: 2px solid var(--profile-red, #ef233c);
+  background: rgba(12, 12, 16, 0.8);
+  color: var(--profile-red, #ef233c);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,9 +37,9 @@
 }
 
 .profile-carousel-arrow:hover {
-  background: var(--profile-cyan, #01ceaf);
+  background: var(--profile-red, #ef233c);
   color: #fff;
-  box-shadow: 0 0 20px rgba(0, 210, 180, 0.7);
+  box-shadow: 0 0 20px rgba(239, 35, 60, 0.75);
   transform: scale(1.08);
 }
 
@@ -58,9 +58,9 @@
 .profile-projects-shell {
   max-width: 1300px;
   margin: 0 auto;
-  border: 1px solid rgba(0, 210, 180, 0.28);
+  border: 1px solid rgba(239, 35, 60, 0.28);
   border-radius: 30px;
-  background: rgba(10, 14, 30, 0.55);
+  background: rgba(12, 12, 16, 0.6);
   padding: 44px;
   position: relative;
   overflow: hidden;
@@ -84,8 +84,8 @@
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.5px;
-  color: #5f6b8f;
-  background: rgba(255, 255, 255, 0.06);
+  color: #8a8a99;
+  background: rgba(255, 255, 255, 0.05);
   border: 0;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
   padding: 6px 15px;
@@ -101,7 +101,7 @@
   width: 50%;
   height: calc(100% + 2px);
   opacity: 0;
-  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.28), transparent);
   transform: translateX(-120%) skewX(-20deg);
   pointer-events: none;
 }
@@ -169,9 +169,9 @@
     padding: 16px 16px 22px;
     border-radius: 26px;
     overflow: hidden;
-    background: rgb(10, 14, 30);
-    border: 1px solid rgba(0, 210, 180, 0.25);
-    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.45);
+    background: rgb(12, 12, 16);
+    border: 1px solid rgba(239, 35, 60, 0.25);
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.55);
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     cursor: pointer;
@@ -190,7 +190,7 @@
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    background: #04060f;
+    background: #050507;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.45s ease;
@@ -210,7 +210,7 @@
   .profile-deck-card[data-pos="0"] {
     z-index: 10;
     transform: translate3d(-50%, -50%, 0) rotateY(0deg) scale(1);
-    border-color: rgba(0, 210, 180, 0.45);
+    border-color: rgba(239, 35, 60, 0.48);
     cursor: grab;
   }
   
@@ -276,9 +276,9 @@
   .profile-deck-card .profile-monitor { 
     box-shadow: none; 
     border-radius: 18px; 
-    border: 1px solid rgba(0, 210, 180, 0.35); 
+    border: 1px solid rgba(239, 35, 60, 0.35); 
     overflow: hidden; 
-    background: #0a0e1e;
+    background: #0c0c10;
   }
   
   .profile-deck-card .profile-gallery-img { 
@@ -311,7 +311,7 @@
     font-weight: 800; 
     font-size: 200px; 
     line-height: 1;
-    color: rgba(0, 210, 180, 0.06); 
+    color: rgba(239, 35, 60, 0.06); 
     pointer-events: none; 
     user-select: none;
   }
@@ -440,10 +440,10 @@
 
   .profile-showcase .profile-monitor {
     border-radius: 18px; 
-    border: 1px solid rgba(0, 210, 180, 0.35); 
+    border: 1px solid rgba(239, 35, 60, 0.35); 
     overflow: hidden;
-    background: #0a0e1e; 
-    box-shadow: 0 0 40px rgba(0, 210, 180, 0.18);
+    background: #0c0c10; 
+    box-shadow: 0 0 40px rgba(239, 35, 60, 0.2);
   }
 
   .profile-showcase-kanji {
@@ -456,7 +456,7 @@
     font-weight: 800; 
     font-size: 150px; 
     line-height: 1;
-    color: rgba(0, 210, 180, 0.06); 
+    color: rgba(239, 35, 60, 0.06); 
     pointer-events: none; 
     user-select: none;
   }
@@ -468,8 +468,8 @@
   justify-content: space-between; 
   align-items: center;
   padding: 11px 16px; 
-  background: rgba(10, 14, 30, 0.95); 
-  border-bottom: 1px solid rgba(0, 210, 180, 0.25);
+  background: rgba(12, 12, 16, 0.95); 
+  border-bottom: 1px solid rgba(239, 35, 60, 0.25);
 }
 
 .profile-monitor-dots { 
@@ -485,8 +485,8 @@
 }
 
 .profile-monitor-dots i:first-child { 
-  background: var(--profile-cyan, #01ceaf); 
-  box-shadow: 0 0 6px var(--profile-cyan, #01ceaf); 
+  background: var(--profile-red, #ef233c); 
+  box-shadow: 0 0 6px var(--profile-red, #ef233c); 
 }
 
 .profile-monitor-count { 
@@ -522,7 +522,7 @@
   height: 40px; 
   border-radius: 50%; 
   border: 1px solid rgba(255, 255, 255, 0.3);
-  background: rgba(0, 0, 0, 0.5); 
+  background: rgba(0, 0, 0, 0.55); 
   color: #fff; 
   display: flex; 
   align-items: center; 
@@ -548,9 +548,9 @@
 }
 
 .profile-screen-arrow:hover {
-  border-color: var(--profile-cyan, #01ceaf); 
-  background: var(--profile-cyan, #01ceaf);
-  box-shadow: 0 0 18px rgba(0, 210, 180, 0.7); 
+  border-color: var(--profile-red, #ef233c); 
+  background: var(--profile-red, #ef233c);
+  box-shadow: 0 0 18px rgba(239, 35, 60, 0.75); 
   transform: translateY(-50%) scale(1.1);
 }
 
@@ -577,8 +577,8 @@
 }
 
 .profile-dot.active { 
-  background: var(--profile-cyan, #01ceaf); 
-  box-shadow: 0 0 10px var(--profile-cyan, #01ceaf); 
+  background: var(--profile-red, #ef233c); 
+  box-shadow: 0 0 10px var(--profile-red, #ef233c); 
   transform: scale(1.3); 
 }
 
@@ -593,7 +593,7 @@
 }
 
 .profile-deck-card .profile-tech-pill::after {
-  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.28), transparent);
 }
 
 /* Cards laterais sem animação para economizar processamento */
