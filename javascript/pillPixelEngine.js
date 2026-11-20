@@ -151,10 +151,11 @@
     }
 
     resizePill(state) {
-      const rect = state.el.getBoundingClientRect();
-      const w = Math.max(1, Math.round(rect.width));
-      const h = Math.max(1, Math.round(rect.height));
+      // clientWidth/clientHeight ignoram rotateY/scale durante o flip 3D do card
+      const w = Math.max(0, state.el.clientWidth - 2);
+      const h = Math.max(0, state.el.clientHeight - 2);
 
+      if (w <= 1 || h <= 1) return;
       if (w === state.w && h === state.h && state.cells.length > 0) return;
 
       state.w = w;
@@ -192,12 +193,15 @@
     }
 
     drawPill(state, t, now) {
-      const { ctx, w, h, cells } = state;
-      if (w <= 1 || h <= 1) {
+      const curW = Math.max(0, state.el.clientWidth - 2);
+      const curH = Math.max(0, state.el.clientHeight - 2);
+
+      if (curW <= 1 || curH <= 1) return;
+      if (curW !== state.w || curH !== state.h || state.cells.length === 0) {
         this.resizePill(state);
-        return;
       }
 
+      const { ctx, w, h, cells } = state;
       ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
       ctx.clearRect(0, 0, w, h);
 
