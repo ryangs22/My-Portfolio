@@ -1,0 +1,191 @@
+/* 1. Animações infinitas só rodam quando a seção está visível
+      (.is-offscreen é aplicada pelo JS) e ficam pausadas durante
+      a revelação do card (.is-stage-revealing no body). */
+.is-offscreen,
+.is-offscreen *,
+.is-offscreen *::before,
+.is-offscreen *::after,
+body.is-stage-revealing .portfolio *,
+body.is-stage-revealing .portfolio *::before,
+body.is-stage-revealing .portfolio *::after {
+  animation-play-state: paused !important;
+}
+
+/* 2. Gradientes animados repintam a cada frame. */
+.profile-marquee-item.profile-gradient-text {
+  animation: none;
+  background-size: 100% 100%;
+}
+
+/* Borda animada dos cards do bento: só anima no hover */
+.profile-bento-card::before { animation-play-state: paused; }
+.profile-bento-card:hover::before { animation-play-state: running; }
+
+/* 3. Touch: sem animações de borda/máscara e sem glow do cursor */
+@media (hover: none), (pointer: coarse) {
+  .profile-bento-card::before,
+  .profile-about-card::before,
+  .profile-mobile-nav::before {
+    animation: none;
+    background-size: 100% 100%;
+  }
+  .profile-cursor-glow { display: none; }
+}
+
+/* 4. Correção do backdrop-filter (é caro e instável em mobile/WebView) */
+@media (max-width: 991px), (hover: none) {
+  .profile-pill {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: rgba(5, 5, 7, 0.94);
+  }
+  .profile-project-tags .profile-tech-pill,
+  .profile-showcase .profile-tech-pill {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .profile-modal-overlay {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: rgba(5, 5, 7, 0.94);
+  }
+}
+
+/* 5. Pílulas: remove stroke/sombra de texto recalculados a cada frame.
+      (-webkit-text-stroke + paint-order também quebra em WebViews antigos:
+      o stroke escuro é pintado POR CIMA do texto e ele "some") */
+.profile-tech-label {
+  -webkit-text-stroke: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85), 0 0 6px rgba(8, 2, 4, 0.9);
+}
+.profile-tech-label::before { content: none; display: none; }
+
+/* Menos camadas compostas permanentes */
+.profile-tech-shine,
+.profile-project-info .profile-button::after,
+.profile-project-info .profile-project-buttons .profile-button::after {
+  will-change: auto;
+}
+
+/* Fallback caso o navegador não entenda `inset` */
+.profile-pill-canvas { top: 1px; left: 1px; }
+
+/* 6. Card do deck (desktop/tablet) */
+@media (min-width: 768px) {
+  /* sombra menor e sem transition (repintava a área toda a cada frame) */
+  .profile-deck-card {
+    transition: none;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5), 0 0 30px rgba(239, 35, 60, 0.08);
+  }
+
+  /* "pendente" fica quase invisível, mas NÃO escondido: o navegador
+     já pinta/rasteriza o card antes da revelação (some a travada do 1º card) */
+  .profile-deck-card.is-pending {
+    visibility: visible;
+    opacity: 0.01;
+    pointer-events: none;
+    box-shadow: none;
+  }
+
+  .profile-deck-card.is-revealing { box-shadow: none; }
+
+  /* Faixa de brilho: antes era um elemento de 300% x 300% do card
+     (camada gigante na GPU). Agora é uma barra fina rotacionada;
+     a altura e o ângulo são definidos no JS (playReveal). */
+  .profile-reveal-glow,
+  .profile-reveal-glow.is-mirrored {
+    top: 0;
+    left: 0;
+    right: auto;
+    width: 110px;
+    height: 2000px;
+    margin-left: -110px;
+    transform: none;
+    transform-origin: 100% 50%;
+    will-change: transform, opacity;
+    background-image: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(239, 35, 60, 0.10) 45%,
+      rgba(239, 35, 60, 0.40) 85%,
+      rgba(255, 140, 155, 0.95) 97.5%,
+      transparent 100%
+    );
+  }
+  .profile-reveal-glow.is-mirrored {
+    background-image: linear-gradient(
+      to left,
+      transparent 0%,
+      rgba(239, 35, 60, 0.10) 45%,
+      rgba(239, 35, 60, 0.40) 85%,
+      rgba(255, 140, 155, 0.95) 97.5%,
+      transparent 100%
+    );
+  }
+
+  /* O wrapper .reveal já animava junto com a revelação do card
+     (duas animações grandes ao mesmo tempo). O deck tem intro própria. */
+  #projects .reveal[data-delay="0.15"] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+/* Correções de Performance do Base.css */
+/* A. .h-anim tinha opacity:0 no estado base + fill "forwards".
+      Se a animação não roda (WebView), o conteúdo fica invisível.
+      Além disso, o fill "forwards" segura o transform final e
+      bloqueia o :hover (translateY) dos cards do bento.
+      Com "backwards" o elemento volta ao estado natural ao terminar. */
+.h-anim {
+  opacity: 1;
+  animation-fill-mode: backwards;
+}
+
+/* B. .reveal só esconde quando o navegador tem IntersectionObserver
+      (a classe .has-io vem de um script inline no <head>) e libera
+      o will-change depois de revelado (eram ~12 camadas fixas). */
+.reveal { opacity: 1; transform: none; will-change: auto; }
+.has-io .reveal { opacity: 0; transform: translateY(40px); will-change: opacity, transform; }
+.has-io .reveal.in { opacity: 1; transform: none; will-change: auto; }
+
+/* C. Blobs: filter:blur(90px) em 3 camadas grandes com transform
+      animado é a coisa mais cara do fundo. Troca por radial-gradient
+      (mesmo visual, sem filtro). Tamanhos/posições ajustados para
+      manter o mesmo centro. */
+.profile-blob { filter: none; opacity: 0.16; }
+.profile-blob-1 {
+  width: 620px; height: 620px; top: -190px; left: -170px;
+  background: radial-gradient(closest-side, var(--profile-red-deep), transparent);
+}
+.profile-blob-2 {
+  width: 560px; height: 560px; top: calc(30% - 70px); right: -210px;
+  background: radial-gradient(closest-side, var(--profile-red), transparent);
+}
+.profile-blob-3 {
+  width: 600px; height: 600px; bottom: -230px; left: calc(30% - 70px); opacity: 0.1;
+  background: radial-gradient(closest-side, var(--profile-red-soft), transparent);
+}
+
+/* D. mix-blend-mode força recompor tudo que está embaixo a cada
+      movimento do mouse */
+.profile-cursor-glow { mix-blend-mode: normal; will-change: transform; }
+
+/* E. Barra de progresso e botão "voltar ao topo" animavam gradiente
+      o tempo todo (o botão até com opacity:0) */
+.profile-progress,
+.profile-back-top { animation: none; background-size: 100% 100%; }
+
+/* F. O brilho dos botões animava `left` (layout + paint por frame).
+      Mesma animação, agora só com transform.
+      440% = (140% - (-80%)) do botão / 50% de largura do brilho */
+@keyframes profile-shine {
+  0%        { transform: translateX(0) skewX(-20deg); }
+  55%, 100% { transform: translateX(440%) skewX(-20deg); }
+}
+
+/* G. overflow-x:hidden no wrapper vira um scroll container extra;
+      clip não cria (navegadores sem suporte mantêm o hidden) */
+@supports (overflow: clip) {
+  .portfolio { overflow-x: clip; }
+}

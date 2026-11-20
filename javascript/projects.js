@@ -55,7 +55,7 @@ var PROJECTS = [
     text: "GameTracker moderno de fácil utilização, estilizado com tema espacial e dinâmico utilizando Full Stack, IGDB API e Banco de Dados Neon. Projeto da matéria de Projeto de Software (UFAL)",
     tags: ["HTML", "Tailwind CSS", "JavaScript", "React", "Python", "Neon (PostgreSQL)", "IGDB API"],
     kanji: "星",
-    photos: [PROJECT_IMAGES.auroraLogo,PROJECT_IMAGES.auroraLoginPage ,PROJECT_IMAGES.aurora1, PROJECT_IMAGES.aurora2, PROJECT_IMAGES.aurora3, PROJECT_IMAGES.aurora4, PROJECT_IMAGES.aurora5, PROJECT_IMAGES.aurora6, PROJECT_IMAGES.aurora7, PROJECT_IMAGES.aurora8, PROJECT_IMAGES.aurora9, PROJECT_IMAGES.aurora10, PROJECT_IMAGES.aurora11],
+    photos: [PROJECT_IMAGES.auroraLogo, PROJECT_IMAGES.auroraLoginPage, PROJECT_IMAGES.aurora1, PROJECT_IMAGES.aurora2, PROJECT_IMAGES.aurora3, PROJECT_IMAGES.aurora4, PROJECT_IMAGES.aurora5, PROJECT_IMAGES.aurora6, PROJECT_IMAGES.aurora7, PROJECT_IMAGES.aurora8, PROJECT_IMAGES.aurora9, PROJECT_IMAGES.aurora10, PROJECT_IMAGES.aurora11],
     links: [
       { label: "Site Em Manutenção", href: "#projects" },
       { label: "Ver Repositório", href: "https://github.com/ryangs22/aurora-Gametracker" }
@@ -169,13 +169,13 @@ var counterElement = document.getElementById("profile-counter");
 var desktopMQ = window.matchMedia("(min-width: 768px)");
 var reduceMotionMQ = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-function padZero(n) { 
-  return String(n).padStart(2, "0"); 
+function padZero(n) {
+  return String(n).padStart(2, "0");
 }
 
 function updateCounterDisplay() {
   if (!counterElement) return;
-  counterElement.innerHTML = 
+  counterElement.innerHTML =
     '<span class="profile-gradient-text">' + padZero(globalProjectIndex + 1) + '</span>' +
     '<span> / ' + padZero(PROJECTS.length) + '</span>';
 }
@@ -193,17 +193,14 @@ function generateMobileGalleryHTML(project) {
     ? '<button class="profile-screen-arrow left" data-g="prev" aria-label="Foto anterior">' + CHEVRON_LEFT_ICON + '</button>' +
       '<button class="profile-screen-arrow right" data-g="next" aria-label="Próxima foto">' + CHEVRON_RIGHT_ICON + '</button>'
     : '';
-    
+
   var dots = project.photos.map(function (_, i) {
     return '<button class="profile-dot' + (i === mobileGalleryIndex ? " active" : "") + '" data-i="' + i + '"></button>';
   }).join("");
 
-  var imgElements = project.photos.map(function(photoUrl, i) {
-    var isVisible = (i === mobileGalleryIndex);
-    var opacityVal = isVisible ? "1" : "0";
-    var pointerVal = isVisible ? "auto" : "none";
-    return '<img class="profile-gallery-img" data-p="' + i + '" src="' + photoUrl + '" alt="' + project.title + '" decoding="async" draggable="false" style="' + IMG_STYLE + 'opacity:' + opacityVal + ';pointer-events:' + pointerVal + ';">';
-  }).join("");
+  var imgElements = '<img class="profile-gallery-img" data-p="0" src="' + project.photos[0] +
+    '" alt="' + project.title + '" decoding="async" draggable="false" style="' + IMG_STYLE +
+    'opacity:1;pointer-events:auto;">';
 
   return (
     '<div class="profile-monitor">' +
@@ -214,7 +211,7 @@ function generateMobileGalleryHTML(project) {
       '<div class="profile-monitor-screen" style="position:relative;overflow:hidden;">' +
         '<div class="profile-gallery-slide" style="position:relative;width:100%;height:100%;">' +
           imgElements +
-        '</div>' + 
+        '</div>' +
         arrows +
       '</div>' +
     '</div>' +
@@ -222,17 +219,26 @@ function generateMobileGalleryHTML(project) {
   );
 }
 
+function ensureMobilePhoto(index) {
+  var slide = showcaseElement.querySelector(".profile-gallery-slide");
+  if (!slide || slide.querySelector('[data-p="' + index + '"]')) return;
+  var img = createPhotoElement(PROJECTS[globalProjectIndex], index, false);
+  slide.appendChild(img);
+  void img.offsetWidth;
+}
+
 function renderMobileMedia(animDirection) {
   if (!showcaseElement) return;
-  
+
   var media = showcaseElement.querySelector(".profile-showcase-media");
   if (!media) return;
-  
+
   var project = PROJECTS[globalProjectIndex];
   var total = project.photos.length;
 
   var countEl = showcaseElement.querySelector(".profile-monitor-count");
   if (countEl) countEl.textContent = (mobileGalleryIndex + 1) + " / " + total;
+  ensureMobilePhoto(mobileGalleryIndex);
 
   var imgs = media.querySelectorAll(".profile-gallery-img");
   for (var i = 0; i < imgs.length; i++) {
@@ -263,45 +269,46 @@ function renderTechPillHTML(t) {
 }
 
 function renderMobileProject() {
-// No desktop/tablet o layout mobile fica oculto: não precisa renderizar.
+  // No desktop/tablet o layout mobile fica oculto: não precisa renderizar.
   if (!showcaseElement || desktopMQ.matches) return;
-  
+
   var project = PROJECTS[globalProjectIndex];
-  mobileGalleryIndex = 0; 
-  
-  var buttons = project.links.map(function(l, i) {
+  mobileGalleryIndex = 0;
+
+  var buttons = project.links.map(function (l, i) {
     var ext = l.href.indexOf("#") === 0 ? "" : ' target="_blank" rel="noreferrer"';
     return '<a href="' + l.href + '"' + ext + ' class="' + (i === 0 ? "profile-button" : "profile-button-outline") + '">' + l.label + '</a>';
   }).join("");
-  
+
   var tagsHTML = (project.tags || []).map(renderTechPillHTML).join("");
+  var descHTML = project.text ? '<p>' + project.text + '</p>' : '';
 
   showcaseElement.innerHTML =
     '<div class="profile-showcase-media">' + generateMobileGalleryHTML(project) + '</div>' +
     '<div class="profile-project-info">' +
       '<h3 class="profile-gradient-text profile-showcase-title">' + project.title + '</h3>' +
-      '<p>' + project.text + '</p>' +
+      descHTML +
       '<div class="profile-project-tags">' + tagsHTML + '</div>' +
       '<div class="profile-project-buttons">' + buttons + '</div>' +
     '</div>' +
     '<span class="profile-showcase-kanji" aria-hidden="true">' + project.kanji + '</span>';
 
   renderMobileMedia(0);
-  
+
   showcaseElement.classList.remove("from-left", "from-right");
   void showcaseElement.offsetWidth;
   showcaseElement.classList.add(mobileDirection > 0 ? "from-right" : "from-left");
 
   var media = showcaseElement.querySelector(".profile-showcase-media");
   if (media) {
-    media.querySelectorAll("[data-g]").forEach(function(btn) {
-      btn.addEventListener("click", function(e) {
+    media.querySelectorAll("[data-g]").forEach(function (btn) {
+      btn.addEventListener("click", function (e) {
         e.stopPropagation();
         stepMobileGallery(btn.dataset.g === "next" ? 1 : -1);
       });
     });
-    media.querySelectorAll(".profile-dot").forEach(function(dot) {
-      dot.addEventListener("click", function(e) {
+    media.querySelectorAll(".profile-dot").forEach(function (dot) {
+      dot.addEventListener("click", function (e) {
         e.stopPropagation();
         mobileGalleryIndex = Number(dot.dataset.i);
         renderMobileMedia(0);
@@ -313,21 +320,21 @@ function renderMobileProject() {
 /* Drag Mobile (Gestos de arrastar) */
 if (showcaseElement) {
   var mobStartX = null;
-  showcaseElement.addEventListener("pointerdown", function (e) { 
-    mobStartX = e.clientX; 
+  showcaseElement.addEventListener("pointerdown", function (e) {
+    mobStartX = e.clientX;
   });
-  
+
   showcaseElement.addEventListener("pointerup", function (e) {
     if (mobStartX === null) return;
     var dx = e.clientX - mobStartX;
     mobStartX = null;
-    
+
     if (Math.abs(dx) < 60) return;
     navigateGlobal(dx < 0 ? 1 : -1);
   });
-  
-  showcaseElement.addEventListener("pointercancel", function () { 
-    mobStartX = null; 
+
+  showcaseElement.addEventListener("pointercancel", function () {
+    mobStartX = null;
   });
 }
 
@@ -380,10 +387,10 @@ function preloadProject(index) {
 
 function createPhotoElement(project, photoIndex, visible) {
   var img = document.createElement("img");
-  img.className = "profile-gallery-img"; 
-  img.alt = project.title; 
-  img.decoding = "async"; 
-  img.draggable = false; 
+  img.className = "profile-gallery-img";
+  img.alt = project.title;
+  img.decoding = "async";
+  img.draggable = false;
   img.dataset.p = photoIndex;
   img.style.cssText = IMG_STYLE + "opacity:" + (visible ? 1 : 0) + ";pointer-events:" + (visible ? "auto" : "none") + ";";
   img.src = project.photos[photoIndex];
@@ -393,10 +400,10 @@ function createPhotoElement(project, photoIndex, visible) {
 function ensureStagePhoto(photoIndex) {
   var slide = stageCard.querySelector(".profile-gallery-slide");
   if (!slide) return null;
-  
+
   var existing = slide.querySelector('[data-p="' + photoIndex + '"]');
   if (existing) return existing;
-  
+
   var img = createPhotoElement(PROJECTS[renderedIndex], photoIndex, false);
   slide.appendChild(img);
   void img.offsetWidth;
@@ -405,18 +412,18 @@ function ensureStagePhoto(photoIndex) {
 
 function generateDesktopMonitorHTML(project) {
   var total = project.photos.length;
-  
-  var arrows = total > 1 
-    ? '<button class="profile-screen-arrow left" data-g="prev" aria-label="Foto anterior">' + CHEVRON_LEFT_ICON + '</button>' + 
-      '<button class="profile-screen-arrow right" data-g="next" aria-label="Próxima foto">' + CHEVRON_RIGHT_ICON + '</button>' 
+
+  var arrows = total > 1
+    ? '<button class="profile-screen-arrow left" data-g="prev" aria-label="Foto anterior">' + CHEVRON_LEFT_ICON + '</button>' +
+      '<button class="profile-screen-arrow right" data-g="next" aria-label="Próxima foto">' + CHEVRON_RIGHT_ICON + '</button>'
     : "";
-    
-  var dots = total > 1 
-    ? '<div class="profile-gallery-dots">' + project.photos.map(function (_, i) { 
-        return '<button class="profile-dot' + (i === 0 ? " active" : "") + '" data-i="' + i + '"></button>'; 
-      }).join("") + "</div>" 
+
+  var dots = total > 1
+    ? '<div class="profile-gallery-dots">' + project.photos.map(function (_, i) {
+        return '<button class="profile-dot' + (i === 0 ? " active" : "") + '" data-i="' + i + '"></button>';
+      }).join("") + "</div>"
     : "";
-    
+
   var firstImg = '<img class="profile-gallery-img" data-p="0" src="' + project.photos[0] + '" alt="' + project.title + '" decoding="async" draggable="false" style="' + IMG_STYLE + 'opacity:1;pointer-events:auto;"/>';
 
   return (
@@ -426,23 +433,24 @@ function generateDesktopMonitorHTML(project) {
         '<span class="profile-monitor-count">1 / ' + total + '</span>' +
       '</div>' +
       '<div class="profile-monitor-screen" style="position:relative;overflow:hidden;">' +
-        '<div class="profile-gallery-slide" style="position:relative;width:100%;height:100%;">' + 
-          firstImg + 
-        '</div>' + 
+        '<div class="profile-gallery-slide" style="position:relative;width:100%;height:100%;">' +
+          firstImg +
+        '</div>' +
         arrows +
       '</div>' +
-    '</div>' + 
+    '</div>' +
     dots
   );
 }
 
 function generateStageHTML(project) {
   var tags = (project.tags || []).map(renderTechPillHTML).join("");
-  
-  var btns = project.links.map(function (l, idx) { 
+  var descHTML = project.text ? '<p>' + project.text + '</p>' : '';
+
+  var btns = project.links.map(function (l, idx) {
     var ext = l.href.indexOf("#") === 0 ? "" : ' target="_blank" rel="noreferrer"';
     var btnClass = idx === 0 ? "profile-button" : "profile-button-outline";
-    return '<a href="' + l.href + '"' + ext + ' class="' + btnClass + '">' + l.label + "</a>"; 
+    return '<a href="' + l.href + '"' + ext + ' class="' + btnClass + '">' + l.label + "</a>";
   }).join("");
 
   return (
@@ -452,7 +460,7 @@ function generateStageHTML(project) {
       '<div class="profile-project-info">' +
         '<h3 class="profile-gradient-text profile-showcase-title">' + project.title + '</h3>' +
         '<div class="profile-project-tags">' + tags + '</div>' +
-        '<p>' + project.text + '</p>' +
+        descHTML +
         '<div class="profile-project-buttons">' + btns + '</div>' +
       '</div>' +
     '</div>'
@@ -461,14 +469,14 @@ function generateStageHTML(project) {
 
 function buildStage() {
   if (stageCard || !profileDeckElement) return;
-  
+
   // Nasce escondido (is-pending): a revelação diagonal o "constrói" quando a seção entra na tela.
   profileDeckElement.innerHTML =
     '<article class="profile-deck-card is-pending">' +
       '<div class="profile-card-content"></div>' +
       '<span class="profile-reveal-glow" aria-hidden="true"></span>' +
     '</article>';
-  
+
   stageCard = profileDeckElement.firstElementChild;
   fillStage(globalProjectIndex);
 }
@@ -483,27 +491,27 @@ function fillStage(index) {
 
 function renderStageGallery() {
   if (!stageCard) return;
-  
+
   var project = PROJECTS[renderedIndex];
   var total = project.photos.length;
   var active = stageGalleryIndex;
-  
+
   ensureStagePhoto(active);
-  
+
   stageCard.querySelector(".profile-monitor-count").textContent = (active + 1) + " / " + total;
-  
+
   var imgs = stageCard.querySelectorAll(".profile-gallery-img");
   for (var i = 0; i < imgs.length; i++) {
     var on = Number(imgs[i].dataset.p) === active;
     imgs[i].style.opacity = on ? "1" : "0";
     imgs[i].style.pointerEvents = on ? "auto" : "none";
   }
-  
+
   var dots = stageCard.querySelectorAll(".profile-dot");
   for (var d = 0; d < dots.length; d++) {
     dots[d].classList.toggle("active", d === active);
   }
-  
+
   if (total > 1) {
     var next = (active + 1) % total;
     var idle = window.requestIdleCallback || function (fn) { return setTimeout(fn, 200); };
@@ -529,43 +537,49 @@ function stageClip(dir, t) {
   return "polygon(100% 0%, " + (100 - t * 100).toFixed(1) + "% 0%, 100% " + a + "%)";
 }
 
+function animDone(a) {
+  return a.finished || new Promise(function (res) { a.onfinish = res; a.oncancel = res; });
+}
+
 function playReveal(dir, withFlip, done) {
   var card = stageCard;
   var glow = card.querySelector(".profile-reveal-glow");
   var anims = [];
-  
+
+  var W = card.offsetWidth, H = card.offsetHeight;
+  var len = Math.ceil(Math.sqrt(W * W + H * H) + 80);
+  var phi = (dir > 0 ? 1 : -1) * Math.atan2(W, H);
+  function glowAt(a) {
+    var mx = dir > 0 ? a * W / 2 : W - a * W / 2;
+    return "translate(" + mx.toFixed(1) + "px," + (a * H / 2).toFixed(1) + "px) rotate(" + phi.toFixed(4) + "rad)";
+  }
+
   glow.classList.toggle("is-mirrored", dir < 0);
+  glow.style.height = len + "px";
+  glow.style.marginTop = (-len / 2) + "px";
+
   card.classList.remove("is-pending");
-  card.classList.add("is-revealing");                    // tira a sombra pesada durante a revelação
-  // 1) Revelação diagonal (clip-path)
+  card.classList.add("is-revealing");
+  document.body.classList.add("is-stage-revealing");
+
   anims.push(card.animate(
-    [
-      { clipPath: stageClip(dir, 0) },
-      { clipPath: stageClip(dir, STAGE_REVEAL_END) }
-    ],
+    [{ clipPath: stageClip(dir, 0) }, { clipPath: stageClip(dir, STAGE_REVEAL_END) }],
     { duration: STAGE_REVEAL_MS, easing: STAGE_REVEAL_EASE, fill: "backwards" }
   ));
 
-  // 2) Faixa de brilho: agora só anima transform + opacity
-  var sx = dir > 0 ? -1 : 1;
-  var endPct = (((3 - STAGE_REVEAL_END) / 6) * 100).toFixed(2);
   anims.push(glow.animate(
     [
-      { opacity: 1, transform: "translate(" + (sx * 50) + "%, -50%)", offset: 0 },
+      { opacity: 1, transform: glowAt(0), offset: 0 },
       { opacity: 1, offset: 0.88 },
-      { opacity: 0, transform: "translate(" + (sx * endPct) + "%, -" + endPct + "%)", offset: 1 }
+      { opacity: 0, transform: glowAt(STAGE_REVEAL_END), offset: 1 }
     ],
     { duration: STAGE_REVEAL_MS, easing: STAGE_REVEAL_EASE, fill: "backwards" }
   ));
 
-  // 3) Flip de entrada (na navegação) ou subida suave (na primeira revelação)
   var from = withFlip
     ? "rotateY(" + (dir * STAGE_FLIP_DEG) + "deg) translateX(" + (dir * 7) + "%) scale(0.94)"
     : "translateY(26px) scale(0.96)";
-  var to = withFlip
-    ? "rotateY(0deg) translateX(0%) scale(1)"
-    : "translateY(0px) scale(1)";
-  
+  var to = withFlip ? "rotateY(0deg) translateX(0%) scale(1)" : "translateY(0px) scale(1)";
   anims.push(card.animate(
     [{ transform: from }, { transform: to }],
     { duration: withFlip ? STAGE_FLIP_MS : STAGE_REVEAL_MS, easing: STAGE_FLIP_EASE, fill: "backwards" }
@@ -573,9 +587,10 @@ function playReveal(dir, withFlip, done) {
 
   var finish = function () {
     card.classList.remove("is-revealing");
+    document.body.classList.remove("is-stage-revealing");
     done();
   };
-  Promise.all(anims.map(function (a) { return a.finished; })).then(finish, finish);
+  Promise.all(anims.map(animDone)).then(finish, finish);
 }
 
 // Espera a 1ª imagem do card decodificar antes de revelar (evita travada no meio da animação).
@@ -593,7 +608,7 @@ function whenStageImageReady(cb) {
 
 function finishStage() {
   stageBusy = false;
-  
+
   // Se o usuário navegou durante a animação, faz a próxima transição.
   if (renderedIndex !== globalProjectIndex) {
     if (stageInView) {
@@ -602,7 +617,7 @@ function finishStage() {
     }
     fillStage(globalProjectIndex);
   }
-  
+
   if (stageInView) {
     stageCard.classList.add("is-settled");
   } else {
@@ -612,16 +627,16 @@ function finishStage() {
 
 function runTransition(dir) {
   stageBusy = true;
-  
+
   // Sai flipando para o lado do gesto (o ponto de partida é o estado atual, inclusive a inclinação do arraste).
   var leave = stageCard.animate(
-    [{ 
-      transform: "rotateY(" + (-dir * STAGE_FLIP_DEG) + "deg) translateX(" + (-dir * 8) + "%) scale(0.94)", 
-      opacity: 0 
+    [{
+      transform: "rotateY(" + (-dir * STAGE_FLIP_DEG) + "deg) translateX(" + (-dir * 8) + "%) scale(0.94)",
+      opacity: 0
     }],
     { duration: STAGE_LEAVE_MS, easing: "cubic-bezier(0.5, 0, 0.9, 0.4)", fill: "forwards" }
   );
-  
+
   leave.onfinish = function () {
     leave.cancel();
     stageCard.style.transform = "";
@@ -635,36 +650,42 @@ function runTransition(dir) {
 
 function transitionDesktop(delta) {
   if (!stageCard) return;
-  
+
   stageDir = delta > 0 ? 1 : -1;
-  
+
   if (!desktopMQ.matches || reduceMotionMQ.matches || !stageCard.animate) {
     if (!stageBusy) fillStage(globalProjectIndex);
     return;
   }
-  
+
   if (stageBusy) return;
   if (stageCard.classList.contains("is-pending")) {
     fillStage(globalProjectIndex);
     return;
   }
-  
+
   runTransition(stageDir);
 }
 
 function playIntro() {
   if (!stageCard || stageBusy) return;
-  
+
   stageNeedsIntro = false;
   if (renderedIndex !== globalProjectIndex) fillStage(globalProjectIndex);
-  
+
+  if (!stageCard.animate) {
+    stageCard.classList.remove("is-pending");
+    stageCard.classList.add("is-settled");
+    return;
+  }
+
   stageBusy = true;
   whenStageImageReady(function () { playReveal(1, false, finishStage); });
 }
 
 function initStageObserver() {
   if (!profileDeckElement || !stageCard) return;
-  
+
   if (!("IntersectionObserver" in window) || reduceMotionMQ.matches) {
     stageInView = true;
     stageNeedsIntro = false;
@@ -672,11 +693,11 @@ function initStageObserver() {
     stageCard.classList.add("is-settled");
     return;
   }
-  
+
   var stageObserver = new IntersectionObserver(function (entries) {
     var e = entries[entries.length - 1];
     profileDeckElement.classList.toggle("is-paused", !e.isIntersecting);
-    
+
     if (e.intersectionRatio >= 0.3) {
       if (!stageInView) {
         stageInView = true;
@@ -704,13 +725,13 @@ if (profileDeckElement) {
 
   profileDeckElement.addEventListener("click", function (event) {
     if (isDragActive || blockClickAfterDrag || stageBusy) return;
-    
+
     var arrow = event.target.closest("[data-g]");
     if (arrow) {
       stepStageGallery(arrow.dataset.g === "next" ? 1 : -1);
       return;
     }
-    
+
     var dot = event.target.closest(".profile-dot");
     if (dot) {
       stageGalleryIndex = Number(dot.dataset.i);
@@ -720,8 +741,8 @@ if (profileDeckElement) {
 
   var dragStartX = null, dragStartY = null;
 
-  function clamp(v, min, max) { 
-    return Math.max(min, Math.min(max, v)); 
+  function clamp(v, min, max) {
+    return Math.max(min, Math.min(max, v));
   }
 
   function removeDragListeners() {
@@ -742,7 +763,7 @@ if (profileDeckElement) {
     if (dragStartX === null || !stageCard) return;
     var dx = e.clientX - dragStartX;
     var dy = e.clientY - dragStartY;
-    
+
     if (!isDragActive) {
       if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) {
         isDragActive = true;
@@ -751,31 +772,31 @@ if (profileDeckElement) {
         return;
       }
     }
-    
+
     // O card acompanha o dedo/mouse com uma leve inclinação 3D.
-    stageCard.style.transform = 
+    stageCard.style.transform =
       "rotateY(" + clamp(dx / 12, -16, 16) + "deg) translateX(" + clamp(dx * 0.12, -50, 50) + "px)";
   }
 
   function onDragEnd(e) {
     removeDragListeners();
     if (dragStartX === null) return;
-    
+
     var dx = e.clientX - dragStartX;
     var wasDragging = isDragActive;
     dragStartX = dragStartY = null;
-    
-    if (!wasDragging) { 
-      isDragActive = false; 
-      return; 
+
+    if (!wasDragging) {
+      isDragActive = false;
+      return;
     }
-    
+
     blockClickAfterDrag = true;
-    setTimeout(function () { 
-      blockClickAfterDrag = false; 
-      isDragActive = false; 
+    setTimeout(function () {
+      blockClickAfterDrag = false;
+      isDragActive = false;
     }, 350);
-    
+
     if (Math.abs(dx) >= 80) {
       if (stageCard) stageCard.classList.remove("is-dragging");
       navigateGlobal(dx < 0 ? 1 : -1);
@@ -793,8 +814,8 @@ if (profileDeckElement) {
 
   profileDeckElement.addEventListener("pointerdown", function (e) {
     if (stageBusy || (e.pointerType === "mouse" && e.button !== 0)) return;
-    dragStartX = e.clientX; 
-    dragStartY = e.clientY; 
+    dragStartX = e.clientX;
+    dragStartY = e.clientY;
     isDragActive = false;
     window.addEventListener("pointermove", onDragMove, { passive: true });
     window.addEventListener("pointerup", onDragEnd);
@@ -816,7 +837,7 @@ window.addEventListener("keydown", function (e) {
 function navigateGlobal(delta) {
   var total = PROJECTS.length;
   globalProjectIndex = (globalProjectIndex + delta + total) % total;
-  
+
   // Define direção apenas para a animação do Mobile
   mobileDirection = delta > 0 ? 1 : -1;
   mobileGalleryIndex = 0; // reseta foto interna do mobile (comportamento antigo mantido)
@@ -837,6 +858,10 @@ if (btnNext) btnNext.addEventListener("click", function () { navigateGlobal(1); 
 
 function initProjects() {
   buildStage();
+  var firstDesktopImg = stageCard && stageCard.querySelector(".profile-gallery-img");
+  if (firstDesktopImg && firstDesktopImg.decode) {
+    firstDesktopImg.decode().catch(function () {});
+  }
   renderMobileProject();
   updateCounterDisplay();
   preloadProject(globalProjectIndex + 1);
@@ -858,7 +883,7 @@ function initializeMaintenanceModal() {
   var titleEl = document.getElementById("profile-modal-title");
   var messageEl = document.getElementById("profile-modal-message");
   var sectionProjectsElement = document.getElementById("projects");
-  
+
   if (!overlay || !sectionProjectsElement) return;
 
   function openModal(projectName, statusType) {
@@ -867,7 +892,7 @@ function initializeMaintenanceModal() {
     var isPlanning = status.indexOf("planejamento") !== -1 || status.indexOf("ideação") !== -1 || status.indexOf("ideacao") !== -1;
 
     var name = '<strong class="profile-modal-highlight">' + projectName + "</strong>";
-    
+
     if (isPlanning) {
       if (titleEl) titleEl.textContent = "Ops! Projeto Em Planejamento";
       if (messageEl) {
@@ -884,7 +909,7 @@ function initializeMaintenanceModal() {
         messageEl.innerHTML = "O projeto " + name + " está em manutenção no momento e não poderá ser acessado agora. Tente novamente mais tarde ou acesse o repositório!";
       }
     }
-    
+
     overlay.classList.add("open");
     overlay.setAttribute("aria-hidden", "false");
   }
@@ -895,17 +920,17 @@ function initializeMaintenanceModal() {
   }
 
   if (actionButton) actionButton.addEventListener("click", closeModal);
-  
+
   sectionProjectsElement.addEventListener("click", function (event) {
     var link = event.target.closest("a");
     if (!link) return;
-    
+
     var label = link.textContent.trim();
-    var isBlockedStatus = 
-      label.indexOf("Manutenção") !== -1 || 
-      label.indexOf("Desenvolvimento") !== -1 || 
-      label.indexOf("Planejamento") !== -1 || 
-      label.indexOf("IDEAÇÃO") !== -1 || 
+    var isBlockedStatus =
+      label.indexOf("Manutenção") !== -1 ||
+      label.indexOf("Desenvolvimento") !== -1 ||
+      label.indexOf("Planejamento") !== -1 ||
+      label.indexOf("IDEAÇÃO") !== -1 ||
       label.indexOf("Ideação") !== -1;
 
     if (isBlockedStatus) {

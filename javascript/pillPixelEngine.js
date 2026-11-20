@@ -1,27 +1,22 @@
 (function () {
-  const CYCLE_MS = 4800;   // Duração total do ciclo compartilhado (Tags + Botão)
-  const PIXEL_STEP = 5;    // 4px pixel + 1px gap
-  const PIXEL_SIZE = 4;
+  "use strict";
 
-  const PALETTE = [
-    "#ef233c",
-    "#d90429",
-    "#b80022",
-    "#94021d",
-    "#ff3b5c"
-  ];
+  var CYCLE_MS = 4800;          // duração do ciclo (tags + botão)
+  var PIXEL_STEP = 5;           // 4px pixel + 1px gap
+  var PIXEL_SIZE = 4;
+  var FRAME_MS = 1000 / 30;     // 30fps: pixel-art não precisa de 60 e custa metade
+
+  var PALETTE = ["#ef233c", "#d90429", "#b80022", "#94021d", "#ff3b5c"];
+
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   function cellHash(c, r) {
-    const n = Math.sin(c * 127.1 + r * 311.7) * 43758.5453;
+    var n = Math.sin(c * 127.1 + r * 311.7) * 43758.5453;
     return n - Math.floor(n);
   }
-
-  function clamp01(v) {
-    return v < 0 ? 0 : v > 1 ? 1 : v;
-  }
-
-  function smoothstep(edge0, edge1, x) {
-    const t = clamp01((x - edge0) / (edge1 - edge0));
+  function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+  function smoothstep(e0, e1, x) {
+    var t = clamp01((x - e0) / (e1 - e0));
     return t * t * (3 - 2 * t);
   }
 
@@ -29,139 +24,142 @@
     constructor() {
       this.groups = new Map();
       this.raf = 0;
-      this.inView = true;
+      this.lastFrame = 0;
+      this.scanQueued = false;
       this.dpr = Math.min(window.devicePixelRatio || 1, 2);
 
       this.loop = this.loop.bind(this);
-      this.scan = this.scan.bind(this);
+      this.queueScan = this.queueScan.bind(this);
       this.refreshAll = this.refreshAll.bind(this);
+
+      // Mede as pílulas só quando o tamanho muda (antes: leitura de layout
+      // forçada a cada frame, logo depois de escrever estilos).
+      this.resizeObserver = "ResizeObserver" in window
+        ? new ResizeObserver((entries) => {
+            for (var i = 0; i < entries.length; i++) {
+              var state = entries[i].target.__pillState;
+              if (state) this.resizePill(state);
+            }
+          })
+        : null;
+
       this.init();
     }
 
     init() {
-      const section = document.getElementById("projects");
-      if (!section) return;
+      var roots = ["profile-deck", "profile-showcase"]
+        .map(function (id) { return document.getElementById(id); })
+        .filter(Boolean);
+      if (!roots.length) return;
 
-      this.mutationObserver = new MutationObserver(() => this.scan());
-      this.mutationObserver.observe(section, { childList: true, subtree: true });
+      // Observa só os containers dos projetos (antes: a seção inteira)
+      this.mutationObserver = new MutationObserver(this.queueScan);
+      roots.forEach((root) => {
+        this.mutationObserver.observe(root, { childList: true, subtree: true });
+      });
 
-      if ("IntersectionObserver" in window) {
-        this.viewObserver = new IntersectionObserver(
-          (entries) => {
-            const visible = entries[entries.length - 1].isIntersecting;
-            this.inView = visible;
-            if (!visible) {
-              for (const group of this.groups.values()) {
-                this.resetGroup(group);
-              }
-              return;
-            }
-            if (!this.raf) {
-              this.raf = requestAnimationFrame(this.loop);
-            }
-          },
-          { threshold: 0 }
-        );
-        this.viewObserver.observe(section);
-      }
-
-      // Garante medição correta após WebView (Discord/Instagram) terminar de abrir
-      window.addEventListener("resize", this.refreshAll, { passive: true });
-      window.addEventListener("orientationchange", () => setTimeout(this.refreshAll, 200), { passive: true });
+      // Sem listener de "resize": no mobile ele dispara a cada barra de
+      // endereço que aparece/some. O ResizeObserver cuida disso.
+      window.addEventListener("orientationchange", () => setTimeout(this.refreshAll, 250), { passive: true });
       window.addEventListener("pageshow", () => setTimeout(this.refreshAll, 150), { passive: true });
       window.addEventListener("load", () => setTimeout(this.refreshAll, 150), { passive: true });
-      setTimeout(this.refreshAll, 400);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(this.refreshAll);
 
       this.scan();
-      this.raf = requestAnimationFrame(this.loop);
+    }
+
+    queueScan() {
+      if (this.scanQueued) return;
+      this.scanQueued = true;
+      requestAnimationFrame(() => {
+        this.scanQueued = false;
+        this.scan();
+      });
     }
 
     refreshAll() {
       this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+      this.groups.forEach((group) => {
+        group.pills.forEach((state) => {
+          state.w = 0;
+          state.h = 0;
+          this.resizePill(state);
+        });
+      });
       this.scan();
-      for (const group of this.groups.values()) {
-        for (const pillState of group.pills) {
-          this.resizePill(pillState);
-        }
-      }
-      if (!this.raf && this.inView) {
-        this.raf = requestAnimationFrame(this.loop);
-      }
     }
 
     scan() {
-      for (const [container] of this.groups) {
-        if (!document.body.contains(container)) {
-          this.groups.delete(container);
-        }
-      }
-
-      const containers = document.querySelectorAll("#projects .profile-project-info");
-      containers.forEach((container) => {
-        if (this.groups.has(container)) return;
-
-        const pills = [];
-        container.querySelectorAll(".profile-tech-pill").forEach((pill) => {
-          let canvas = pill.querySelector(".profile-pill-canvas");
-          if (!canvas) {
-            canvas = document.createElement("canvas");
-            canvas.className = "profile-pill-canvas";
-            canvas.setAttribute("aria-hidden", "true");
-            pill.insertBefore(canvas, pill.firstChild);
-          }
-
-          const state = {
-            el: pill,
-            canvas,
-            ctx: canvas.getContext("2d"),
-            w: 0,
-            h: 0,
-            cells: []
-          };
-          this.resizePill(state);
-          pills.push(state);
-        });
-
-        const group = {
-          el: container,
-          cycleStart: null,
-          pills
-        };
-        this.resetGroup(group);
-        this.groups.set(container, group);
+      this.groups.forEach((group, el) => {
+        if (!document.documentElement.contains(el)) this.removeGroup(el, group);
       });
+
+      var containers = document.querySelectorAll("#projects .profile-project-info");
+      for (var i = 0; i < containers.length; i++) {
+        if (!this.groups.has(containers[i])) this.createGroup(containers[i]);
+      }
+      this.kick();
     }
 
-    resetGroup(group) {
-      group.cycleStart = null;
-      group.el.style.setProperty("--shine-x", "-140%");
-      group.el.style.setProperty("--shine-op", "0");
-      group.el.style.setProperty("--glow-p", "0");
-      group.el.style.setProperty("--pill-color", "rgb(138, 138, 153)");
-      group.el.style.setProperty("--pill-border", "rgba(255, 255, 255, 0.14)");
+    createGroup(container) {
+      var pills = [];
+      var pillEls = container.querySelectorAll(".profile-tech-pill");
 
-      for (const state of group.pills) {
-        if (state.w > 0 && state.h > 0) {
-          state.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
-          state.ctx.clearRect(0, 0, state.w, state.h);
+      for (var i = 0; i < pillEls.length; i++) {
+        var pill = pillEls[i];
+        var canvas = pill.querySelector(".profile-pill-canvas");
+        if (!canvas) {
+          canvas = document.createElement("canvas");
+          canvas.className = "profile-pill-canvas";
+          canvas.setAttribute("aria-hidden", "true");
+          pill.insertBefore(canvas, pill.firstChild);
         }
+
+        var ctx = canvas.getContext && canvas.getContext("2d");
+        if (!ctx) continue; // sem canvas: a pílula continua visível, só sem o efeito
+
+        var state = { el: pill, canvas: canvas, ctx: ctx, w: 0, h: 0, cells: [], drawn: false };
+        pill.__pillState = state;
+        this.resizePill(state);
+        if (this.resizeObserver) this.resizeObserver.observe(pill);
+        pills.push(state);
       }
+
+      var hasIO = "IntersectionObserver" in window;
+      var group = {
+        el: container,
+        tags: container.querySelector(".profile-project-tags") || container,
+        deck: container.closest(".profile-deck-card"),
+        pills: pills,
+        cycleStart: null,
+        visible: !hasIO,
+        cache: {},
+        io: null
+      };
+
+      if (hasIO) {
+        // visibilidade do PRÓPRIO bloco (antes: a seção inteira)
+        group.io = new IntersectionObserver((entries) => {
+          group.visible = entries[entries.length - 1].isIntersecting;
+          if (group.visible) this.kick();
+        }, { threshold: 0 });
+        group.io.observe(container);
+      }
+
+      this.groups.set(container, group);
     }
 
-    isGroupReady(group) {
-      if (!this.inView) return false;
-      if (group.el.offsetParent === null) return false;
-
-      const deckCard = group.el.closest(".profile-deck-card");
-      if (deckCard && !deckCard.classList.contains("is-settled")) {
-        return false;
+    removeGroup(el, group) {
+      if (group.io) group.io.disconnect();
+      if (this.resizeObserver) {
+        group.pills.forEach((s) => { this.resizeObserver.unobserve(s.el); s.el.__pillState = null; });
       }
-      return true;
+      this.groups.delete(el);
     }
 
     resizePill(state) {
-      const w = Math.max(0, state.el.clientWidth - 2);
-      const h = Math.max(0, state.el.clientHeight - 2);
+      var w = Math.max(0, state.el.clientWidth - 2);
+      var h = Math.max(0, state.el.clientHeight - 2);
 
       if (w <= 1 || h <= 1) return;
       if (w === state.w && h === state.h && state.cells.length > 0) return;
@@ -170,21 +168,20 @@
       state.h = h;
       state.canvas.width = Math.round(w * this.dpr);
       state.canvas.height = Math.round(h * this.dpr);
+      state.drawn = false;
 
-      const cols = Math.ceil(w / PIXEL_STEP);
-      const rows = Math.ceil(h / PIXEL_STEP);
-      const cells = [];
-      const maxC = Math.max(1, cols - 1);
-      const maxR = Math.max(1, rows - 1);
+      var cols = Math.ceil(w / PIXEL_STEP);
+      var rows = Math.ceil(h / PIXEL_STEP);
+      var maxC = Math.max(1, cols - 1);
+      var maxR = Math.max(1, rows - 1);
+      var cells = [];
 
-      for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-          const h1 = cellHash(c, r);
-          const h2 = cellHash(c + 19, r + 47);
-
-          const diag = (c / maxC) * 0.74 + (r / maxR) * 0.26;
-          const jitter = (h1 - 0.5) * 0.13;
-          const norm = clamp01(diag + jitter);
+      for (var r = 0; r < rows; r++) {
+        for (var c = 0; c < cols; c++) {
+          var h1 = cellHash(c, r);
+          var h2 = cellHash(c + 19, r + 47);
+          var diag = (c / maxC) * 0.74 + (r / maxR) * 0.26;
+          var norm = clamp01(diag + (h1 - 0.5) * 0.13);
 
           cells.push({
             x: c * PIXEL_STEP,
@@ -196,48 +193,75 @@
           });
         }
       }
-
       state.cells = cells;
     }
 
-    drawPill(state, t, now) {
-      const curW = Math.max(0, state.el.clientWidth - 2);
-      const curH = Math.max(0, state.el.clientHeight - 2);
+    // só escreve a custom property se o valor mudou
+    setVar(group, el, name, value) {
+      if (group.cache[name] === value) return;
+      group.cache[name] = value;
+      el.style.setProperty(name, value);
+    }
 
-      if (curW <= 1 || curH <= 1) return;
-      if (curW !== state.w || curH !== state.h || state.cells.length === 0) {
-        this.resizePill(state);
+    resetGroup(group) {
+      group.cycleStart = null;
+      this.setVar(group, group.el, "--shine-x", "-140%");
+      this.setVar(group, group.el, "--shine-op", "0");
+      this.setVar(group, group.tags, "--glow-p", "0");
+      this.setVar(group, group.tags, "--pill-color", "rgb(138, 138, 153)");
+      this.setVar(group, group.tags, "--pill-border", "rgba(255, 255, 255, 0.14)");
+
+      for (var i = 0; i < group.pills.length; i++) this.clearPill(group.pills[i]);
+    }
+
+    clearPill(state) {
+      if (!state.drawn || !state.w) return;
+      state.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+      state.ctx.clearRect(0, 0, state.w, state.h);
+      state.drawn = false;
+    }
+
+    isReady(group) {
+      if (!group.visible) return false;
+      if (group.deck && !group.deck.classList.contains("is-settled")) return false;
+      return true;
+    }
+
+    drawPill(state, t, now) {
+      if (!state.w || !state.cells.length) return;
+
+      if (t < 0.125 || t > 0.565) {
+        this.clearPill(state);
+        return;
       }
 
-      const { ctx, w, h, cells } = state;
+      var ctx = state.ctx;
+      var cells = state.cells;
       ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
-      ctx.clearRect(0, 0, w, h);
+      ctx.clearRect(0, 0, state.w, state.h);
+      state.drawn = true;
 
-      if (t < 0.125 || t > 0.565) return;
-
-      for (let i = 0; i < cells.length; i++) {
-        const cell = cells[i];
+      for (var i = 0; i < cells.length; i++) {
+        var cell = cells[i];
         if (t < cell.tStart || t > cell.tEnd) continue;
 
-        const age = t - cell.tStart;
-        const lifeLeft = cell.tEnd - t;
+        var age = t - cell.tStart;
+        var lifeLeft = cell.tEnd - t;
 
         ctx.fillStyle = "rgba(12, 2, 5, 0.9)";
         ctx.fillRect(cell.x, cell.y, PIXEL_STEP, PIXEL_STEP);
 
         if (age < 0.026) {
-          const k = age / 0.026;
-          ctx.fillStyle = k < 0.45 ? "#ffffff" : "#ff8fa3";
+          ctx.fillStyle = age / 0.026 < 0.45 ? "#ffffff" : "#ff8fa3";
           ctx.fillRect(cell.x, cell.y, PIXEL_SIZE, PIXEL_SIZE);
         } else if (lifeLeft < 0.028) {
-          const k = Math.max(0.25, lifeLeft / 0.028);
-          const sz = PIXEL_SIZE * k;
-          const off = (PIXEL_SIZE - sz) * 0.5;
+          var k = Math.max(0.25, lifeLeft / 0.028);
+          var sz = PIXEL_SIZE * k;
+          var off = (PIXEL_SIZE - sz) * 0.5;
           ctx.fillStyle = "#ff4d6d";
           ctx.fillRect(cell.x + off, cell.y + off, sz, sz);
         } else {
-          const pulse = 0.8 + 0.2 * Math.sin(now * 0.01 + cell.phase);
-          ctx.globalAlpha = pulse;
+          ctx.globalAlpha = 0.8 + 0.2 * Math.sin(now * 0.01 + cell.phase);
           ctx.fillStyle = cell.color;
           ctx.fillRect(cell.x, cell.y, PIXEL_SIZE, PIXEL_SIZE);
           ctx.globalAlpha = 1;
@@ -245,58 +269,66 @@
       }
     }
 
+    tick(group, now) {
+      if (group.cycleStart === null) group.cycleStart = now;
+      var t = ((now - group.cycleStart) % CYCLE_MS) / CYCLE_MS;
+
+      // FASE 1 (0 -> 0.16): brilho branco deslizando nas tags e no botão
+      var shineX = -140;
+      var shineOp = 0;
+      if (t <= 0.16) {
+        var p = t / 0.16;
+        shineX = -140 + p * 380;
+        shineOp = p < 0.15 ? p / 0.15 : p > 0.8 ? (1 - p) / 0.2 : 1;
+      }
+      this.setVar(group, group.el, "--shine-x", shineX.toFixed(1) + "%");
+      this.setVar(group, group.el, "--shine-op", shineOp.toFixed(2));
+
+      // FASE 2 (0.11 -> 0.58): pixelização diagonal + texto branco nas tags
+      var glowP = smoothstep(0.11, 0.17, t) * (1 - smoothstep(0.50, 0.58, t));
+      var r = Math.round(138 + glowP * 117);
+      var g = Math.round(138 + glowP * 117);
+      var b = Math.round(153 + glowP * 102);
+      var bG = Math.round(255 - glowP * 148);
+      var bB = Math.round(255 - glowP * 130);
+      var bA = (0.14 + glowP * 0.76).toFixed(2);
+
+      // variáveis do glow ficam só no container das tags
+      // (invalida estilo de ~10 pílulas, não do card inteiro)
+      this.setVar(group, group.tags, "--glow-p", glowP.toFixed(2));
+      this.setVar(group, group.tags, "--pill-color", "rgb(" + r + ", " + g + ", " + b + ")");
+      this.setVar(group, group.tags, "--pill-border", "rgba(255, " + bG + ", " + bB + ", " + bA + ")");
+
+      for (var i = 0; i < group.pills.length; i++) this.drawPill(group.pills[i], t, now);
+    }
+
+    kick() {
+      if (!this.raf) this.raf = requestAnimationFrame(this.loop);
+    }
+
     loop(now) {
-      if (!this.inView) {
-        this.raf = 0;
-        return;
-      }
+      this.raf = 0;
 
-      for (const group of this.groups.values()) {
-        if (!this.isGroupReady(group)) {
+      var doWork = now - this.lastFrame >= FRAME_MS - 1;
+      if (doWork) this.lastFrame = now;
+
+      var anyVisible = false;
+      this.groups.forEach((group) => {
+        if (!group.visible) {
           if (group.cycleStart !== null) this.resetGroup(group);
-          continue;
+          return;
         }
+        anyVisible = true;
 
-        if (group.cycleStart === null) {
-          group.cycleStart = now;
+        if (!this.isReady(group)) {
+          if (group.cycleStart !== null) this.resetGroup(group);
+          return;
         }
+        if (doWork) this.tick(group, now);
+      });
 
-        const t = ((now - group.cycleStart) % CYCLE_MS) / CYCLE_MS;
-
-        // FASE 1 (0.00 -> 0.16): Slide branco espelhado simultâneo nas TAGS e no BOTÃO
-        if (t <= 0.16) {
-          const p = t / 0.16;
-          const x = -140 + p * 380;
-          const op = p < 0.15 ? p / 0.15 : p > 0.8 ? (1 - p) / 0.2 : 1;
-          group.el.style.setProperty("--shine-x", `${x.toFixed(1)}%`);
-          group.el.style.setProperty("--shine-op", op.toFixed(2));
-        } else {
-          group.el.style.setProperty("--shine-op", "0");
-        }
-
-        // FASE 2 (0.11 -> 0.58): Pixelização diagonal + texto branco + glow nas tags
-        const glowIn = smoothstep(0.11, 0.17, t);
-        const glowOut = 1 - smoothstep(0.50, 0.58, t);
-        const glowP = glowIn * glowOut;
-
-        const r = Math.round(138 + glowP * 117);
-        const g = Math.round(138 + glowP * 117);
-        const b = Math.round(153 + glowP * 102);
-
-        const bG = Math.round(255 - glowP * 148);
-        const bB = Math.round(255 - glowP * 130);
-        const bA = (0.14 + glowP * 0.76).toFixed(3);
-
-        group.el.style.setProperty("--glow-p", glowP.toFixed(3));
-        group.el.style.setProperty("--pill-color", `rgb(${r}, ${g}, ${b})`);
-        group.el.style.setProperty("--pill-border", `rgba(255, ${bG}, ${bB}, ${bA})`);
-
-        for (let i = 0; i < group.pills.length; i++) {
-          this.drawPill(group.pills[i], t, now);
-        }
-      }
-
-      this.raf = requestAnimationFrame(this.loop);
+      // nada visível: para o rAF (o IntersectionObserver religa)
+      if (anyVisible) this.raf = requestAnimationFrame(this.loop);
     }
   }
 
