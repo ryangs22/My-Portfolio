@@ -63,7 +63,7 @@ var PROJECTS = [
   },
   {
     title: "RELIC",
-    text: "Plataforma SaaS de E-Learning focada no ensino de programção com temática em pixel-art, dashboard personalizado com progresso e XP e Code Playground integrado",
+    text: "Plataforma SaaS de E-Learning focada no ensino de programação com temática em pixel-art, dashboard personalizado com progresso de XP e Code Playground integrado",
     tags: ["SaaS", "Next.Js", "React", "Tailwind CSS", "TypeScript", "Neon PostgreSQL", "Clerk", "Drizzle ORM", "CodeRabbit AI"],
     kanji: "宝",
     photos: [PROJECT_IMAGES.relic1],
@@ -165,8 +165,9 @@ var profileDeckElement = document.getElementById("profile-deck");  // Wrapper De
 var showcaseElement = document.getElementById("profile-showcase"); // Wrapper Mobile
 var counterElement = document.getElementById("profile-counter");
 
-// No desktop ele ficava reconstruindo o innerHTML e recarregando imagens a cada troca.
+// Desktop/tablet (>= 768px) usa o card único com flip; abaixo disso, o card mobile.
 var desktopMQ = window.matchMedia("(min-width: 768px)");
+var reduceMotionMQ = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 function padZero(n) { 
   return String(n).padStart(2, "0"); 
@@ -252,6 +253,15 @@ function stepMobileGallery(d) {
   renderMobileMedia(d);
 }
 
+function renderTechPillHTML(t) {
+  return (
+    '<span class="profile-tech-pill">' +
+      '<span class="profile-tech-shine" aria-hidden="true"></span>' +
+      '<span class="profile-tech-label">' + t + '</span>' +
+    '</span>'
+  );
+}
+
 function renderMobileProject() {
 // No desktop/tablet o layout mobile fica oculto: não precisa renderizar.
   if (!showcaseElement || desktopMQ.matches) return;
@@ -264,9 +274,7 @@ function renderMobileProject() {
     return '<a href="' + l.href + '"' + ext + ' class="' + (i === 0 ? "profile-button" : "profile-button-outline") + '">' + l.label + '</a>';
   }).join("");
   
-  var tagsHTML = (project.tags || []).map(function(t) { 
-    return '<span class="profile-tech-pill">' + t + '</span>'; 
-  }).join("");
+  var tagsHTML = (project.tags || []).map(renderTechPillHTML).join("");
 
   showcaseElement.innerHTML =
     '<div class="profile-showcase-media">' + generateMobileGalleryHTML(project) + '</div>' +
@@ -323,27 +331,52 @@ if (showcaseElement) {
   });
 }
 
-// Ao redimensionar/girar o aparelho para mobile, renderiza o card mobile na hora.
-if (desktopMQ.addEventListener) {
-  desktopMQ.addEventListener("change", function () {
-    if (!desktopMQ.matches) renderMobileProject();
-  });
-} else if (desktopMQ.addListener) {
-  desktopMQ.addListener(function () {
-    if (!desktopMQ.matches) renderMobileProject();
-  });
+// Ao redimensionar/girar o aparelho: renderiza o card mobile ou sincroniza o card desktop.
+function onBreakpointChange() {
+  if (!desktopMQ.matches) {
+    renderMobileProject();
+  } else if (stageCard && !stageBusy && renderedIndex !== globalProjectIndex) {
+    fillStage(globalProjectIndex);
+  }
 }
 
-// LÓGICA DO DESKTOP (CARROSSEL 3D)
+if (desktopMQ.addEventListener) {
+  desktopMQ.addEventListener("change", onBreakpointChange);
+} else if (desktopMQ.addListener) {
+  desktopMQ.addListener(onBreakpointChange);
+}
 
-var cardElementsList = [];
-var desktopGalleryIndexes = PROJECTS.map(function () { return 0; });
-var cardHeights = [];
-var deckBuilt = false;
-var layoutRaf = 0;
-var settleTimer = 0;
+// LÓGICA DO DESKTOP (CARD ÚNICO: FLIP + REVELAÇÃO DIAGONAL)
+
+/* Ajustes de animação (em milissegundos / graus) */
+var STAGE_LEAVE_MS = 320;      // saída do card atual (flip para o lado)
+var STAGE_REVEAL_MS = 1000;    // revelação diagonal do novo card
+var STAGE_FLIP_MS = 750;       // flip de entrada do novo card
+var STAGE_FLIP_DEG = 70;       // ângulo do flip
+var STAGE_REVEAL_END = 2.3;    // até onde a diagonal avança (>= 2 cobre o card inteiro)
+var STAGE_REVEAL_EASE = "cubic-bezier(0.55, 0.05, 0.25, 1)";
+var STAGE_FLIP_EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
+
+var stageCard = null;          // <article> único do desktop
+var renderedIndex = -1;        // projeto que está desenhado no card agora
+var stageGalleryIndex = 0;     // foto atual da galeria do card
+var stageBusy = false;         // true enquanto uma animação está rodando
+var stageDir = 1;              // última direção pedida (1 = próximo, -1 = anterior)
+var stageInView = false;       // a vitrine está visível na tela?
+var stageNeedsIntro = true;    // precisa tocar a revelação ao entrar na seção?
 var isDragActive = false;
 var blockClickAfterDrag = false;
+var preloadedPhotos = {};
+
+function preloadProject(index) {
+  var total = PROJECTS.length;
+  var src = PROJECTS[((index % total) + total) % total].photos[0];
+  if (preloadedPhotos[src]) return;
+  preloadedPhotos[src] = true;
+  var img = new Image();
+  img.decoding = "async";
+  img.src = src;
+}
 
 function createPhotoElement(project, photoIndex, visible) {
   var img = document.createElement("img");
@@ -357,28 +390,25 @@ function createPhotoElement(project, photoIndex, visible) {
   return img;
 }
 
-function ensurePhoto(cardIndex, photoIndex) {
-  var card = cardElementsList[cardIndex];
-  if (!card) return null;
+function ensureStagePhoto(photoIndex) {
+  var slide = stageCard.querySelector(".profile-gallery-slide");
+  if (!slide) return null;
   
-  var slide = card.querySelector(".profile-gallery-slide");
   var existing = slide.querySelector('[data-p="' + photoIndex + '"]');
   if (existing) return existing;
   
-  var img = createPhotoElement(PROJECTS[cardIndex], photoIndex, false);
+  var img = createPhotoElement(PROJECTS[renderedIndex], photoIndex, false);
   slide.appendChild(img);
-  
   void img.offsetWidth;
-  
   return img;
 }
 
-function generateDesktopMonitorHTML(project, cardIndex) {
+function generateDesktopMonitorHTML(project) {
   var total = project.photos.length;
   
   var arrows = total > 1 
-    ? '<button class="profile-screen-arrow left" data-g="prev">' + CHEVRON_LEFT_ICON + '</button>' + 
-      '<button class="profile-screen-arrow right" data-g="next">' + CHEVRON_RIGHT_ICON + '</button>' 
+    ? '<button class="profile-screen-arrow left" data-g="prev" aria-label="Foto anterior">' + CHEVRON_LEFT_ICON + '</button>' + 
+      '<button class="profile-screen-arrow right" data-g="next" aria-label="Próxima foto">' + CHEVRON_RIGHT_ICON + '</button>' 
     : "";
     
   var dots = total > 1 
@@ -406,121 +436,70 @@ function generateDesktopMonitorHTML(project, cardIndex) {
   );
 }
 
-function buildDesktopDeck() {
-  if (deckBuilt || !profileDeckElement) return;
-  deckBuilt = true;
-  var html = "";
+function generateStageHTML(project) {
+  var tags = (project.tags || []).map(renderTechPillHTML).join("");
   
-  for (var i = 0; i < PROJECTS.length; i++) {
-    var p = PROJECTS[i];
-    
-    var tags = (p.tags || []).map(function (t) { 
-      return '<span class="profile-tech-pill">' + t + "</span>"; 
-    }).join("");
-    
-    var btns = p.links.map(function (l, idx) { 
-      var ext = l.href.indexOf("#") === 0 ? "" : ' target="_blank" rel="noreferrer"';
-      var btnClass = idx === 0 ? "profile-button" : "profile-button-outline";
-      return '<a href="' + l.href + '"' + ext + ' class="' + btnClass + '">' + l.label + "</a>"; 
-    }).join("");
-    
-    html += 
-      '<article class="profile-deck-card" data-i="' + i + '">' +
-        '<span class="profile-showcase-kanji" aria-hidden="true">' + (p.kanji || "") + '</span>' +
-        '<div class="profile-card-inner">' +
-          '<div class="profile-card-media">' + generateDesktopMonitorHTML(p, i) + '</div>' +
-          '<div class="profile-project-info">' +
-            '<h3 class="profile-gradient-text profile-showcase-title">' + p.title + '</h3>' +
-            '<div class="profile-project-tags">' + tags + '</div>' +
-            '<p>' + p.text + '</p>' +
-            '<div class="profile-project-buttons">' + btns + '</div>' +
-          '</div>' +
-        '</div>' +
-      '</article>';
-  }
-  
-  profileDeckElement.innerHTML = html;
-  cardElementsList = Array.prototype.slice.call(profileDeckElement.children);
-  
-  if ("ResizeObserver" in window) {
-    var ro = new ResizeObserver(function (entries) {
-      entries.forEach(function (e) { 
-        cardHeights[Number(e.target.dataset.i)] = e.borderBoxSize ? e.borderBoxSize[0].blockSize : e.target.offsetHeight; 
-      });
-      scheduleDeckHeight();
-    });
-    cardElementsList.forEach(function (c) { ro.observe(c); });
-  }
-  
-  if ("IntersectionObserver" in window) {
-    new IntersectionObserver(function (entries) { 
-      profileDeckElement.classList.toggle("is-paused", !entries[0].isIntersecting); 
-    }, { rootMargin: "200px 0px" }).observe(profileDeckElement);
-  }
+  var btns = project.links.map(function (l, idx) { 
+    var ext = l.href.indexOf("#") === 0 ? "" : ' target="_blank" rel="noreferrer"';
+    var btnClass = idx === 0 ? "profile-button" : "profile-button-outline";
+    return '<a href="' + l.href + '"' + ext + ' class="' + btnClass + '">' + l.label + "</a>"; 
+  }).join("");
+
+  return (
+    '<span class="profile-showcase-kanji" aria-hidden="true">' + (project.kanji || "") + '</span>' +
+    '<div class="profile-card-inner">' +
+      '<div class="profile-card-media">' + generateDesktopMonitorHTML(project) + '</div>' +
+      '<div class="profile-project-info">' +
+        '<h3 class="profile-gradient-text profile-showcase-title">' + project.title + '</h3>' +
+        '<div class="profile-project-tags">' + tags + '</div>' +
+        '<p>' + project.text + '</p>' +
+        '<div class="profile-project-buttons">' + btns + '</div>' +
+      '</div>' +
+    '</div>'
+  );
 }
 
-function applyDesktopLayout() {
-  if (!profileDeckElement) return;
-  var total = PROJECTS.length;
+function buildStage() {
+  if (stageCard || !profileDeckElement) return;
   
-  for (var i = 0; i < total; i++) {
-    var offset = i - globalProjectIndex;
-    
-    if (offset > total / 2) offset -= total;
-    if (offset < -total / 2) offset += total;
-    
-    var pos = Math.abs(offset) > 2 ? "hidden" : String(offset);
-    var card = cardElementsList[i];
-    
-    if (card.dataset.pos !== pos) card.dataset.pos = pos;
-    card.classList.toggle("is-active", offset === 0);
-    card.classList.remove("is-settled");
-    
-    var inner = card.querySelector(".profile-card-inner");
-    if (inner) inner.toggleAttribute("inert", offset !== 0);
-  }
+  // Nasce escondido (is-pending): a revelação diagonal o "constrói" quando a seção entra na tela.
+  profileDeckElement.innerHTML =
+    '<article class="profile-deck-card is-pending">' +
+      '<div class="profile-card-content"></div>' +
+      '<span class="profile-reveal-glow" aria-hidden="true"></span>' +
+    '</article>';
   
-  // Só depois de assentado, liga as animações infinitas (brilho/gradiente).
-  clearTimeout(settleTimer);
-  settleTimer = setTimeout(function () {
-    requestAnimationFrame(function () {
-      var activeCard = cardElementsList[globalProjectIndex];
-      if (activeCard) activeCard.classList.add("is-settled");
-    });
-  }, 800);
-  
-  scheduleDeckHeight();
+  stageCard = profileDeckElement.firstElementChild;
+  fillStage(globalProjectIndex);
 }
 
-function scheduleDeckHeight() {
-  if (layoutRaf || !profileDeckElement) return;
-  layoutRaf = requestAnimationFrame(function () {
-    layoutRaf = 0;
-    var h = Math.max.apply(null, cardHeights.filter(Boolean));
-    if (h > 0) profileDeckElement.style.minHeight = h + 80 + "px";
-  });
+function fillStage(index) {
+  if (!stageCard) return;
+  renderedIndex = index;
+  stageGalleryIndex = 0;
+  stageCard.querySelector(".profile-card-content").innerHTML = generateStageHTML(PROJECTS[index]);
+  stageCard.classList.remove("is-settled");
 }
 
-function renderDesktopGallery(cardIndex) {
-  var card = cardElementsList[cardIndex];
-  if (!card) return;
+function renderStageGallery() {
+  if (!stageCard) return;
   
-  var project = PROJECTS[cardIndex];
-  var active = desktopGalleryIndexes[cardIndex];
+  var project = PROJECTS[renderedIndex];
   var total = project.photos.length;
+  var active = stageGalleryIndex;
   
-  ensurePhoto(cardIndex, active);
+  ensureStagePhoto(active);
   
-  card.querySelector(".profile-monitor-count").textContent = active + 1 + " / " + total;
+  stageCard.querySelector(".profile-monitor-count").textContent = (active + 1) + " / " + total;
   
-  var imgs = card.querySelectorAll(".profile-gallery-img");
+  var imgs = stageCard.querySelectorAll(".profile-gallery-img");
   for (var i = 0; i < imgs.length; i++) {
     var on = Number(imgs[i].dataset.p) === active;
     imgs[i].style.opacity = on ? "1" : "0";
     imgs[i].style.pointerEvents = on ? "auto" : "none";
   }
   
-  var dots = card.querySelectorAll(".profile-dot");
+  var dots = stageCard.querySelectorAll(".profile-dot");
   for (var d = 0; d < dots.length; d++) {
     dots[d].classList.toggle("active", d === active);
   }
@@ -528,74 +507,266 @@ function renderDesktopGallery(cardIndex) {
   if (total > 1) {
     var next = (active + 1) % total;
     var idle = window.requestIdleCallback || function (fn) { return setTimeout(fn, 200); };
-    idle(function () { ensurePhoto(cardIndex, next); });
+    idle(function () { if (stageCard) ensureStagePhoto(next); });
   }
+}
+
+function stepStageGallery(d) {
+  var total = PROJECTS[renderedIndex].photos.length;
+  stageGalleryIndex = (stageGalleryIndex + d + total) % total;
+  renderStageGallery();
+}
+
+/* ---------- Animações do card ---------- */
+
+// Polígono da revelação diagonal. t vai de 0 (nada) até >= 2 (card inteiro).
+// dir > 0: começa no canto superior esquerdo. dir < 0: no canto superior direito.
+function stageClip(dir, t) {
+  var a = (t * 100).toFixed(1);
+  if (dir > 0) {
+    return "polygon(0% 0%, " + a + "% 0%, 0% " + a + "%)";
+  }
+  return "polygon(100% 0%, " + (100 - t * 100).toFixed(1) + "% 0%, 100% " + a + "%)";
+}
+
+function playReveal(dir, withFlip, done) {
+  var card = stageCard;
+  var glow = card.querySelector(".profile-reveal-glow");
+  var anims = [];
+  
+  glow.classList.toggle("is-mirrored", dir < 0);
+  card.classList.remove("is-pending");
+  card.classList.add("is-revealing");                    // tira a sombra pesada durante a revelação
+  // 1) Revelação diagonal (clip-path)
+  anims.push(card.animate(
+    [
+      { clipPath: stageClip(dir, 0) },
+      { clipPath: stageClip(dir, STAGE_REVEAL_END) }
+    ],
+    { duration: STAGE_REVEAL_MS, easing: STAGE_REVEAL_EASE, fill: "backwards" }
+  ));
+
+  // 2) Faixa de brilho: agora só anima transform + opacity
+  var sx = dir > 0 ? -1 : 1;
+  var endPct = (((3 - STAGE_REVEAL_END) / 6) * 100).toFixed(2);
+  anims.push(glow.animate(
+    [
+      { opacity: 1, transform: "translate(" + (sx * 50) + "%, -50%)", offset: 0 },
+      { opacity: 1, offset: 0.88 },
+      { opacity: 0, transform: "translate(" + (sx * endPct) + "%, -" + endPct + "%)", offset: 1 }
+    ],
+    { duration: STAGE_REVEAL_MS, easing: STAGE_REVEAL_EASE, fill: "backwards" }
+  ));
+
+  // 3) Flip de entrada (na navegação) ou subida suave (na primeira revelação)
+  var from = withFlip
+    ? "rotateY(" + (dir * STAGE_FLIP_DEG) + "deg) translateX(" + (dir * 7) + "%) scale(0.94)"
+    : "translateY(26px) scale(0.96)";
+  var to = withFlip
+    ? "rotateY(0deg) translateX(0%) scale(1)"
+    : "translateY(0px) scale(1)";
+  
+  anims.push(card.animate(
+    [{ transform: from }, { transform: to }],
+    { duration: withFlip ? STAGE_FLIP_MS : STAGE_REVEAL_MS, easing: STAGE_FLIP_EASE, fill: "backwards" }
+  ));
+
+  var finish = function () {
+    card.classList.remove("is-revealing");
+    done();
+  };
+  Promise.all(anims.map(function (a) { return a.finished; })).then(finish, finish);
+}
+
+// Espera a 1ª imagem do card decodificar antes de revelar (evita travada no meio da animação).
+function whenStageImageReady(cb) {
+  var img = stageCard.querySelector(".profile-gallery-img");
+  var called = false;
+  function go() { if (called) return; called = true; cb(); }
+  if (img && img.decode) {
+    img.decode().then(go, go);
+    setTimeout(go, 450);
+  } else {
+    go();
+  }
+}
+
+function finishStage() {
+  stageBusy = false;
+  
+  // Se o usuário navegou durante a animação, faz a próxima transição.
+  if (renderedIndex !== globalProjectIndex) {
+    if (stageInView) {
+      runTransition(stageDir);
+      return;
+    }
+    fillStage(globalProjectIndex);
+  }
+  
+  if (stageInView) {
+    stageCard.classList.add("is-settled");
+  } else {
+    stageCard.classList.add("is-pending");
+  }
+}
+
+function runTransition(dir) {
+  stageBusy = true;
+  
+  // Sai flipando para o lado do gesto (o ponto de partida é o estado atual, inclusive a inclinação do arraste).
+  var leave = stageCard.animate(
+    [{ 
+      transform: "rotateY(" + (-dir * STAGE_FLIP_DEG) + "deg) translateX(" + (-dir * 8) + "%) scale(0.94)", 
+      opacity: 0 
+    }],
+    { duration: STAGE_LEAVE_MS, easing: "cubic-bezier(0.5, 0, 0.9, 0.4)", fill: "forwards" }
+  );
+  
+  leave.onfinish = function () {
+    leave.cancel();
+    stageCard.style.transform = "";
+    stageCard.classList.remove("is-settled");
+    fillStage(globalProjectIndex);
+    preloadProject(globalProjectIndex + 1);
+    preloadProject(globalProjectIndex - 1);
+    playReveal(dir, true, finishStage);
+  };
+}
+
+function transitionDesktop(delta) {
+  if (!stageCard) return;
+  
+  stageDir = delta > 0 ? 1 : -1;
+  
+  if (!desktopMQ.matches || reduceMotionMQ.matches || !stageCard.animate) {
+    if (!stageBusy) fillStage(globalProjectIndex);
+    return;
+  }
+  
+  if (stageBusy) return;
+  if (stageCard.classList.contains("is-pending")) {
+    fillStage(globalProjectIndex);
+    return;
+  }
+  
+  runTransition(stageDir);
+}
+
+function playIntro() {
+  if (!stageCard || stageBusy) return;
+  
+  stageNeedsIntro = false;
+  if (renderedIndex !== globalProjectIndex) fillStage(globalProjectIndex);
+  
+  stageBusy = true;
+  whenStageImageReady(function () { playReveal(1, false, finishStage); });
+}
+
+function initStageObserver() {
+  if (!profileDeckElement || !stageCard) return;
+  
+  if (!("IntersectionObserver" in window) || reduceMotionMQ.matches) {
+    stageInView = true;
+    stageNeedsIntro = false;
+    stageCard.classList.remove("is-pending");
+    stageCard.classList.add("is-settled");
+    return;
+  }
+  
+  var stageObserver = new IntersectionObserver(function (entries) {
+    var e = entries[entries.length - 1];
+    profileDeckElement.classList.toggle("is-paused", !e.isIntersecting);
+    
+    if (e.intersectionRatio >= 0.3) {
+      if (!stageInView) {
+        stageInView = true;
+        if (stageNeedsIntro) playIntro();
+      }
+    } else if (e.intersectionRatio < 0.02) {
+      stageInView = false;
+      stageNeedsIntro = true;
+      if (!stageBusy) stageCard.classList.add("is-pending");
+    }
+  }, { threshold: [0, 0.02, 0.3] });
+
+  stageObserver.observe(profileDeckElement);
 }
 
 /* Eventos do Desktop */
 if (profileDeckElement) {
+  // Depois de um arraste, bloqueia o clique "fantasma"
   profileDeckElement.addEventListener("click", function (event) {
-    if (isDragActive || blockClickAfterDrag) return;
+    if (blockClickAfterDrag) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }, true);
+
+  profileDeckElement.addEventListener("click", function (event) {
+    if (isDragActive || blockClickAfterDrag || stageBusy) return;
     
     var arrow = event.target.closest("[data-g]");
     if (arrow) {
-      event.stopPropagation();
-      var d = arrow.dataset.g === "next" ? 1 : -1;
-      var tot = PROJECTS[globalProjectIndex].photos.length;
-      desktopGalleryIndexes[globalProjectIndex] = (desktopGalleryIndexes[globalProjectIndex] + d + tot) % tot;
-      renderDesktopGallery(globalProjectIndex);
+      stepStageGallery(arrow.dataset.g === "next" ? 1 : -1);
       return;
     }
     
     var dot = event.target.closest(".profile-dot");
     if (dot) {
-      event.stopPropagation();
-      desktopGalleryIndexes[globalProjectIndex] = Number(dot.dataset.i);
-      renderDesktopGallery(globalProjectIndex);
-      return;
-    }
-    
-    if (event.target.closest("a")) return;
-    
-    var card = event.target.closest(".profile-deck-card");
-    if (!card) return;
-    
-    var idx = Number(card.dataset.i);
-    if (idx !== globalProjectIndex) {
-      var offset = idx - globalProjectIndex;
-      var total = PROJECTS.length;
-      if (offset > total / 2) offset -= total;
-      if (offset < -total / 2) offset += total;
-      navigateGlobal(offset);
+      stageGalleryIndex = Number(dot.dataset.i);
+      renderStageGallery();
     }
   });
 
-  var startX = null, startY = null, onActivePhoto = false;
-  
-  profileDeckElement.addEventListener("pointerdown", function (e) {
-    startX = e.clientX; 
-    startY = e.clientY; 
-    isDragActive = false;
-    onActivePhoto = !!(e.target.closest(".profile-monitor-screen") && e.target.closest(".profile-deck-card.is-active"));
-  }, { passive: true });
-  
-  profileDeckElement.addEventListener("pointermove", function (e) {
-    if (startX === null || isDragActive) return;
-    if (Math.abs(e.clientX - startX) > 10 || Math.abs(e.clientY - startY) > 10) {
-      isDragActive = true;
+  var dragStartX = null, dragStartY = null;
+
+  function clamp(v, min, max) { 
+    return Math.max(min, Math.min(max, v)); 
+  }
+
+  function removeDragListeners() {
+    window.removeEventListener("pointermove", onDragMove);
+    window.removeEventListener("pointerup", onDragEnd);
+    window.removeEventListener("pointercancel", onDragCancel);
+  }
+
+  function resetTilt() {
+    if (!stageCard) return;
+    stageCard.classList.remove("is-dragging");
+    stageCard.style.transition = "transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)";
+    stageCard.style.transform = "";
+    setTimeout(function () { if (stageCard) stageCard.style.transition = ""; }, 380);
+  }
+
+  function onDragMove(e) {
+    if (dragStartX === null || !stageCard) return;
+    var dx = e.clientX - dragStartX;
+    var dy = e.clientY - dragStartY;
+    
+    if (!isDragActive) {
+      if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) {
+        isDragActive = true;
+        stageCard.classList.add("is-dragging");
+      } else {
+        return;
+      }
     }
-  }, { passive: true });
-  
-  profileDeckElement.addEventListener("pointerup", function (e) {
-    if (startX === null) return;
-    var deltaX = e.clientX - startX;
+    
+    // O card acompanha o dedo/mouse com uma leve inclinação 3D.
+    stageCard.style.transform = 
+      "rotateY(" + clamp(dx / 12, -16, 16) + "deg) translateX(" + clamp(dx * 0.12, -50, 50) + "px)";
+  }
+
+  function onDragEnd(e) {
+    removeDragListeners();
+    if (dragStartX === null) return;
+    
+    var dx = e.clientX - dragStartX;
     var wasDragging = isDragActive;
-    startX = null; 
-    startY = null;
+    dragStartX = dragStartY = null;
     
     if (!wasDragging) { 
       isDragActive = false; 
-      onActivePhoto = false; 
       return; 
     }
     
@@ -605,27 +776,40 @@ if (profileDeckElement) {
       isDragActive = false; 
     }, 350);
     
-    if (onActivePhoto) {
-      onActivePhoto = false;
-      if (Math.abs(deltaX) >= 45) {
-        var d = deltaX < 0 ? 1 : -1;
-        var tot = PROJECTS[globalProjectIndex].photos.length;
-        desktopGalleryIndexes[globalProjectIndex] = (desktopGalleryIndexes[globalProjectIndex] + d + tot) % tot;
-        renderDesktopGallery(globalProjectIndex);
-      }
-      return;
+    if (Math.abs(dx) >= 80) {
+      if (stageCard) stageCard.classList.remove("is-dragging");
+      navigateGlobal(dx < 0 ? 1 : -1);
+    } else {
+      resetTilt();
     }
-    
-    if (Math.abs(deltaX) >= 55) {
-      navigateGlobal(deltaX < 0 ? 1 : -1);
-    }
-  }, { passive: true });
-  
-  profileDeckElement.addEventListener("pointercancel", function () { 
-    startX = startY = null; 
-    isDragActive = onActivePhoto = false; 
+  }
+
+  function onDragCancel() {
+    removeDragListeners();
+    dragStartX = dragStartY = null;
+    isDragActive = false;
+    resetTilt();
+  }
+
+  profileDeckElement.addEventListener("pointerdown", function (e) {
+    if (stageBusy || (e.pointerType === "mouse" && e.button !== 0)) return;
+    dragStartX = e.clientX; 
+    dragStartY = e.clientY; 
+    isDragActive = false;
+    window.addEventListener("pointermove", onDragMove, { passive: true });
+    window.addEventListener("pointerup", onDragEnd);
+    window.addEventListener("pointercancel", onDragCancel);
   }, { passive: true });
 }
+
+// Setas do teclado (só quando a vitrine está na tela e não está digitando).
+window.addEventListener("keydown", function (e) {
+  if (!stageInView || e.altKey || e.ctrlKey || e.metaKey) return;
+  var t = e.target;
+  if (t && (/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) || t.isContentEditable)) return;
+  if (e.key === "ArrowRight") navigateGlobal(1);
+  else if (e.key === "ArrowLeft") navigateGlobal(-1);
+});
 
 // CONTROLADOR GLOBAL E NAVEGAÇÃO
 
@@ -639,7 +823,7 @@ function navigateGlobal(delta) {
 
   // Mobile só renderiza se estiver em mobile (guard dentro da função)
   renderMobileProject();
-  applyDesktopLayout();
+  transitionDesktop(delta);
   updateCounterDisplay();
 }
 
@@ -652,10 +836,12 @@ if (btnNext) btnNext.addEventListener("click", function () { navigateGlobal(1); 
 // INICIALIZAÇÃO
 
 function initProjects() {
-  buildDesktopDeck();
-  applyDesktopLayout();
+  buildStage();
   renderMobileProject();
   updateCounterDisplay();
+  preloadProject(globalProjectIndex + 1);
+  preloadProject(globalProjectIndex - 1);
+  initStageObserver();
 }
 
 if (document.readyState === "loading") {
