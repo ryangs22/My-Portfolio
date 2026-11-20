@@ -75,50 +75,28 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  gap: 8px;
-  margin-bottom: 34px;
-  margin-top: -10px;
+  gap: 7px;
+  margin-bottom: 24px;
 }
 
-/* Contorno feito com inset box-shadow (em vez de border) para o brilho
-   poder cobrir a pílula de ponta a ponta. */
 .profile-project-tags .profile-tech-pill {
   position: relative;
   overflow: hidden;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 600;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
   color: #8a8a99;
   background: rgba(255, 255, 255, 0.05);
   border: 0;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
-  padding: 6px 15px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+  padding: 5px 13px;
   border-radius: 20px;
   transition: color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-}
-
-.profile-project-tags .profile-tech-pill::after {
-  content: "";
-  position: absolute;
-  top: -1px;
-  left: 0;
-  width: 50%;
-  height: calc(100% + 2px);
-  opacity: 0;
-  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.28), transparent);
-  transform: translateX(-120%) skewX(-20deg);
-  pointer-events: none;
 }
 
 .profile-tech-pill:disabled { 
   opacity: 0.6; 
   cursor: wait; 
-}
-
-@keyframes profile-card-shine {
-  0% { transform: translateX(-120%) skewX(-20deg); opacity: 1; }
-  55% { transform: translateX(230%) skewX(-20deg); opacity: 1; }
-  55.1%, 100% { transform: translateX(230%) skewX(-20deg); opacity: 0; }
 }
 
 .profile-project-buttons {
@@ -138,21 +116,19 @@
 .profile-showcase-title {
   font-size: clamp(26px, 3vw, 38px);
   font-weight: 800;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   line-height: 1.15;
 }
 
 /* DESKTOP E TABLET (>= 768px): CARD ÚNICO COM FLIP + REVELAÇÃO DIAGONAL */
 @media (min-width: 768px) {
-  /* Oculta o layout antigo do mobile no desktop */
   .profile-showcase { display: none !important; }
   .profile-projects-shell { display: none !important; }
 
-  /* Palco: a perspectiva aqui dá a profundidade do flip */
   .profile-deck {
     position: relative;
     width: 100%;
-    min-height: 540px;
+    min-height: 500px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -161,10 +137,11 @@
     touch-action: pan-y;
   }
 
+  /* Largura estável a 100% de zoom */
   .profile-deck-card {
     position: relative;
-    width: min(100%, max(780px, min(1240px, calc((100vh - 280px) * 2.35))));
-    padding: 30px;
+    width: min(100%, 1180px);
+    padding: clamp(22px, 2.4vw, 30px);
     border-radius: 28px;
     overflow: hidden;
     background: rgb(12, 12, 16);
@@ -180,7 +157,6 @@
     transition: box-shadow 0.5s ease;
   }
 
-  /* Escondido até a revelação diagonal começar */
   .profile-deck-card.is-pending {
     opacity: 0;
     visibility: hidden;
@@ -191,7 +167,6 @@
     cursor: grabbing;
   }
 
-  /* Faixa de brilho da revelação (animada via JS só com transform + opacity) */
   .profile-reveal-glow {
     position: absolute;
     top: 0;
@@ -225,13 +200,12 @@
     transform: translate(50%, -50%);
   }
 
-  /* Layout horizontal: monitor à esquerda, infos à direita */
   .profile-deck-card .profile-card-inner {
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-    gap: 44px;
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+    gap: clamp(24px, 3vw, 40px);
     align-items: center;
   }
   .profile-deck-card .profile-card-media { min-width: 0; }
@@ -255,41 +229,41 @@
   }
 
   .profile-deck-card .profile-project-info {
-    padding: 4px 6px 4px 0;
+    min-width: 0;
+    padding: 4px 0;
     text-align: left;
     align-items: flex-start;
   }
   .profile-deck-card .profile-showcase-title {
-    font-size: clamp(30px, 2.8vw, 44px);
-    margin-bottom: 14px;
+    font-size: clamp(28px, 2.5vw, 42px);
+    margin-bottom: 12px;
   }
   .profile-deck-card .profile-project-tags {
     justify-content: flex-start;
-    gap: 8px;
-    margin: 0 0 16px;
+    gap: 6px;
+    margin: 0 0 14px;
   }
   .profile-deck-card .profile-project-tags .profile-tech-pill {
-    font-size: 13px;
-    padding: 5px 13px;
+    font-size: 12.5px;
+    padding: 4px 11px;
   }
   .profile-deck-card .profile-project-info p {
-    font-size: 15.5px;
-    line-height: 1.75;
-    margin-bottom: 22px;
+    font-size: clamp(14px, 1.05vw, 15.5px);
+    line-height: 1.68;
+    margin-bottom: 18px;
   }
   .profile-deck-card .profile-project-buttons {
     justify-content: flex-start;
     width: 100%;
     margin-top: 0;
-    gap: 12px;
+    gap: 10px;
   }
   .profile-deck-card .profile-project-buttons .profile-button,
   .profile-deck-card .profile-project-buttons .profile-button-outline {
-    font-size: 14.5px;
-    padding: 11px 20px;
+    font-size: 14px;
+    padding: 10px 18px;
   }
 
-  /* Kanji de fundo, canto inferior direito */
   .profile-showcase-kanji {
     position: absolute; 
     text-align: center; 
@@ -306,13 +280,11 @@
     text-shadow: 0 0 24px rgba(255, 23, 68, 0.18);
   }
 
-  /* OTIMIZAÇÕES DE PERFORMANCE */
   .profile-deck-card .profile-tech-pill {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
 
-  /* Animações infinitas (brilho/gradiente) só depois que o card termina de se revelar */
   .profile-deck-card:not(.is-settled) .profile-gradient-text {
     animation-play-state: paused;
   }
@@ -323,37 +295,36 @@
   }
 }
 
-/* TABLET (768px - 991px) */
-@media (min-width: 768px) and (max-width: 991px) {
-  .profile-deck-card { padding: 22px; }
-  .profile-deck-card .profile-card-inner {
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-    gap: 24px;
+/* Telas médias / Tablet (768px - 980px) */
+@media (min-width: 768px) and (max-width: 980px) {
+  .profile-deck-card {
+    width: min(100%, 720px);
+    padding: 24px;
   }
-  .profile-deck-card .profile-project-info p { font-size: 13.5px; }
-  .profile-deck-card .profile-showcase-title { font-size: 28px; }
-}
-
-/* Telas estreitas do "desktop" (768px - 900px): monitor em cima, infos embaixo */
-@media (min-width: 768px) and (max-width: 900px) {
-  .profile-deck-card { width: 100%; }
   .profile-deck-card .profile-card-inner {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 22px;
+  }
+  .profile-deck-card .profile-project-info {
+    text-align: center;
+    align-items: center;
+  }
+  .profile-deck-card .profile-project-tags,
+  .profile-deck-card .profile-project-buttons {
+    justify-content: center;
   }
 }
 
 /* MOBILE (< 768px): CARD ÚNICO ANIMADO */
 @media (max-width: 767px) {
-  /* Oculta o card do desktop no mobile */
   .profile-deck { display: none !important; }
 
-  .profile-projects-shell { padding: 22px; }
+  .profile-projects-shell { padding: 20px; }
 
   .profile-showcase {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 24px;
     align-items: center;
     position: relative;
     z-index: 1;
@@ -376,9 +347,9 @@
   
   .profile-showcase .profile-project-info p { 
     font-size: 15px; 
-    line-height: 1.9; 
+    line-height: 1.8; 
     color: var(--profile-muted); 
-    margin-bottom: 28px; 
+    margin-bottom: 24px; 
   }
 
   .profile-showcase .profile-tech-pill { 
@@ -572,20 +543,6 @@
   transform: scale(1.3); 
 }
 
-/* ANIMAÇÕES DO BRILHO (pílulas e botões do card) */
-.profile-deck-card .profile-button::after {
-  left: 0;
-  width: 50%;
-  opacity: 0;
-  transform: translateX(-120%) skewX(-20deg);
-  animation: profile-card-shine 3s ease-in-out infinite;
-}
-
-/* Só liga o brilho infinito depois que o card terminou de se revelar */
-.profile-deck-card:not(.is-settled) .profile-button::after {
-  animation: none !important;
-}
-
 @media (hover: none), (max-width: 760px) {
   .profile-gradient-text { 
     animation: none; 
@@ -599,19 +556,28 @@
   }
 }
 
-/* TAGS + BOTÃO PRINCIPAL: Ciclo Unificado (Slide Espelhado + Pixelização) */
+/* TAGS + BOTÃO PRINCIPAL: Ciclo Unificado (1 Slide Único) */
 .profile-project-info {
   --shine-x: -140%;
   --shine-op: 0;
   --glow-p: 0;
+  --pill-color: rgb(138, 138, 153);
+  --pill-border: rgba(255, 255, 255, 0.14);
 }
 
 .profile-project-tags .profile-tech-pill {
-  color: color-mix(in srgb, #ffffff calc(var(--glow-p) * 100%), #8a8a99);
+  color: var(--pill-color);
   box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, rgba(255, 107, 125, 0.9) calc(var(--glow-p) * 100%), rgba(255, 255, 255, 0.14)),
+    inset 0 0 0 1px var(--pill-border),
     0 0 14px 1px rgba(239, 35, 60, calc(var(--glow-p) * 0.6));
   transition: none;
+}
+
+.profile-project-tags .profile-tech-pill::before,
+.profile-project-tags .profile-tech-pill::after {
+  content: none !important;
+  animation: none !important;
+  display: none !important;
 }
 
 .profile-pill-canvas {
@@ -635,7 +601,6 @@
     0 0 12px rgba(8, 2, 4, calc(var(--glow-p) * 0.8));
 }
 
-/* Vinheta escura sutil atrás do texto apenas durante a pixelização */
 .profile-tech-label::before {
   content: "";
   position: absolute;
@@ -652,7 +617,6 @@
   pointer-events: none;
 }
 
-/* Feixe branco espelhado das tags (sincronizado com o botão) */
 .profile-tech-shine {
   position: absolute;
   top: -1px;
@@ -670,16 +634,17 @@
     transparent 100%
   );
   transform: translate3d(var(--shine-x), 0, 0) skewX(-20deg);
+  transition: none !important;
   pointer-events: none;
   will-change: transform, opacity;
 }
 
-/* Feixe branco espelhado do botão principal (travado no mesmo ciclo da engine) */
 .profile-project-info .profile-button {
   position: relative;
   overflow: hidden;
 }
 
+.profile-project-info .profile-project-buttons .profile-button::after,
 .profile-project-info .profile-button::after {
   content: "";
   position: absolute;
@@ -699,32 +664,15 @@
   );
   transform: translate3d(var(--shine-x), 0, 0) skewX(-20deg);
   animation: none !important;
+  transition: none !important;
   pointer-events: none;
   will-change: transform, opacity;
 }
 
-@media (hover: none), (max-width: 760px) {
-  .profile-gradient-text { 
-    animation: none; 
-    background-size: 100% 100%; 
-  }
-  .profile-progress,
-  .profile-back-top,
-  .profile-back-top.show,
-  .profile-heading-seal {
-    animation: none;
-  }
-}
-
-/* Movimento reduzido: sem faixa de brilho (o JS já pula flip e revelação) */
 @media (prefers-reduced-motion: reduce) {
-  .profile-reveal-glow,
-  .profile-pill-canvas,
-  .profile-tech-shine,
-  .profile-project-info .profile-button::after { display: none; }
+  .profile-reveal-glow { display: none; }
 }
 
-/* Durante a revelação do card: pausa o que não precisa rodar (poupa GPU) */
 body.is-stage-revealing .profile-particle {
   animation-play-state: paused;
 }

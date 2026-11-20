@@ -1,4 +1,3 @@
-// Engine 2D unificada (Tags + Botão Principal sincronizados)
 (function () {
   const CYCLE_MS = 4800;   // Duração total do ciclo compartilhado (Tags + Botão)
   const PIXEL_STEP = 5;    // 4px pixel + 1px gap
@@ -11,9 +10,6 @@
     "#94021d",
     "#ff3b5c"
   ];
-
-  const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-  if (reducedMotion) return;
 
   function cellHash(c, r) {
     const n = Math.sin(c * 127.1 + r * 311.7) * 43758.5453;
@@ -31,13 +27,14 @@
 
   class PillPixelEngine {
     constructor() {
-      this.groups = new Map(); // container (.profile-project-info) -> { el, cycleStart, pills: [] }
+      this.groups = new Map();
       this.raf = 0;
       this.inView = true;
       this.dpr = Math.min(window.devicePixelRatio || 1, 2);
 
       this.loop = this.loop.bind(this);
       this.scan = this.scan.bind(this);
+      this.refreshAll = this.refreshAll.bind(this);
       this.init();
     }
 
@@ -63,22 +60,33 @@
               this.raf = requestAnimationFrame(this.loop);
             }
           },
-          { threshold: 0.05 }
+          { threshold: 0 }
         );
         this.viewObserver.observe(section);
       }
 
-      window.addEventListener("resize", () => {
-        this.dpr = Math.min(window.devicePixelRatio || 1, 2);
-        for (const group of this.groups.values()) {
-          for (const pillState of group.pills) {
-            this.resizePill(pillState);
-          }
-        }
-      });
+      // Garante medição correta após WebView (Discord/Instagram) terminar de abrir
+      window.addEventListener("resize", this.refreshAll, { passive: true });
+      window.addEventListener("orientationchange", () => setTimeout(this.refreshAll, 200), { passive: true });
+      window.addEventListener("pageshow", () => setTimeout(this.refreshAll, 150), { passive: true });
+      window.addEventListener("load", () => setTimeout(this.refreshAll, 150), { passive: true });
+      setTimeout(this.refreshAll, 400);
 
       this.scan();
       this.raf = requestAnimationFrame(this.loop);
+    }
+
+    refreshAll() {
+      this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+      this.scan();
+      for (const group of this.groups.values()) {
+        for (const pillState of group.pills) {
+          this.resizePill(pillState);
+        }
+      }
+      if (!this.raf && this.inView) {
+        this.raf = requestAnimationFrame(this.loop);
+      }
     }
 
     scan() {
@@ -88,7 +96,6 @@
         }
       }
 
-      // Observa .profile-project-info para sincronizar tags + botão no mesmo ciclo
       const containers = document.querySelectorAll("#projects .profile-project-info");
       containers.forEach((container) => {
         if (this.groups.has(container)) return;
@@ -130,6 +137,8 @@
       group.el.style.setProperty("--shine-x", "-140%");
       group.el.style.setProperty("--shine-op", "0");
       group.el.style.setProperty("--glow-p", "0");
+      group.el.style.setProperty("--pill-color", "rgb(138, 138, 153)");
+      group.el.style.setProperty("--pill-border", "rgba(255, 255, 255, 0.14)");
 
       for (const state of group.pills) {
         if (state.w > 0 && state.h > 0) {
@@ -151,7 +160,6 @@
     }
 
     resizePill(state) {
-      // clientWidth/clientHeight ignoram rotateY/scale durante o flip 3D do card
       const w = Math.max(0, state.el.clientWidth - 2);
       const h = Math.max(0, state.el.clientHeight - 2);
 
@@ -270,7 +278,18 @@
         const glowIn = smoothstep(0.11, 0.17, t);
         const glowOut = 1 - smoothstep(0.50, 0.58, t);
         const glowP = glowIn * glowOut;
+
+        const r = Math.round(138 + glowP * 117);
+        const g = Math.round(138 + glowP * 117);
+        const b = Math.round(153 + glowP * 102);
+
+        const bG = Math.round(255 - glowP * 148);
+        const bB = Math.round(255 - glowP * 130);
+        const bA = (0.14 + glowP * 0.76).toFixed(3);
+
         group.el.style.setProperty("--glow-p", glowP.toFixed(3));
+        group.el.style.setProperty("--pill-color", `rgb(${r}, ${g}, ${b})`);
+        group.el.style.setProperty("--pill-border", `rgba(255, ${bG}, ${bB}, ${bA})`);
 
         for (let i = 0; i < group.pills.length; i++) {
           this.drawPill(group.pills[i], t, now);
